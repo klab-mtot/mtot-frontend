@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
         binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.black))
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
