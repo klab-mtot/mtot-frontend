@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">mtot</string>
+    <string name="title_map">Map</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_nothing">Nothing</string>
+    <string name="title_social">Social</string>
+    <string name="title_account">Account</string>
+</resources>
