@@ -61,7 +61,7 @@ class MapFragment : Fragment() , OnMapReadyCallback{
         googleMap.setOnMapClickListener{
             arrLoc.add(it)
             val option2=MarkerOptions()
-            option.position(it)
+            option2.position(it)
             option2.icon(
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
             )
