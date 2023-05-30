@@ -9,7 +9,7 @@ import com.example.mtot.databinding.ActivityMainBinding
 import com.example.mtot.ui.account.AccountFragment
 import com.example.mtot.ui.calendar.CalendarFragment
 import com.example.mtot.ui.map.MapFragment
-import com.example.mtot.ui.nothing.NothingFragment
+import com.example.mtot.ui.post.PostFragment
 import com.example.mtot.ui.social.SocialFragment
 import com.google.android.material.navigation.NavigationBarView
 
@@ -27,13 +27,17 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             onNavigationItemSelected(it)
         }
         binding.fab.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.main_frm, NothingFragment()).commit()
-            binding.bnv.selectedItemId = R.id.navigation_nothing
-            binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
-            binding.fab.supportBackgroundTintList = ColorStateList.valueOf(getColor(R.color.tertiary))
-            binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
-            binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
-
+            if(binding.bnv.selectedItemId == R.id.navigation_post){
+                val fragment = supportFragmentManager.findFragmentById(R.id.main_frm) as PostFragment
+                if(fragment!=null)
+                    fragment.addMark()
+            }else {
+                supportFragmentManager.beginTransaction().replace(R.id.main_frm, PostFragment()).commit()
+                binding.bnv.selectedItemId = R.id.navigation_post
+                binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
+                binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
+                binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
+            }
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
     }
@@ -59,6 +63,10 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             }
             R.id.navigation_account -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_frm, AccountFragment()).commit()
+                return true
+            }
+            R.id.navigation_post -> {
+                supportFragmentManager.beginTransaction().replace(R.id.main_frm, PostFragment()).commit()
                 return true
             }
             else -> return true

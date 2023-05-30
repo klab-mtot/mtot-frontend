@@ -13,7 +13,7 @@
         android:title="@string/title_calendar" />
 
     <item
-        android:id="@+id/navigation_nothing"
+        android:id="@+id/navigation_post"
         android:enabled="false"
         android:iconTint="@android:color/transparent"/>
 
