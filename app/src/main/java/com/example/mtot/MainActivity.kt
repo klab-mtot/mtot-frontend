@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 supportFragmentManager.beginTransaction().replace(R.id.main_frm, PostFragment()).commit()
                 binding.bnv.selectedItemId = R.id.navigation_post
                 binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
+                binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
                 binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
             }
-
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
     }
@@ -45,7 +45,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.d("itemid", item.itemId.toString())
         binding.fab.setImageResource(R.drawable.ic_bottom_navigation_plane)
+        binding.fab.supportBackgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
         binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.white))
+        binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
         when(item.itemId){
             R.id.navigation_map -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
