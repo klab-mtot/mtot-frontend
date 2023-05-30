@@ -6,5 +6,5 @@
     <string name="title_social">Social</string>
     <string name="title_account">Account</string>
     <string name="social_group_list">그룹 리스트</string>
-    <string name="social_friend_list">친 리스트</string>
+    <string name="social_friend_list">친구 리스트</string>
 </resources>
