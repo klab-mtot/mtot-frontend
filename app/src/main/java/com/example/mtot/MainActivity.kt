@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mtot.databinding.ActivityMainBinding
 import com.example.mtot.ui.account.AccountFragment
@@ -31,7 +30,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             supportFragmentManager.beginTransaction().replace(R.id.main_frm, NothingFragment()).commit()
             binding.bnv.selectedItemId = R.id.navigation_nothing
             binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
+            binding.fab.supportBackgroundTintList = ColorStateList.valueOf(getColor(R.color.tertiary))
             binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
+            binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
 
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.d("itemid", item.itemId.toString())
         binding.fab.setImageResource(R.drawable.ic_bottom_navigation_plane)
+        binding.fab.supportBackgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
         binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.white))
+        binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
         when(item.itemId){
             R.id.navigation_map -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
