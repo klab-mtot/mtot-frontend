@@ -24,19 +24,43 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginBottom="10dp"
-        android:outlineProvider="none"
-        app:fabCustomSize="80dp"
-        app:maxImageSize="60dp"
-        app:backgroundTint="@color/white"
-        android:src="@drawable/ic_bottom_navigation_plane"
-        app:tint="@color/white"
-        app:borderWidth="5dp"
         android:backgroundTint="@color/primary"
+        android:outlineProvider="none"
+        android:src="@drawable/ic_bottom_navigation_plane"
+        app:backgroundTint="@color/white"
+        app:borderWidth="5dp"
         app:elevation="20dp"
+        app:fabCustomSize="80dp"
         app:itemHorizontalTranslationEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:maxImageSize="60dp"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/ll_hamburger_frm"
+        android:visibility="gone"
+        android:elevation="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/anti_hamburger_frm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:outlineProvider="none"
+            android:background="@color/semi_transparent"/>
+
+        <FrameLayout
+            android:id="@+id/hamburger_frm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:outlineProvider="none"/>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/main_frm"

@@ -11,4 +11,5 @@
     <color name="secondary">#FF468FAF</color>
     <color name="tertiary">#FF014F86</color>
     <color name="quaternary">#FF012A4A</color>
+    <color name="semi_transparent">#80000000</color>
 </resources>
