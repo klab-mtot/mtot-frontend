@@ -35,11 +35,10 @@
 
         </LinearLayout>
 
-        <GridView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pin_images"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3" />
+            android:layout_height="match_parent" />
 
 
 
