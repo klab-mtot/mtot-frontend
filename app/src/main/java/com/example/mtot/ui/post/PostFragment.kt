@@ -37,10 +37,9 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         val mapFragment= childFragmentManager.findFragmentById(R.id.fcv_post_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        binding.cvHamburgerButton.setOnClickListener {
-            Log.d("hello", "hamburger button clicked")
+        binding.cvPostHamburgerButton.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
-            mainActivity.showHamburgerToolbar()
+            mainActivity.showPostHamburgerToolbar()
         }
 
         return binding.root

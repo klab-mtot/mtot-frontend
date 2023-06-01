@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.mtot.HamburgerItemInfo
+import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentCalendarBinding
 import com.example.mtot.databinding.FragmentMapBinding
@@ -35,13 +37,20 @@ class MapFragment : Fragment() , OnMapReadyCallback{
         binding = FragmentMapBinding.inflate(inflater, container, false)
 
         initMap()
+
+        binding.cvMapHamburgerButton.setOnClickListener {
+            val mainActivity = requireActivity() as MainActivity
+            mainActivity.showMapHamburgerToolbar()
+        }
+
         return binding.root
     }
 
     private fun initMap(){
         val mapFragment= childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-           }
+    }
+
 
     override fun onMapReady(p0: GoogleMap) {
         googleMap=p0

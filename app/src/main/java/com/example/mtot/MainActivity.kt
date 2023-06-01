@@ -10,6 +10,7 @@ import com.example.mtot.databinding.ActivityMainBinding
 import com.example.mtot.ui.account.AccountFragment
 import com.example.mtot.ui.calendar.CalendarFragment
 import com.example.mtot.ui.map.MapFragment
+import com.example.mtot.ui.map.MapHamburgerFragment
 import com.example.mtot.ui.post.PostFragment
 import com.example.mtot.ui.post.PostHamburgerFragment
 import com.example.mtot.ui.social.SocialFragment
@@ -42,6 +43,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         }
         binding.antiHamburgerFrm.setOnClickListener {
             binding.llHamburgerFrm.visibility = View.GONE
+        }
+        binding.hamburgerFrm.setOnClickListener {
+            //do nothing just cover event
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
     }
@@ -77,9 +81,13 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         }
     }
 
-    fun showHamburgerToolbar(){
-        Log.d("hello", "showHamburgerToolBar")
+    fun showPostHamburgerToolbar(){
         binding.llHamburgerFrm.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().replace(R.id.hamburger_frm, PostHamburgerFragment()).commit()
+    }
+
+    fun showMapHamburgerToolbar(){
+        binding.llHamburgerFrm.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().replace(R.id.hamburger_frm, MapHamburgerFragment()).commit()
     }
 }

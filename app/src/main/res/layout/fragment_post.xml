@@ -11,13 +11,13 @@
         android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_hamburger_button"
+            android:id="@+id/cv_post_hamburger_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:layout_margin="10dp"
             android:background="@color/white"
-            android:elevation="1dp"
+            android:elevation="5dp"
             android:outlineAmbientShadowColor="@color/black"
             app:cardCornerRadius="5dp">
 

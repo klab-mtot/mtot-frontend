@@ -4,18 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.HamburgerItemInfo
-import com.example.mtot.R
+import com.example.mtot.databinding.FragmentMapHamburgerBinding
 import com.example.mtot.databinding.ItemHamburgerBinding
 
-class PostHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerView.Adapter<PostHamburgerAdapter.ViewHolder>() {
+class MapHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerView.Adapter<MapHamburgerAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemHamburgerBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
-            if(items[position].img != 0){
-                binding.ivItemPostHamburger.setImageResource(items[position].img)
-            } else {
-                binding.ivItemPostHamburger.setImageResource(R.drawable.ic_post_hamburger_edit_pin)
-            }
             binding.tvItemPostHamburger.text = items[position].text
         }
     }
