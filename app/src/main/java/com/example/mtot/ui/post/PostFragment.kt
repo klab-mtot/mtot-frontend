@@ -22,7 +22,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     lateinit var binding: FragmentPostBinding
     lateinit var googleMap: GoogleMap
     var loc= LatLng(37.554752, 126.970631)
-    lateinit var myLoc : LatLng
+    var myLoc = LatLng(37.554752, 126.970631)
     val arrLoc=ArrayList<LatLng>()
 
     override fun onCreateView(
