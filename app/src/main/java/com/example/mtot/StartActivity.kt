@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mtot.databinding.ActivityStartBinding
+import com.example.mtot.ui.account.SetProfileActivity
 
 class StartActivity : AppCompatActivity() {
     lateinit var binding: ActivityStartBinding
