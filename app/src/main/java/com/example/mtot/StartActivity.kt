@@ -45,7 +45,7 @@ class StartActivity : AppCompatActivity() {
 //                }
 //            })
 
-        binding.googleButton.setOnClickListener
+        binding.googleButton.setOnClickListener{
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
         }
