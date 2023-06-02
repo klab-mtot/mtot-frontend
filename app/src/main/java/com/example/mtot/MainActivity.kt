@@ -4,12 +4,15 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mtot.databinding.ActivityMainBinding
 import com.example.mtot.ui.account.AccountFragment
 import com.example.mtot.ui.calendar.CalendarFragment
 import com.example.mtot.ui.map.MapFragment
+import com.example.mtot.ui.map.MapHamburgerFragment
 import com.example.mtot.ui.post.PostFragment
+import com.example.mtot.ui.post.PostHamburgerFragment
 import com.example.mtot.ui.social.SocialFragment
 import com.google.android.material.navigation.NavigationBarView
 
@@ -29,8 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         binding.fab.setOnClickListener {
             if(binding.bnv.selectedItemId == R.id.navigation_post){
                 val fragment = supportFragmentManager.findFragmentById(R.id.main_frm) as PostFragment
-                if(fragment!=null)
-                    fragment.addMark()
+                fragment.addMark()
             }else {
                 supportFragmentManager.beginTransaction().replace(R.id.main_frm, PostFragment()).commit()
                 binding.bnv.selectedItemId = R.id.navigation_post
@@ -38,6 +40,12 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
                 binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
             }
+        }
+        binding.antiHamburgerFrm.setOnClickListener {
+            binding.llHamburgerFrm.visibility = View.GONE
+        }
+        binding.hamburgerFrm.setOnClickListener {
+            //do nothing just cover event
         }
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
     }
@@ -71,5 +79,15 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             }
             else -> return true
         }
+    }
+
+    fun showPostHamburgerToolbar(){
+        binding.llHamburgerFrm.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().replace(R.id.hamburger_frm, PostHamburgerFragment()).commit()
+    }
+
+    fun showMapHamburgerToolbar(){
+        binding.llHamburgerFrm.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().replace(R.id.hamburger_frm, MapHamburgerFragment()).commit()
     }
 }

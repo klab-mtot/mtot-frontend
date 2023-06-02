@@ -2,10 +2,12 @@ package com.example.mtot.ui.post
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentPostBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,6 +37,10 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         val mapFragment= childFragmentManager.findFragmentById(R.id.fcv_post_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        binding.cvPostHamburgerButton.setOnClickListener {
+            val mainActivity = requireActivity() as MainActivity
+            mainActivity.showPostHamburgerToolbar()
+        }
 
         return binding.root
     }
