@@ -1,13 +1,9 @@
 package com.example.mtot.ui.account
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.addCallback
-import com.example.mtot.MainActivity
-import com.example.mtot.StartActivity
 import com.example.mtot.databinding.ActivityEditProfileBinding
-import com.example.mtot.databinding.ActivitySetProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
     lateinit var binding : ActivityEditProfileBinding

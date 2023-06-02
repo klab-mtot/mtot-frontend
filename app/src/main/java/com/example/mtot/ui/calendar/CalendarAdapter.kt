@@ -4,26 +4,26 @@ import android.icu.util.Calendar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mtot.databinding.CalendarDayBinding
-import com.example.mtot.databinding.CalendarEmptyBinding
-import com.example.mtot.databinding.CalendarMonthBinding
+import com.example.mtot.databinding.ItemCalendarDayBinding
+import com.example.mtot.databinding.ItemCalendarMonthBinding
+import com.example.mtot.databinding.ItemCalendarEmptyBinding
 
 
 class CalendarAdapter(val items: ArrayList<CalendarItemInfo>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class MonthViewHolder(val binding: CalendarMonthBinding) :
+    inner class MonthViewHolder(val binding: ItemCalendarMonthBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item : CalendarItemInfo){
             binding.calendarMonth.text = (item.cal.get(Calendar.MONTH)+1).toString() + "월"
         }
     }
-    inner class EmptyViewHolder(val binding: CalendarEmptyBinding) :
+    inner class EmptyViewHolder(val binding: ItemCalendarEmptyBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item : CalendarItemInfo){
         }
     }
-    inner class DayViewHolder(val binding: CalendarDayBinding) :
+    inner class DayViewHolder(val binding: ItemCalendarDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item : CalendarItemInfo){
             binding.calendarDay.text = item.cal.get(Calendar.DATE).toString()
@@ -33,13 +33,13 @@ class CalendarAdapter(val items: ArrayList<CalendarItemInfo>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
             Type.MONTH -> {
-                MonthViewHolder(CalendarMonthBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                MonthViewHolder(ItemCalendarMonthBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
             Type.EMPTY -> {
-                EmptyViewHolder(CalendarEmptyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                EmptyViewHolder(ItemCalendarEmptyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
             else-> {
-                DayViewHolder(CalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                DayViewHolder(ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
         }
     }

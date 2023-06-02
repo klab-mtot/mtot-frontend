@@ -3,12 +3,12 @@ package com.example.mtot.ui.social
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mtot.databinding.SocialGrouplistBinding
+import com.example.mtot.databinding.ItemSocialGroupListBinding
 
 class GroupListAdapter(val items: ArrayList<SocialListInfo>) :
     RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: SocialGrouplistBinding) :
+    inner class ViewHolder(val binding: ItemSocialGroupListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             binding.ivSocialList.setImageResource(items[position].image)
@@ -18,7 +18,7 @@ class GroupListAdapter(val items: ArrayList<SocialListInfo>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            SocialGrouplistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSocialGroupListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

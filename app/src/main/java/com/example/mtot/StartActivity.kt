@@ -16,7 +16,7 @@ class StartActivity : AppCompatActivity() {
     }
     fun init(){
         binding.googleButton.setOnClickListener {
-            val i = Intent(this, SetProfileActivity::class.java)
+            val i = Intent(this, MainActivity::class.java)
             startActivity(i)
         }
     }
