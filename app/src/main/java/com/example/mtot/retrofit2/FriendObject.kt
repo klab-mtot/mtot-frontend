@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.mtot.StartActivity
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 object FriendObject {
 
@@ -24,9 +26,13 @@ object FriendObject {
         .addInterceptor(tokenInterceptor)
         .build()
 
+    val gson: Gson = GsonBuilder()
+        .setLenient()
+        .create()
+
     var retrofit = Retrofit.Builder()
-        .baseUrl("https://nas.hoony.me:7980")
-        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("http://nas.hoony.me:7980")
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
     var friendInterface: FriendInterface = retrofit.create(FriendInterface::class.java)
 

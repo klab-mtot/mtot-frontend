@@ -14,6 +14,7 @@ import com.example.mtot.retrofit2.SharedPreference.saveMyEmail
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.net.ssl.SSLContext
 
 class StartActivity : AppCompatActivity() {
     lateinit var binding: ActivityStartBinding
@@ -27,6 +28,10 @@ class StartActivity : AppCompatActivity() {
     }
     fun init(){
 
+        val sslContext = SSLContext.getDefault()
+        val enabledProtocols = sslContext.supportedSSLParameters.protocols
+        Log.d("TLS", "Supported TLS Versions: ${enabledProtocols.joinToString()}")
+
         val loginInterface=LoginObject.loginInterface
 
         binding.googleButton.setOnClickListener {
@@ -37,6 +42,7 @@ class StartActivity : AppCompatActivity() {
                     dialog.setTitle("에러")
                     dialog.setMessage("호출실패했습니다.")
                     dialog.show()
+
                 }
 
                 override fun onResponse(call: Call<LoginData>, response: Response<LoginData>) {
@@ -56,10 +62,11 @@ class StartActivity : AppCompatActivity() {
             })
 
 
-/*
+
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
-*/
+
+
         }
     }
 }
