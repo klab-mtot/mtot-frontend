@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.post.PinListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +37,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pin_images"
+            android:id="@+id/pin_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
