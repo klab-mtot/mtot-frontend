@@ -1,5 +1,6 @@
 package com.example.mtot
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import com.example.mtot.ui.account.AccountFragment
 import com.example.mtot.ui.calendar.CalendarFragment
 import com.example.mtot.ui.map.MapFragment
 import com.example.mtot.ui.map.MapHamburgerFragment
+import com.example.mtot.ui.post.AddJourney
 import com.example.mtot.ui.post.PostFragment
 import com.example.mtot.ui.post.PostHamburgerFragment
 import com.example.mtot.ui.social.SocialFragment
@@ -39,6 +41,8 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
                 binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
                 binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
+                val i = Intent(this, AddJourney::class.java)
+                startActivity(i)
             }
         }
         binding.antiHamburgerFrm.setOnClickListener {

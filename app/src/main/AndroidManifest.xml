@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Mtot"
         tools:targetApi="31">
         <activity
+            android:name=".ui.post.AddJourney"
+            android:exported="false" />
+        <activity
             android:name=".JourneyDetailActivity"
             android:exported="false" />
         <activity
