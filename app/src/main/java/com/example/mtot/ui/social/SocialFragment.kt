@@ -1,5 +1,6 @@
 package com.example.mtot.ui.social
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,16 @@ class SocialFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         friendAdapter = FriendListAdapter(friendDataList)
         binding.rvSocialFriendlist.adapter = friendAdapter
+
+        binding.ivSocialGrouplist.setOnClickListener {
+            val i = Intent(requireContext(), AddFriendActivity::class.java)
+            startActivity(i)
+        }
+
+        binding.ivSocialFriendlist.setOnClickListener {
+            val i = Intent(requireContext(), AddFriendActivity::class.java)
+            startActivity(i)
+        }
 
 
         return binding.root
