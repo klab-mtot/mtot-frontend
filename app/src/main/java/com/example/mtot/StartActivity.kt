@@ -1,23 +1,31 @@
 package com.example.mtot
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.mtot.databinding.ActivityStartBinding
+import com.example.mtot.retrofit2.FriendObject
 import com.example.mtot.retrofit2.LoginData
+import com.example.mtot.retrofit2.LoginObject
+import com.example.mtot.retrofit2.SharedPreference.saveAccessToken
+import com.example.mtot.retrofit2.SharedPreference.saveMyEmail
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class StartActivity : AppCompatActivity() {
     lateinit var binding: ActivityStartBinding
-    var logindata: List<LoginData>? = null
-    var accessToken: String? = null
+    var logindata:LoginData?=null
+    var accessToken:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
     }
-
-    fun init() {
+    fun init(){
 
 //        val loginInterface=LoginObject.loginInterface
 //
@@ -37,9 +45,11 @@ class StartActivity : AppCompatActivity() {
 //                }
 //            })
 
+        binding.googleButton.setOnClickListener
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+        }
 
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
 
     }
 }

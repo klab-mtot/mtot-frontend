@@ -8,11 +8,11 @@ import java.lang.reflect.Member
 
 interface FriendInterface {
 
-    @GET("/friendship")
+    @GET("http://nas.hoony.me:7980/friendship")
     fun requestFriendData(): Call<FriendData>
 
 
-    @POST("/friendship/accept")
+    @POST("http://nas.hoony.me:7980/friendship/accept")
     fun addFriend(@Body email:String
     ): Call<AddFriend>
 }
