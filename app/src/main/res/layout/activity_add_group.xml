@@ -18,7 +18,7 @@
         android:layout_marginRight="30dp">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/iv_add_group_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/back_icon"
@@ -51,7 +51,7 @@
         />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextGroupName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
@@ -76,22 +76,19 @@
         android:layout_marginRight="30dp"
         />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
+    <Spinner
+        android:id="@+id/sp_addgroup_group_select"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="여정 이름 "
         android:textSize="15sp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:textColor="@android:color/darker_gray"
-        android:drawableEnd="@drawable/ic_add_group_search"
         />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_selected_members"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"

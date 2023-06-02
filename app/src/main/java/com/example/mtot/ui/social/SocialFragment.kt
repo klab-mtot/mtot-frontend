@@ -49,7 +49,7 @@ class SocialFragment : Fragment() {
         binding.rvSocialFriendlist.adapter = friendAdapter
 
         binding.ivSocialGrouplist.setOnClickListener {
-            val i = Intent(requireContext(), AddFriendActivity::class.java)
+            val i = Intent(requireContext(), AddGroupActivity::class.java)
             startActivity(i)
         }
 
@@ -80,30 +80,30 @@ class SocialFragment : Fragment() {
 
         val friendInterface = FriendObject.friendInterface
 
-        friendInterface.requestFriendData().enqueue(object : Callback<FriendData> {
-            override fun onFailure(call: Call<FriendData>, t: Throwable) {
-                t.message?.let { it1 -> Log.e("FRIEND", it1) }
-                val dialog = AlertDialog.Builder(requireContext())
-                dialog.setTitle("에러")
-                dialog.setMessage("호출실패했습니다.")
-                dialog.create().show()
-            }
-
-            override fun onResponse(call: Call<FriendData>, response: Response<FriendData>) {
-                //friendData를 여러개 가져오면 어떻게 되지?
-                friendData = response.body()
-                //sharedPreference에 저장하려면 String으로 바꿔야 함.
-                saveFriendData(requireContext(), response.body().toString())
-                Log.d("FRIEND", "friendshipId : " + friendData?.friendshipId)
-                Log.d("FRIEND", "memberId : " + friendData?.memberId)
-                Log.d("FRIEND", "name : " + friendData?.name)
-                Log.d("FRIEND", "email : " + friendData?.email)
-                val dialog = AlertDialog.Builder(requireContext())
-                dialog.setTitle(friendData?.name)
-                dialog.setMessage(friendData?.memberId.toString())
-                dialog.create().show()
-            }
-        })
+//        friendInterface.requestFriendData().enqueue(object : Callback<FriendData> {
+//            override fun onFailure(call: Call<FriendData>, t: Throwable) {
+//                t.message?.let { it1 -> Log.e("FRIEND", it1) }
+//                val dialog = AlertDialog.Builder(requireContext())
+//                dialog.setTitle("에러")
+//                dialog.setMessage("호출실패했습니다.")
+//                dialog.create().show()
+//            }
+//
+//            override fun onResponse(call: Call<FriendData>, response: Response<FriendData>) {
+//                //friendData를 여러개 가져오면 어떻게 되지?
+//                friendData = response.body()
+//                //sharedPreference에 저장하려면 String으로 바꿔야 함.
+//                saveFriendData(requireContext(), response.body().toString())
+//                Log.d("FRIEND", "friendshipId : " + friendData?.friendshipId)
+//                Log.d("FRIEND", "memberId : " + friendData?.memberId)
+//                Log.d("FRIEND", "name : " + friendData?.name)
+//                Log.d("FRIEND", "email : " + friendData?.email)
+//                val dialog = AlertDialog.Builder(requireContext())
+//                dialog.setTitle(friendData?.name)
+//                dialog.setMessage(friendData?.memberId.toString())
+//                dialog.create().show()
+//            }
+//        })
 
 
         friendDataList = arrayListOf(

@@ -17,20 +17,22 @@ import retrofit2.Response
 
 class StartActivity : AppCompatActivity() {
     lateinit var binding: ActivityStartBinding
-    var logindata:LoginData?=null
-    var accessToken:String?=null
+    var logindata: LoginData? = null
+    var accessToken: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
     }
-    fun init(){
+
+    fun init() {
 
 //        val loginInterface=LoginObject.loginInterface
 //
 //        binding.googleButton.setOnClickListener {
 //            loginInterface.requestLogin().enqueue(object:Callback<String> {
+
 //                override fun onResponse(call: Call<String>, response: Response<String>) {
 //                    val str = response.toString()
 //                    val i = str.indexOf("url")
@@ -45,7 +47,7 @@ class StartActivity : AppCompatActivity() {
 //                }
 //            })
 
-        binding.googleButton.setOnClickListener{
+        binding.googleButton.setOnClickListener {
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
         }

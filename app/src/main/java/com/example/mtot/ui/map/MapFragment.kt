@@ -29,6 +29,7 @@ class MapFragment : Fragment() , OnMapReadyCallback{
     lateinit var googleMap:GoogleMap
     var loc=LatLng(37.554752, 126.970631)
     val arrLoc=ArrayList<LatLng>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

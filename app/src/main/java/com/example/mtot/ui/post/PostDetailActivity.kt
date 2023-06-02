@@ -12,4 +12,6 @@ class PostDetailActivity : AppCompatActivity() {
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
+
+
 }

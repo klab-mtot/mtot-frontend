@@ -15,4 +15,5 @@ interface FriendInterface {
     @POST("http://nas.hoony.me:7980/friendship/accept")
     fun addFriend(@Body email:String
     ): Call<AddFriend>
+
 }
