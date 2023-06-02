@@ -20,4 +20,6 @@ interface ExampleRetrofitInterface {
         @Path("id") id: Int
     ): Call<MemberResponse>
 
+
+
 }
