@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import com.example.mtot.R
 import com.example.mtot.databinding.ActivityAddJourneyBinding
+import com.example.mtot.retrofit2.GroupInterface
+import com.example.mtot.retrofit2.GroupObject.groupInterface
 
 class AddJourney : AppCompatActivity() {
     lateinit var binding : ActivityAddJourneyBinding
@@ -19,6 +21,8 @@ class AddJourney : AppCompatActivity() {
     }
 
     fun init(){
+
+        val groupService = groupInterface.getTeams()
 
         dataList = arrayListOf(
             "그룹1",

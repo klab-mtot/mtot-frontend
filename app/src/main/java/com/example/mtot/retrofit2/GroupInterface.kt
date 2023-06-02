@@ -4,10 +4,10 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 
-interface LoginInterface {
+interface GroupInterface {
 
-    @GET("/login/oauth")
-    fun requestLogin(
-    ): Call<String>
+    @GET("/teams")
+    fun getTeams(
+    ): Call<List<GroupData>>
 
 }
