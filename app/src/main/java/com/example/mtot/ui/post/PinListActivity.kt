@@ -9,25 +9,23 @@ import com.example.mtot.databinding.ActivityPinListBinding
 
 class PinListActivity : AppCompatActivity() {
     lateinit var binding: ActivityPinListBinding
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PinAdapterGrid
-    private lateinit var layoutManager: GridLayoutManager
+    lateinit var dataList : List<PinData>
+    private lateinit var adapter: PinAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityPinListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.pinRecyclerView
-        layoutManager = GridLayoutManager(this, 3)
-        // 그리드 형식으로 두 개의 열을 표시하려면 spanCount를 2로 설정합니다.
-        recyclerView.layoutManager = layoutManager
 
-        val list = arrayListOf<Int>(R.drawable.ic_bottom_navigation_plane,R.drawable.ic_bottom_navigation_plane,R.drawable.ic_bottom_navigation_plane)
-        // 이미지 URL 또는 파일 경로를 포함하는 문자열 목록을 생성합니다.
-        // 이미지 목록을 list에 추가합니다.
-
-        adapter = PinAdapterGrid(list)
-        recyclerView.adapter = adapter
+        binding.pinRecyclerView.layoutManager = GridLayoutManager(this, 3)
+        dataList = arrayListOf(
+            PinData(R.drawable.ic_bottom_navigation_plane),
+            PinData(R.drawable.ic_bottom_navigation_plane),
+            PinData(R.drawable.ic_bottom_navigation_plane),
+            PinData(R.drawable.ic_bottom_navigation_plane),
+        )
+        adapter = PinAdapter(dataList)
+        binding.pinRecyclerView.adapter = adapter
     }
 }
