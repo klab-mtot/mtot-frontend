@@ -11,4 +11,4 @@ data class FriendData(
 
 data class AddFriend(
     @SerializedName("friendshipId") val friendshipId: Int
-    )
+)

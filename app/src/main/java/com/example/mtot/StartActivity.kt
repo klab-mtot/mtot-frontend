@@ -2,6 +2,7 @@ package com.example.mtot
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,8 @@ import com.example.mtot.retrofit2.LoginData
 import com.example.mtot.retrofit2.LoginObject
 import com.example.mtot.retrofit2.SharedPreference.saveAccessToken
 import com.example.mtot.retrofit2.SharedPreference.saveMyEmail
+import com.example.mtot.retrofit2.TestMember
+import com.example.mtot.retrofit2.TestMemberList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,30 +31,51 @@ class StartActivity : AppCompatActivity() {
 
     fun init() {
 
-//        val loginInterface=LoginObject.loginInterface
-//
-//        binding.googleButton.setOnClickListener {
-//            loginInterface.requestLogin().enqueue(object:Callback<String> {
+        val loginInterface = LoginObject.loginInterface
 
-//                override fun onResponse(call: Call<String>, response: Response<String>) {
-//                    val str = response.toString()
+
+
+        binding.googleButton.setOnClickListener {
+            loginInterface.requestUrl().enqueue(object : Callback<String> {
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if(response.isSuccessful){
+                        val str = response.body().toString()
+                        Log.d("helloraw", str)
+                    }
+//                    val str = response.body
 //                    val i = str.indexOf("url")
 //                    val url = str.substring(43+3, str.length-1)
 //                    val index = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 //                    startActivity(index)
-//                    Log.d("hello", url)
-//                }
-//
-//                override fun onFailure(call: Call<String>, t: Throwable) {
-//                    Log.d("hello", t.message.toString())
-//                }
-//            })
+                    Log.d("hello", response.toString())
+                }
 
-        binding.googleButton.setOnClickListener {
-            val i = Intent(this, MainActivity::class.java)
-            startActivity(i)
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Log.d("hello", t.message.toString())
+                }
+            })
+
         }
 
+//        loginInterface.requestTestMember().enqueue(object : Callback<TestMemberList>{
+//            override fun onResponse(
+//                call: Call<TestMemberList>,
+//                response: Response<TestMemberList>
+//            ) {
+//                Log.d("hello", response.body()!!.toString())
+//            }
+//
+//            override fun onFailure(call: Call<TestMemberList>, t: Throwable) {
+//                Log.d("hello", t.message.toString())
+//            }
+//
+//        })
 
+
+//        binding.googleButton.setOnClickListener {
+//            val i = Intent(this, MainActivity::class.java)
+//            startActivity(i)
+//        }
     }
 }

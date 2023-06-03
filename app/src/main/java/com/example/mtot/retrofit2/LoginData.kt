@@ -6,3 +6,13 @@ data class LoginData(
     @SerializedName("email") val email: String
 )
 
+data class TestMember(
+    @SerializedName("id") val id : Int,
+    @SerializedName("name") val name : String,
+    @SerializedName("email") val email : String,
+)
+
+data class TestMemberList(
+    @SerializedName("members") val members : List<TestMember>
+)
+
