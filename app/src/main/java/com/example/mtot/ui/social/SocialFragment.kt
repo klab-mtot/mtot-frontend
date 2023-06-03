@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.databinding.FragmentSocialBinding
@@ -20,11 +22,8 @@ class SocialFragment : Fragment() {
     lateinit var binding: FragmentSocialBinding
     lateinit var groupAdapter: GroupListAdapter
     lateinit var friendAdapter: FriendListAdapter
-    lateinit var groupDataList: ArrayList<SocialListInfo>
-    lateinit var friendDataList: ArrayList<SocialListInfo>
-
-
-
+    var groupDataList = ArrayList<SocialListInfo>()
+    var friendDataList = ArrayList<SocialListInfo>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,26 +35,38 @@ class SocialFragment : Fragment() {
 
         binding.rvSocialGrouplist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        groupAdapter = GroupListAdapter()
+        groupAdapter = GroupListAdapter(groupDataList)
+        groupAdapter.OnItemClickListener = object: GroupListAdapter.onItemClickListener {
+            override fun onItemClicked(position: Int) {
+                val i = Intent(requireContext(), GroupDetailActivity::class.java)
+                i.putExtra("teamId", groupAdapter.items[position].id)
+                startActivity(i)
+            }
+        }
         binding.rvSocialGrouplist.adapter = groupAdapter
 
         binding.rvSocialFriendlist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        friendAdapter = FriendListAdapter()
+        friendAdapter = FriendListAdapter(friendDataList)
         binding.rvSocialFriendlist.adapter = friendAdapter
 
         binding.ivSocialGrouplist.setOnClickListener {
             val i = Intent(requireContext(), AddGroupActivity::class.java)
             startActivity(i)
         }
-
         binding.ivSocialFriendlist.setOnClickListener {
             val i = Intent(requireContext(), AddFriendActivity::class.java)
             startActivity(i)
         }
 
-
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        groupDataList.clear()
+        friendDataList.clear()
+        initData()
     }
 
     fun initData() {
@@ -69,13 +80,14 @@ class SocialFragment : Fragment() {
             override fun onResponse(call: Call<GetTeamsResponse>, response: Response<GetTeamsResponse>) {
                 Log.d("hello", response.body().toString())
                 if(response.isSuccessful){
-                    groupDataList = ArrayList<SocialListInfo>()
                     val list = response.body()!!
                     groupDataList.addAll(list.teamList.map{
-                        SocialListInfo(0, 0, it.teamName)
+                        SocialListInfo(it.teamId, 0, it.teamName)
                     }.toList())
                     groupAdapter.notifyDataSetChanged()
+                    Log.d("hello", groupDataList.toString())
                 }
+
             }
         })
 
@@ -87,13 +99,19 @@ class SocialFragment : Fragment() {
             override fun onResponse(call: Call<FriendsData>, response: Response<FriendsData>) {
                 Log.d("hello", response.body().toString())
                 if(response.isSuccessful){
-                    friendDataList = ArrayList<SocialListInfo>()
                     friendDataList.addAll(response.body()!!.friendships.map {
-                        SocialListInfo(0, 0, it.name)
+                        SocialListInfo(it.friendshipId, 0, it.name)
                     }.toList())
                     friendAdapter.notifyDataSetChanged()
                 }
+
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        groupDataList.clear()
+        friendDataList.clear()
     }
 }

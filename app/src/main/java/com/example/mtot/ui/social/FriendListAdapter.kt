@@ -21,22 +21,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FriendListAdapter :
+class FriendListAdapter(var items: ArrayList<SocialListInfo>) :
     RecyclerView.Adapter<FriendListAdapter.ViewHolder>() {
 
-    val friendInterface = getRetrofitInterface()
-    var friendList: List<GetFriendResponse>? = null
 
     inner class ViewHolder(val binding: ItemSocialFriendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            if(friendList != null) {
-                binding.tvSocialList.text = friendList!![position].name
-                binding.ivSocialList.isVisible = false
-            } else {
-                binding.tvSocialList.text = "친구가 아직 없습니다!"
-                binding.ivSocialList.isVisible = false
-            }
+//            if(items.size != 0) {
+                binding.tvSocialList.text = items[position].text
+//            } else {
+//                binding.tvSocialList.text = "친구가 아직 없습니다!"
+//                binding.ivSocialList.isVisible = false
+//            }
         }
     }
 
@@ -47,7 +44,7 @@ class FriendListAdapter :
     }
 
     override fun getItemCount(): Int {
-        return  friendList?.size ?: 1
+        return  items.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

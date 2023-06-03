@@ -52,4 +52,9 @@ interface RetrofitInterface {
         @Query("month") month: Int,
     ): Call<CalendarPhotoMonth>
 
+    @POST("/teams/register")
+    fun addMemberToTeam(
+        @Body requestBody: RequestAddMemberToTeam
+    ): Call<ResponseAddMemberToTeam>
+
 }

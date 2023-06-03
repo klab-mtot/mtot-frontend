@@ -42,7 +42,6 @@ class StartActivity : AppCompatActivity() {
                         val str = response.body().toString()
                         val responseBody = JSONObject(str)
                         saveAccessToken(this@StartActivity, responseBody.getString("accessToken"))
-                        Log.d("helloraw", responseBody.getString("accessToken"))
                         setAccessToken(responseBody.getString("accessToken"))
                         saveMyEmail(this@StartActivity, responseBody.getString("email"))
                         val i = Intent(this@StartActivity, MainActivity::class.java)

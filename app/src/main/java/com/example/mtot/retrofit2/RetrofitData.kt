@@ -83,7 +83,6 @@ data class AddJourneyRequest(
 
 data class AddTeamRequest(
     @SerializedName("teamName") val teamName: String,
-    @SerializedName("memberList") val memberList: List<AddMember>
 )
 
 data class AddTeamResponse(
@@ -129,4 +128,13 @@ data class CalendarPhotoMonth(
 
 data class FriendEmailData(
     @SerializedName("receiverEmail") val receiverEmail: String
+)
+
+data class RequestAddMemberToTeam(
+    @SerializedName("teamId") val teamId: Int,
+    @SerializedName("memberEmail") val memberEmail: String
+)
+
+data class ResponseAddMemberToTeam(
+    @SerializedName("teamId") val teamId: Int
 )

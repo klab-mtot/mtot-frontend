@@ -1,33 +1,30 @@
 package com.example.mtot.ui.social
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.databinding.ItemSocialGroupListBinding
-import com.example.mtot.retrofit2.GetTeamResponse
-import com.example.mtot.retrofit2.GetTeamsResponse
-import com.example.mtot.retrofit2.getRetrofitInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class GroupListAdapter :
+class GroupListAdapter(var items: ArrayList<SocialListInfo>) :
     RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
 
-    val groupInterface = getRetrofitInterface()
-    var groupList: List<GetTeamResponse>? = null
+    var OnItemClickListener : onItemClickListener? = null
+    interface onItemClickListener {
+        fun onItemClicked(position: Int)
+    }
     inner class ViewHolder(val binding: ItemSocialGroupListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            if(groupList != null) {
-               binding.tvSocialList.text = groupList!![position].teamName
-                binding.ivSocialList.isVisible = false
-            } else {
-                binding.tvSocialList.text = "그룹이 아직 없습니다!"
-                binding.ivSocialList.isVisible = false
+//            if(items.size != 0) {
+            binding.tvSocialList.text = items[position].text
+            binding.itemSocialGroup.setOnClickListener {
+                OnItemClickListener?.onItemClicked(position)
             }
+//            } else {
+//                binding.tvSocialList.text = "그룹이 아직 없습니다!"
+//                binding.ivSocialList.isVisible = false
+//            }
         }
     }
 
@@ -38,7 +35,7 @@ class GroupListAdapter :
     }
 
     override fun getItemCount(): Int {
-        return groupList?.size ?: 1
+        return items.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
