@@ -40,5 +40,4 @@ object SharedPreference {
         return spf.getString("email", 1.toString())!!
     }
 
-
 }
