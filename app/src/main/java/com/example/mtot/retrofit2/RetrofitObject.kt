@@ -67,7 +67,6 @@ class AddedTokenRequest(val localToken: String) : Interceptor {
         val tokenRequest = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer " + accessTokenString)
             .addHeader("Content-Type", "application/json").build()
-        Log.d("hello", "Bearer " + accessTokenString)
 
         return chain.proceed(tokenRequest)
     }

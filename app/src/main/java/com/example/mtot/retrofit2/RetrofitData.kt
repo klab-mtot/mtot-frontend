@@ -3,6 +3,7 @@ package com.example.mtot.retrofit2
 import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
+import okhttp3.CertificatePinner
 
 data class LoginData(
     @SerializedName("accessToken") val accessToken: String,
@@ -10,22 +11,23 @@ data class LoginData(
 )
 
 data class TestMember(
-    @SerializedName("id") val id : Int,
-    @SerializedName("name") val name : String,
-    @SerializedName("email") val email : String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("email") val email: String,
 )
 
 data class TestMemberList(
-    @SerializedName("members") val members : List<TestMember>
+    @SerializedName("members") val members: List<TestMember>
 )
-data class Pins(
-    @SerializedName("pinId") val pinId:Int,
-    @SerializedName("location") val location:Location
+
+data class Pin(
+    @SerializedName("pinId") val pinId: Int,
+    @SerializedName("location") val location: Location
 )
 
 data class Location(
-    @SerializedName("latitude") val latitude:Double,
-    @SerializedName("longitude") val longitude:Double
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double
 )
 
 data class Post(
@@ -37,9 +39,14 @@ data class Post(
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("post") val post: Post,
-    @SerializedName("pins") val pins: Pins
+    @SerializedName("post") val post: String,
+    @SerializedName("pins") val pins: List<Pin>
 )
+data class JourneysData(
+    @SerializedName("journeys") val journeys: List<JourneyData>,
+)
+
+
 
 data class SpecificJourneyData(
     @SerializedName("journeyId") val journeyId: Int,
@@ -71,11 +78,11 @@ data class AddJourneyRequest(
 
 data class AddTeamRequest(
     @SerializedName("teamName") val teamName: String,
-    @SerializedName("memberList") val memberList : List<AddMember>
+    @SerializedName("memberList") val memberList: List<AddMember>
 )
 
 data class AddTeamResponse(
-    @SerializedName("teamId") val teamId : Int
+    @SerializedName("teamId") val teamId: Int
 )
 
 data class AddMember(
