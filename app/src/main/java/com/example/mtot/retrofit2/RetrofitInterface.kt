@@ -46,6 +46,12 @@ interface RetrofitInterface {
     @GET("/journey")
     fun requestJourneyData(): Call<JourneysData>
 
+    @GET("/journey/journey_id")
+    fun getJourney(
+        @Query("year") year: Int,
+        @Query("month") month: Int,
+    ): Call<CalendarPhotoMonth>
+
     @GET("/photo/calendarThumbnail")
     fun requestCalendarPhoto(
         @Query("year") year: Int,

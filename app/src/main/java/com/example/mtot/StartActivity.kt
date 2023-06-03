@@ -9,6 +9,7 @@ import com.example.mtot.databinding.ActivityStartBinding
 import com.example.mtot.retrofit2.getLoginInterface
 import com.example.mtot.retrofit2.saveAccessToken
 import com.example.mtot.retrofit2.saveMyEmail
+import com.example.mtot.retrofit2.savePostState
 import com.example.mtot.retrofit2.setAccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -43,6 +44,7 @@ class StartActivity : AppCompatActivity() {
                         val responseBody = JSONObject(str)
                         saveAccessToken(this@StartActivity, responseBody.getString("accessToken"))
                         setAccessToken(responseBody.getString("accessToken"))
+                        savePostState(this@StartActivity, false)
                         saveMyEmail(this@StartActivity, responseBody.getString("email"))
                         val i = Intent(this@StartActivity, MainActivity::class.java)
                         startActivity(i)

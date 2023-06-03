@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.HamburgerItemInfo
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentPostHamburgerBinding
+import com.example.mtot.retrofit2.getRetrofitInterface
 
 class PostHamburgerFragment : Fragment() {
     lateinit var binding: FragmentPostHamburgerBinding
@@ -31,7 +32,13 @@ class PostHamburgerFragment : Fragment() {
     }
 
     fun initData(){
-//        journeyInterface.requestJourneyData().enqueue(object: Callback<ArrayList<JourneyData>>{
+        postHamburgerDataList = arrayListOf(
+            HamburgerItemInfo(R.drawable.ic_post_hamburger_journey_detail, "여정 상세"),
+            HamburgerItemInfo(R.drawable.ic_post_hamburger_edit_post, "포스트 수정")
+        )
+
+        val retrofitInterface = getRetrofitInterface()
+//        retrofitInterface.requestJourneyData().enqueue(object: Callback<ArrayList<JourneyData>>{
 //            override fun onResponse(
 //                call: Call<ArrayList<JourneyData>>,
 //                response: Response<ArrayList<JourneyData>>
@@ -50,17 +57,6 @@ class PostHamburgerFragment : Fragment() {
 //                Log.d("hello", t.message.toString())
 //            }
 //        })
-
-        postHamburgerDataList = arrayListOf(
-            HamburgerItemInfo(R.drawable.ic_post_hamburger_journey_detail, "여정 상세"),
-            HamburgerItemInfo(R.drawable.ic_post_hamburger_edit_post, "포스트 수정"),
-            HamburgerItemInfo(0, "핀1"),
-            HamburgerItemInfo(0, "핀2"),
-            HamburgerItemInfo(0, "핀3"),
-            HamburgerItemInfo(0, "핀4"),
-            HamburgerItemInfo(0, "핀5"),
-            HamburgerItemInfo(0, "핀6")
-        )
     }
 
     override fun onDestroyView() {

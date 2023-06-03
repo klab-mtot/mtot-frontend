@@ -51,9 +51,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun initMap() {
-        val journeyInterface = getRetrofitInterface()
+        val retrofitInterface = getRetrofitInterface()
 
-        journeyInterface.requestJourneyData().enqueue(object : Callback<JourneysData> {
+        retrofitInterface.requestJourneyData().enqueue(object : Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
                 Log.d("Hello", t.message.toString())
             }
@@ -65,14 +65,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.d("Hello", response.body().toString())
                 if (response.isSuccessful) {
                     journeysData = response.body()!!
-                    journeysData.journeys.forEach {
-                        arrLoc.add(
-                            LatLng(
-                                it.pins[0].location.latitude,
-                                it.pins[0].location.longitude
-                            )
-                        )
-                    }
+//                    journeysData.journeys.forEach {
+//                        if(it.pins.size > 0) {
+//                            arrLoc.add(
+//                                LatLng(
+//                                    it.pins[0].location.latitude,
+//                                    it.pins[0].location.longitude
+//                                )
+//                            )
+//                        } else {
+//                            arrLoc.add(
+//                                LatLng(
+//                                    0.0,0.0
+//                                )
+//                            )
+//                        }
+//                    }
                 }
             }
         })

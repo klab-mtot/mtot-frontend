@@ -12,6 +12,8 @@ import com.example.mtot.retrofit2.AddJourneyResponse
 import com.example.mtot.retrofit2.GetTeamResponse
 import com.example.mtot.retrofit2.GetTeamsResponse
 import com.example.mtot.retrofit2.getRetrofitInterface
+import com.example.mtot.retrofit2.saveJourneyId
+import com.example.mtot.retrofit2.savePostState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,6 +91,8 @@ class AddJourneyActivity : AppCompatActivity() {
                     Log.d("hello", response.toString())
                     val journeyId = response.body()!!.journeyId
                     val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
+                    savePostState(this@AddJourneyActivity, true)
+                    saveJourneyId(this@AddJourneyActivity, journeyId)
                     setResult(journeyId, intent)
                     finish()
                 }
