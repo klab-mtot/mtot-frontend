@@ -39,24 +39,21 @@ class StartActivity : AppCompatActivity() {
             loginInterface.requestUrl().enqueue(object : Callback<String> {
 
                 override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if(response.isSuccessful){
-                        val str = response.body().toString()
-                        Log.d("helloraw", str)
-                    }
-//                    val str = response.body
-//                    val i = str.indexOf("url")
-//                    val url = str.substring(43+3, str.length-1)
-//                    val index = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//                    startActivity(index)
-                    Log.d("hello", response.toString())
+                    val str = response.toString()
+                    Log.d("hello", str)
+                    val i = str.indexOf("url")
+                    val url = str.substring(i+4, str.length-1)
+                    Log.d("hello", url)
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
                 }
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     Log.d("hello", t.message.toString())
                 }
             })
-
         }
+
 
 //        loginInterface.requestTestMember().enqueue(object : Callback<TestMemberList>{
 //            override fun onResponse(

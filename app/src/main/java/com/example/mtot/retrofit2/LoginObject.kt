@@ -29,6 +29,8 @@ object LoginObject {
 
 fun okHttpClient(): OkHttpClient {
     val builder = OkHttpClient.Builder()
+    builder.followRedirects(false)
+    builder.followSslRedirects(false)
     val logging = HttpLoggingInterceptor()
     logging.level = HttpLoggingInterceptor.Level.BODY
     return builder.addInterceptor(logging).build()
