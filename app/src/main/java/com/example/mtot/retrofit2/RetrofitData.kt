@@ -18,12 +18,27 @@ data class TestMember(
 data class TestMemberList(
     @SerializedName("members") val members : List<TestMember>
 )
+data class Pins(
+    @SerializedName("pinId") val pinId:Int,
+    @SerializedName("location") val location:Location
+)
+
+data class Location(
+    @SerializedName("latitude") val latitude:Double,
+    @SerializedName("longitude") val longitude:Double
+)
+
+data class Post(
+    @SerializedName("journeyId") val journeyId: Int,
+    @SerializedName("title") val title: String,
+    @SerializedName("article") val article: String
+)
 
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("pinLocation") val pinLocation: LatLng,
-    @SerializedName("image") val image: Bitmap
+    @SerializedName("post") val post: Post,
+    @SerializedName("pins") val pins: Pins
 )
 
 data class SpecificJourneyData(
