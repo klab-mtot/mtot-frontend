@@ -33,12 +33,16 @@ data class SpecificJourneyData(
     @SerializedName("postData") val postData: PostData
 )
 
-data class GetTeamResponse(
+data class GetTeamResponse( //타입이 list이어야 함
     @SerializedName("teamId") val teamId: Int,
     @SerializedName("teamName") val teamName: String
 )
+data class GetTeamsResponse(
+    @SerializedName("count") val count: Int,
+    @SerializedName("teamList") val teamList: List<GetTeamResponse>
+)
 
-data class GetFriendResponse(
+data class GetFriendResponse( //타입이 list이어야 함
     @SerializedName("friendshipId") val teamId: Int,
     @SerializedName("memberId") val memberId: Int,
     @SerializedName("name") val name: String,

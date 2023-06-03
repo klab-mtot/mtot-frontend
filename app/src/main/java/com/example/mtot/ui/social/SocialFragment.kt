@@ -34,7 +34,7 @@ class SocialFragment : Fragment() {
 
         binding.rvSocialGrouplist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        groupAdapter = GroupListAdapter(groupDataList)
+        groupAdapter = GroupListAdapter()
         binding.rvSocialGrouplist.adapter = groupAdapter
 
         binding.rvSocialFriendlist.layoutManager =
