@@ -27,7 +27,7 @@ interface RetrofitInterface {
 
     @GET("/teams")
     fun getTeams(
-    ): Call<List<GetTeamResponse>>
+    ): Call<GetTeamsResponse>
 
     @GET("/friendship")
     fun getFriends(

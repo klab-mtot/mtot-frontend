@@ -38,6 +38,11 @@ data class GetTeamResponse(
     @SerializedName("teamName") val teamName: String
 )
 
+data class GetTeamsResponse(
+    @SerializedName("count") val count: Int,
+    @SerializedName("teamList") val teamList: List<GetTeamResponse>
+)
+
 data class GetFriendResponse(
     @SerializedName("friendshipId") val teamId: Int,
     @SerializedName("memberId") val memberId: Int,
@@ -46,11 +51,11 @@ data class GetFriendResponse(
 )
 
 data class AddJourneyResponse(
-    @SerializedName("journeyId") val journeyId: String
+    @SerializedName("id") val journeyId: Int
 )
 
 data class AddJourneyRequest(
-    @SerializedName("journeyId") val journeyName: String,
+    @SerializedName("journeyName") val journeyName: String,
     @SerializedName("teamId") val teamId: Int
 )
 

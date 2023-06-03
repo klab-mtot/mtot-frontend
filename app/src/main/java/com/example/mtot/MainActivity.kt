@@ -9,19 +9,22 @@ import com.example.mtot.ui.account.AccountFragment
 import com.example.mtot.ui.calendar.CalendarFragment
 import com.example.mtot.ui.map.MapFragment
 import com.example.mtot.ui.map.MapHamburgerFragment
-import com.example.mtot.ui.post.AddJourney
+import com.example.mtot.ui.post.AddJourneyActivity
 import com.example.mtot.ui.post.PostFragment
 import com.example.mtot.ui.post.PostHamburgerFragment
 import com.example.mtot.ui.social.SocialFragment
 import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.work.*
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener{
 
     private lateinit var binding: ActivityMainBinding
+    var journeyId : Int = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +55,15 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
 
     //=============================================================
+    val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        if (result.resultCode == -1){
+            Log.d("hello","add journey error")
+            binding.bnv.selectedItemId = R.id.navigation_map
+        } else {
+            journeyId = result.resultCode
+            Log.d("hello", "journeyId : " + journeyId)
+        }
+    }
 
     binding.fab.setOnClickListener {
             if(binding.bnv.selectedItemId == R.id.navigation_post){
@@ -63,8 +75,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
                 binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
                 binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
-                val i = Intent(this, AddJourney::class.java)
-                startActivity(i)
+
+                val i = Intent(this@MainActivity, AddJourneyActivity::class.java)
+                resultLauncher.launch(i)
             }
         }
         binding.antiHamburgerFrm.setOnClickListener {

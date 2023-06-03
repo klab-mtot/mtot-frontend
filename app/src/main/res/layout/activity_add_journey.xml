@@ -73,7 +73,7 @@
         android:textSize="15sp" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/button_add_journey"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="80dp"
