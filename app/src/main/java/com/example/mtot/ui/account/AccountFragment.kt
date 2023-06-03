@@ -3,25 +3,14 @@ package com.example.mtot.ui.account
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
-import com.example.mtot.R
 import com.example.mtot.databinding.FragmentAccountBinding
 import com.example.mtot.retrofit2.GetTeamResponse
-import com.example.mtot.retrofit2.GroupObject
 import com.example.mtot.retrofit2.JourneyData
-import com.example.mtot.retrofit2.JourneyObject
-import com.example.mtot.retrofit2.JourneyObject.journeyInterface
 import com.google.android.gms.maps.model.LatLng
-import com.google.gson.annotations.SerializedName
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.http.GET
 
 class AccountFragment : Fragment() {
 
