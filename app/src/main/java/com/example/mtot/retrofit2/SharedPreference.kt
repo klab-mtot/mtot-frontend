@@ -2,7 +2,6 @@ package com.example.mtot.retrofit2
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.annotations.SerializedName
 
 fun saveAccessToken(context: Context, accessToken: String) {
     val pref =

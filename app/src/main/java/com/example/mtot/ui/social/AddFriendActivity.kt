@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.activity.addCallback
 import com.example.mtot.databinding.ActivityAddFriendBinding
 import com.example.mtot.retrofit2.AddFriend
-import com.example.mtot.retrofit2.RetrofitObject
+import com.example.mtot.retrofit2.getRetrofitInterface
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,7 +24,7 @@ class AddFriendActivity : AppCompatActivity() {
     fun init(){
         binding.imageView.setOnClickListener {
 
-            val friendInterface = RetrofitObject.friendInterface
+            val friendInterface = getRetrofitInterface()
             val friendEmail=binding.editTextText.toString()
             friendInterface.addFriend(friendEmail).enqueue(object : Callback<AddFriend> {
                 override fun onFailure(call: Call<AddFriend>, t: Throwable) {
