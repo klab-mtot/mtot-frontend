@@ -44,6 +44,13 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             onNavigationItemSelected(it)
         }
 
+        supportFragmentManager.beginTransaction().add(R.id.main_frm, mapFragment).hide(mapFragment)
+            .add(R.id.main_frm, calendarFragment).hide(calendarFragment)
+            .add(R.id.main_frm, postFragment).hide(postFragment)
+            .add(R.id.main_frm, socialFragment).hide(socialFragment)
+            .add(R.id.main_frm, accountFragment).hide(accountFragment).show(mapFragment)
+            .commit()
+
 
         //핀 10분마다 자동생성=====================================
 //        val constraints = Constraints.Builder()
@@ -98,12 +105,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             }
         }
 
-        supportFragmentManager.beginTransaction().add(R.id.main_frm, mapFragment).hide(mapFragment)
-            .add(R.id.main_frm, calendarFragment).hide(calendarFragment)
-            .add(R.id.main_frm, postFragment).hide(postFragment)
-            .add(R.id.main_frm, socialFragment).hide(socialFragment)
-            .add(R.id.main_frm, accountFragment).hide(accountFragment).show(mapFragment)
-            .commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

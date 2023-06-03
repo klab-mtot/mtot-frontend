@@ -83,7 +83,6 @@ data class AddJourneyRequest(
 
 data class AddTeamRequest(
     @SerializedName("teamName") val teamName: String,
-    @SerializedName("memberList") val memberList: List<AddMember>
 )
 
 data class AddTeamResponse(

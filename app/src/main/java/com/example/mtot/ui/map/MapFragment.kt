@@ -106,19 +106,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         option.icon(
             BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
         )
-        arrLoc.forEach {
-        }
+//        arrLoc.forEach {
+//        }
 
-        googleMap.setOnMapClickListener { loc ->
-            arrLoc.add(loc)
-            val option2 = MarkerOptions()
-            option2.position(loc)
-            option2.icon(
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-            )
-            googleMap.addMarker(option2)
-            val option3 = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
-            googleMap.addPolyline(option3)
-        }
+//        googleMap.setOnMapClickListener { loc ->
+//            arrLoc.add(loc)
+//            val option2 = MarkerOptions()
+//            option2.position(loc)
+//            option2.icon(
+//                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+//            )
+//            googleMap.addMarker(option2)
+//            val option3 = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
+//            googleMap.addPolyline(option3)
+//        }
     }
 }
