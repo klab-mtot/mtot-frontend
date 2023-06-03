@@ -18,11 +18,11 @@ interface LoginInterface {
 interface RetrofitInterface {
 
     @GET("/friendship")
-    fun requestFriendData(): Call<FriendData>
+    fun requestFriendsData(): Call<FriendsData>
 
-    @POST("/friendship/accept")
+    @POST("/friendship")
     fun addFriend(
-        @Body email: String
+        @Body email: FriendEmailData
     ): Call<AddFriend>
 
     @GET("/teams")

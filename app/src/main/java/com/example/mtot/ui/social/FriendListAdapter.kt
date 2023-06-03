@@ -53,27 +53,4 @@ class FriendListAdapter :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
     }
-
-    fun updateFriendList(friends: List<GetFriendResponse>?) {
-        friendList = friends
-        notifyDataSetChanged()
-    }
-
-    fun fetchFriend() {
-        friendInterface.getFriends() .enqueue(object : Callback<GetFriendshipResponse> {
-            override fun onResponse(
-                call: Call<GetFriendshipResponse>,
-                response: Response<GetFriendshipResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val friendList = response.body()?.friendships
-                    updateFriendList(friendList)
-                }
-            }
-
-            override fun onFailure(call: Call<GetFriendshipResponse>, t: Throwable) {
-                Log.d("errorbyby", t.message.toString())
-            }
-        })
-    }
 }

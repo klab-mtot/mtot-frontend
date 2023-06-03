@@ -44,27 +44,4 @@ class GroupListAdapter :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
     }
-
-    fun updateGroupList(friends: List<GetTeamResponse>?) {
-        groupList = friends
-        notifyDataSetChanged()
-    }
-
-    fun fetchFriend() {
-        groupInterface.getTeams().enqueue(object : Callback<GetTeamsResponse> {
-            override fun onResponse(
-                call: Call<GetTeamsResponse>,
-                response: Response<GetTeamsResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val grouplist = response.body()?.teamList
-                    updateGroupList(grouplist)
-                }
-            }
-
-            override fun onFailure(call: Call<GetTeamsResponse>, t: Throwable) {
-                Log.d("errorbyby", t.message.toString())
-            }
-        })
-    }
 }

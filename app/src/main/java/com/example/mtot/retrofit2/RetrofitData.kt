@@ -110,6 +110,10 @@ data class FriendData(
     @SerializedName("email") val email: String
 )
 
+data class FriendsData(
+    @SerializedName("friendships") val friendships: List<FriendData>,
+)
+
 data class AddFriend(
     @SerializedName("friendshipId") val friendshipId: Int
 )
@@ -121,4 +125,8 @@ data class CalendarPhotoDay(
 
 data class CalendarPhotoMonth(
     @SerializedName("dayList") val dayList: List<CalendarPhotoDay>
+)
+
+data class FriendEmailData(
+    @SerializedName("receiverEmail") val receiverEmail: String
 )

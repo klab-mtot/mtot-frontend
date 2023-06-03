@@ -39,19 +39,19 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
 
         //핀 10분마다 자동생성=====================================
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)
-            .build()
-
-        val photoWorkRequest = PeriodicWorkRequestBuilder<PhotoWorker>(
-            repeatInterval = 10, // 10 minutes
-            repeatIntervalTimeUnit = TimeUnit.MINUTES
-        )
-            .setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(applicationContext)
-            .enqueueUniquePeriodicWork("PhotoWorker", ExistingPeriodicWorkPolicy.KEEP, photoWorkRequest)
+//        val constraints = Constraints.Builder()
+//            .setRequiredNetworkType(NetworkType.UNMETERED)
+//            .build()
+//
+//        val photoWorkRequest = PeriodicWorkRequestBuilder<PhotoWorker>(
+//            repeatInterval = 10, // 10 minutes
+//            repeatIntervalTimeUnit = TimeUnit.MINUTES
+//        )
+//            .setConstraints(constraints)
+//            .build()
+//
+//        WorkManager.getInstance(applicationContext)
+//            .enqueueUniquePeriodicWork("PhotoWorker", ExistingPeriodicWorkPolicy.KEEP, photoWorkRequest)
 
 
     //=============================================================

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mtot.databinding.FragmentAccountBinding
 import com.example.mtot.retrofit2.GetTeamResponse
+import com.example.mtot.retrofit2.GetTeamsResponse
 import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.JourneysData
 import com.example.mtot.retrofit2.getRetrofitInterface
@@ -21,8 +22,8 @@ import retrofit2.Response
 class AccountFragment : Fragment() {
 
     lateinit var binding: FragmentAccountBinding
-    var journeysData: JourneysData?=null
-    var groupData: List<GetTeamResponse>?=null
+    lateinit var journeysData: JourneysData
+    lateinit var groupData: GetTeamsResponse
 
 
     override fun onCreateView(
@@ -52,30 +53,30 @@ class AccountFragment : Fragment() {
 
 
 
-//        var groupInterface = getRetrofitInterface()
-//        groupInterface.getTeams().enqueue(object : Callback<List<GetTeamResponse>> {
-//            override fun onFailure(call: Call<List<GetTeamResponse>>, t: Throwable) {
-//                Log.d("Hello", t.message.toString())
-//            }
-//
-//            override fun onResponse(
-//                call: Call<List<GetTeamResponse>>,
-//                response: Response<List<GetTeamResponse>>
-//            ) {
-//                Log.d("Hello", response.body().toString())
-//                if(response.isSuccessful) {
-//                    groupData = response.body()!!
-//                    binding!!.groupCount.text = groupData!!.size.toString()
-//                }
-//            }
-//        })
-//
-//        binding!!.imageView3.setOnClickListener {
-//            val i = Intent(requireContext(), EditProfileActivity::class.java)
-//            startActivity(i)
-//        }
-//
-//
+        var groupInterface = getRetrofitInterface()
+        groupInterface.getTeams().enqueue(object : Callback<GetTeamsResponse> {
+            override fun onFailure(call: Call<GetTeamsResponse>, t: Throwable) {
+                Log.d("Hello", t.message.toString())
+            }
+
+            override fun onResponse(
+                call: Call<GetTeamsResponse>,
+                response: Response<GetTeamsResponse>
+            ) {
+                Log.d("Hello", response.body().toString())
+                if(response.isSuccessful) {
+                    groupData = response.body()!!
+                    binding!!.groupCount.text = groupData!!.count.toString()
+                }
+            }
+        })
+
+        binding!!.imageView3.setOnClickListener {
+            val i = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(i)
+        }
+
+
         return binding.root
     }
 }
