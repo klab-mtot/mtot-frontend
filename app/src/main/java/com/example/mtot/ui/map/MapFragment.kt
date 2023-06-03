@@ -1,26 +1,16 @@
 package com.example.mtot.ui.map
 
-import android.graphics.Color
 import android.os.Bundle
-import android.service.autofill.Validators.or
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.mtot.HamburgerItemInfo
 import com.example.mtot.MainActivity
 import com.example.mtot.R
-import com.example.mtot.databinding.FragmentCalendarBinding
 import com.example.mtot.databinding.FragmentMapBinding
-import com.example.mtot.retrofit2.FriendData
-import com.example.mtot.retrofit2.FriendObject
-import com.example.mtot.retrofit2.FriendObject.friendInterface
 import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.JourneyObject
-import com.example.mtot.retrofit2.SharedPreference
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,11 +18,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 

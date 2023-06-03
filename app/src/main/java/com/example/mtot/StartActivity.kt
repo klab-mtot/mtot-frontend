@@ -1,19 +1,13 @@
 package com.example.mtot
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.mtot.databinding.ActivityStartBinding
-import com.example.mtot.retrofit2.FriendObject
 import com.example.mtot.retrofit2.LoginData
 import com.example.mtot.retrofit2.LoginObject
-import com.example.mtot.retrofit2.SharedPreference.saveAccessToken
-import com.example.mtot.retrofit2.SharedPreference.saveMyEmail
-import com.example.mtot.retrofit2.TestMember
-import com.example.mtot.retrofit2.TestMemberList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +25,7 @@ class StartActivity : AppCompatActivity() {
 
     fun init() {
 
-        val loginInterface = LoginObject.loginInterface
+        val loginInterface = LoginObject.retrofitInterface
 
 
 
