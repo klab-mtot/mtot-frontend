@@ -15,6 +15,8 @@ interface RetrofitInterface {
     fun requestTestMember(
     ): Call<TestMemberList>
 
+interface FriendInterface {
+
     @GET("http://nas.hoony.me:7980/friendship")
     fun requestFriendData(): Call<FriendData>
 
@@ -22,6 +24,11 @@ interface RetrofitInterface {
     @POST("http://nas.hoony.me:7980/friendship/accept")
     fun addFriend(@Body email:String
     ): Call<AddFriend>
+
+}
+
+
+interface GroupInterface {
 
     @GET("/teams")
     fun getTeams(
@@ -41,7 +48,24 @@ interface RetrofitInterface {
         @Body teamRequest: AddTeamRequest
     ): Call<AddTeamResponse>
 
+}
+
+
+interface JourneyInterface {
     @GET("http://nas.hoony.me:7980/journey")
     fun requestJourneyData(): Call<ArrayList<JourneyData>>
+
+}
+
+
+interface RetrofitInterface {
+
+    @GET("/login/oauth")
+    fun requestUrl(
+    ): Call<String>
+
+    @GET("/members/all")
+    fun requestTestMember(
+    ): Call<TestMemberList>
 
 }
