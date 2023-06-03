@@ -44,6 +44,6 @@ interface RetrofitInterface {
     ): Call<AddTeamResponse>
 
     @GET("/journey")
-    fun requestJourneyData(): Call<ArrayList<JourneyData>>
+    fun requestJourneyData(): Call<List<JourneyData>>
 
 }
