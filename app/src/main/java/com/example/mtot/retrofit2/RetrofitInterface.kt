@@ -2,6 +2,7 @@ package com.example.mtot.retrofit2
 
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -32,6 +33,20 @@ interface RetrofitInterface {
     @GET("/friendship")
     fun getFriends(
     ): Call<GetFriendshipResponse>
+
+
+    @GET("/friendship/pending")
+    fun getPendingFriendships(
+    ): Call<PendingFriendshipsData>
+
+    @POST("/friendship/reject")
+    fun rejectPendingFriendship(
+        @Body friendshipId:Int
+    ):Call<String>
+    @POST("/friendship/reject")
+    fun acceptPendingFriendship(
+        @Body friendshipId:Int
+    ):Call<String>
 
     @POST("/journey")
     fun addJourney(
