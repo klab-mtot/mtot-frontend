@@ -7,5 +7,6 @@ object Type {
 }
 data class CalendarItemInfo(
     var cal : GregorianCalendar,
-    var viewType : Int
+    var viewType : Int,
+    var url : String? = null
 )

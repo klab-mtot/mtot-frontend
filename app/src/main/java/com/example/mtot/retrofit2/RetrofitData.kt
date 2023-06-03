@@ -86,3 +86,12 @@ data class FriendData(
 data class AddFriend(
     @SerializedName("friendshipId") val friendshipId: Int
 )
+
+data class CalendarPhotoDay(
+    @SerializedName("day") val day: Int,
+    @SerializedName("url") val url: String
+)
+
+data class CalendarPhotoMonth(
+    @SerializedName("dayList") val dayList: List<CalendarPhotoDay>
+)

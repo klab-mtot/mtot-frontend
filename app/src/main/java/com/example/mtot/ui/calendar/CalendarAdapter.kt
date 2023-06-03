@@ -1,15 +1,17 @@
 package com.example.mtot.ui.calendar
 
+import android.content.Context
 import android.icu.util.Calendar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mtot.databinding.ItemCalendarDayBinding
 import com.example.mtot.databinding.ItemCalendarMonthBinding
 import com.example.mtot.databinding.ItemCalendarEmptyBinding
 
 
-class CalendarAdapter(val items: ArrayList<CalendarItemInfo>) :
+class CalendarAdapter(val context: Context, val items: ArrayList<CalendarItemInfo>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class MonthViewHolder(val binding: ItemCalendarMonthBinding) :
@@ -27,6 +29,8 @@ class CalendarAdapter(val items: ArrayList<CalendarItemInfo>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item : CalendarItemInfo){
             binding.calendarDay.text = item.cal.get(Calendar.DATE).toString()
+            if(item.url != null)
+                Glide.with(context).load(item.url).into(binding.ivCalendarDay);
         }
     }
 
