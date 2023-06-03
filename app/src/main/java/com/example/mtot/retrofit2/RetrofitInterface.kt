@@ -44,7 +44,7 @@ interface RetrofitInterface {
     ): Call<AddTeamResponse>
 
     @GET("/journey")
-    fun requestJourneyData(): Call<List<JourneyData>>
+    fun requestJourneyData(): Call<JourneysData>
 
     @GET("/photo/calendarThumbnail")
     fun requestCalendarPhoto(

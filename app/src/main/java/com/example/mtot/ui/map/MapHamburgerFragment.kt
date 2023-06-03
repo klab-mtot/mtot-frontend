@@ -38,7 +38,7 @@ class MapHamburgerFragment : Fragment() {
 
     fun initData(){
         Log.d("hello", "abc")
-
+/*
         val retrofitInterface = getRetrofitInterface()
         retrofitInterface.requestJourneyData().enqueue(object: retrofit2.Callback<List<JourneyData>>{
             override fun onResponse(
@@ -60,8 +60,9 @@ class MapHamburgerFragment : Fragment() {
             override fun onFailure(call: retrofit2.Call<List<JourneyData>>, t: Throwable) {
                 Log.d("hello", t.message.toString())
             }
-        })
 
+        })
+*/
 
 //        mapHamburgerDataList = arrayListOf(
 //            HamburgerItemInfo(0, "여정1"),
