@@ -10,6 +10,7 @@ import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentMapBinding
 import com.example.mtot.retrofit2.JourneyData
+import com.example.mtot.retrofit2.JourneyObject
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

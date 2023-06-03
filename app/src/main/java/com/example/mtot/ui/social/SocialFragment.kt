@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentSocialBinding
+import com.example.mtot.retrofit2.RetrofitObject
 import com.example.mtot.retrofit2.FriendData
 
 class SocialFragment : Fragment() {
@@ -71,7 +72,7 @@ class SocialFragment : Fragment() {
 
 
 
-        val friendInterface = FriendObject.friendInterface
+        val friendInterface = RetrofitObject.friendInterface
 
 //        friendInterface.requestFriendData().enqueue(object : Callback<FriendData> {
 //            override fun onFailure(call: Call<FriendData>, t: Throwable) {
