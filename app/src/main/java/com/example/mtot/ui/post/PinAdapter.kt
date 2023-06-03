@@ -1,13 +1,8 @@
 package com.example.mtot.ui.post
 
-import android.content.ClipData.Item
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mtot.R
 import com.example.mtot.databinding.ItemPinImageBinding
 
 class PinAdapter(private val items: List<PinData>) :

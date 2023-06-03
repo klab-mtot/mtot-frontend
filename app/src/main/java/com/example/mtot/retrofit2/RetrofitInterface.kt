@@ -6,32 +6,24 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface RetrofitInterface {
-
+interface LoginInterface {
     @GET("/login/oauth2/code/google")
     fun requestUrl(@Query("code") code: String): Call<String>
-
 
     @GET("/members/all")
     fun requestTestMember(
     ): Call<TestMemberList>
 }
 
-interface FriendInterface {
+interface RetrofitInterface {
 
-    @GET("http://nas.hoony.me:7980/friendship")
+    @GET("/friendship")
     fun requestFriendData(): Call<FriendData>
 
-
-    @POST("http://nas.hoony.me:7980/friendship/accept")
+    @POST("/friendship/accept")
     fun addFriend(
         @Body email: String
     ): Call<AddFriend>
-
-}
-
-
-interface GroupInterface {
 
     @GET("/teams")
     fun getTeams(
@@ -51,11 +43,7 @@ interface GroupInterface {
         @Body teamRequest: AddTeamRequest
     ): Call<AddTeamResponse>
 
-}
-
-
-interface JourneyInterface {
-    @GET("http://nas.hoony.me:7980/journey")
+    @GET("/journey")
     fun requestJourneyData(): Call<ArrayList<JourneyData>>
 
 }

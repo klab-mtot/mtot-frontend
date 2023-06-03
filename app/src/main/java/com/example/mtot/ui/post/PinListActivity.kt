@@ -3,7 +3,6 @@ package com.example.mtot.ui.post
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.R
 import com.example.mtot.databinding.ActivityPinListBinding
 

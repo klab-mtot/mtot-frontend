@@ -2,7 +2,6 @@ package com.example.mtot.ui.social
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
@@ -10,15 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.addCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.databinding.ActivityAddGroupBinding
-import com.example.mtot.retrofit2.AddMember
-import com.example.mtot.retrofit2.AddTeamRequest
-import com.example.mtot.retrofit2.AddTeamResponse
 import com.example.mtot.retrofit2.GetFriendResponse
-import com.example.mtot.retrofit2.GetTeamResponse
-import com.example.mtot.retrofit2.GroupObject.groupInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class AddGroupActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddGroupBinding

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.HamburgerItemInfo
-import com.example.mtot.databinding.FragmentMapHamburgerBinding
 import com.example.mtot.databinding.ItemHamburgerBinding
 
 class MapHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerView.Adapter<MapHamburgerAdapter.ViewHolder>() {

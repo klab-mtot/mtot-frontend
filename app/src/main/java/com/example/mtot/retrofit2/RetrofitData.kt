@@ -19,14 +19,12 @@ data class TestMemberList(
     @SerializedName("members") val members : List<TestMember>
 )
 
-
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
     @SerializedName("pinLocation") val pinLocation: LatLng,
     @SerializedName("image") val image: Bitmap
 )
-
 
 data class SpecificJourneyData(
     @SerializedName("journeyId") val journeyId: Int,
@@ -68,11 +66,6 @@ data class AddTeamResponse(
 data class AddMember(
     @SerializedName("memberId") val memberId: Int,
 )
-
-
-
-
-
 
 data class PinData(
     val pinName: String

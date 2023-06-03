@@ -2,7 +2,6 @@ package com.example.mtot
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.example.mtot.databinding.ActivityMainBinding
@@ -18,8 +17,6 @@ import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.work.*
-import com.example.mtot.retrofit2.getAccessToken
-import com.example.mtot.retrofit2.getMyEmail
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener{
@@ -29,9 +26,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.d("hello", getAccessToken(this))
-        Log.d("hello", getMyEmail(this))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -83,7 +77,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d("itemid", item.itemId.toString())
         binding.fab.setImageResource(R.drawable.ic_bottom_navigation_plane)
         binding.fab.supportBackgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
         binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.white))

@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.mtot.databinding.ActivityStartBinding
-import com.example.mtot.retrofit2.LoginData
-import com.example.mtot.retrofit2.LoginObject
+import com.example.mtot.retrofit2.getLoginInterface
 import com.example.mtot.retrofit2.saveAccessToken
 import com.example.mtot.retrofit2.saveMyEmail
-import com.example.mtot.retrofit2.saveUserId
+import com.example.mtot.retrofit2.setAccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +19,6 @@ import retrofit2.Response
 
 class StartActivity : AppCompatActivity() {
     lateinit var binding: ActivityStartBinding
-    var logindata: LoginData? = null
     var accessToken: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,26 +29,24 @@ class StartActivity : AppCompatActivity() {
 
     fun init() {
 
-        val loginInterface = LoginObject.retrofitInterface
+        val loginInterface = getLoginInterface()
 
-        val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             val account = task.result!!
             val code = account.serverAuthCode.toString()
-            Log.i("CODE", account.serverAuthCode.toString())
 
             loginInterface.requestUrl(code).enqueue(object : Callback<String> {
-
                 override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         val str = response.body().toString()
                         val responseBody = JSONObject(str)
                         saveAccessToken(this@StartActivity, responseBody.getString("accessToken"))
+                        setAccessToken(responseBody.getString("accessToken"))
                         saveMyEmail(this@StartActivity, responseBody.getString("email"))
                         val i = Intent(this@StartActivity, MainActivity::class.java)
                         startActivity(i)
                     }
-                    Log.d("hello", response.toString())
                 }
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
@@ -62,13 +57,11 @@ class StartActivity : AppCompatActivity() {
         }
 
         binding.googleButton.setOnClickListener {
-            val gso = GoogleSignInOptions.Builder(
-                GoogleSignInOptions.DEFAULT_SIGN_IN
-            )
-                .requestEmail()
-                .requestProfile()
-                .requestServerAuthCode(getString(R.string.google_client_id))
-                .build()
+            val gso =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                    .requestProfile()
+                    .requestServerAuthCode(getString(R.string.google_client_id))
+                    .build()
             val client = GoogleSignIn.getClient(this, gso)
             val i = Intent(client.signInIntent)
             launcher.launch(i)

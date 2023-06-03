@@ -1,7 +1,6 @@
 package com.example.mtot.ui.map
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentMapBinding
 import com.example.mtot.retrofit2.JourneyData
-import com.example.mtot.retrofit2.JourneyObject
+import com.example.mtot.retrofit2.getRetrofitInterface
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -52,8 +51,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun initMap() {
-        val journeyInterface = JourneyObject.journeyInterface
-        Log.d("Hello", "hi1")
+        val journeyInterface = getRetrofitInterface()
         /*
         journeyInterface.requestJourneyData().enqueue(object : Callback<ArrayList<JourneyData>> {
             override fun onFailure(call: Call<ArrayList<JourneyData>>, t: Throwable) {
@@ -70,9 +68,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this@MapFragment)
-        Log.d("Hello", "성공")
-
-
     }
 
 
@@ -82,8 +77,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dummyLatLngList[0], 16.0f))
         googleMap.setMinZoomPreference(10.0f)
         googleMap.setMaxZoomPreference(20.0f)
-
-        Log.d("Hello", "hi")
 
         val option = MarkerOptions()
         option.position(dummyLatLngList[0])
