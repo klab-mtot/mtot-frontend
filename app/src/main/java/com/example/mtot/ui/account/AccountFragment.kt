@@ -48,18 +48,18 @@ class AccountFragment : Fragment() {
 
 
         var groupInterface = getRetrofitInterface()
-        groupInterface.getTeams().enqueue(object : Callback<List<GetTeamResponse>> {
-            override fun onFailure(call: Call<List<GetTeamResponse>>, t: Throwable) {
-                Log.d("Hello", "실패")
-            }
-
-            override fun onResponse(
-                call: Call<List<GetTeamResponse>>,
-                response: Response<List<GetTeamResponse>>
-            ) {
-                groupData = response.body()!!
-            }
-        })
+//        groupInterface.getTeams().enqueue(object : Callback<List<GetTeamResponse>> {
+//            override fun onFailure(call: Call<List<GetTeamResponse>>, t: Throwable) {
+//                Log.d("Hello", "실패")
+//            }
+//
+//            override fun onResponse(
+//                call: Call<List<GetTeamResponse>>,
+//                response: Response<List<GetTeamResponse>>
+//            ) {
+//                groupData = response.body()!!
+//            }
+//        })
 
         binding.groupCount.text = groupData.size.toString()
 

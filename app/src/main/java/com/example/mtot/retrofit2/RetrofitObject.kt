@@ -1,6 +1,7 @@
 package com.example.mtot.retrofit2
 
 import android.util.Log
+import com.example.mtot.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,12 +13,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONObject
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-val baseUrl = "http://nas.hoony.me:7980"
 var accessTokenString = ""
 
 fun getLoginInterface(): LoginInterface {
     val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(ScalarsConverterFactory.create())
         .client(loginOkHttpClient())
         .build()
@@ -30,7 +30,7 @@ fun getRetrofitInterface(): RetrofitInterface {
         .setLenient()
         .create()
     var retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(retrofitOkHttpClient())
         .build()
