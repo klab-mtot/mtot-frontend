@@ -5,12 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.addCallback
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.mtot.R
 import com.example.mtot.databinding.ActivityAddFriendBinding
 import com.example.mtot.retrofit2.AddFriend
-import com.example.mtot.retrofit2.FriendData
-import com.example.mtot.retrofit2.FriendObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -2,11 +2,9 @@ package com.example.mtot
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.example.mtot.databinding.ActivityMainBinding
 import com.example.mtot.ui.account.AccountFragment
 import com.example.mtot.ui.calendar.CalendarFragment
@@ -17,6 +15,10 @@ import com.example.mtot.ui.post.PostFragment
 import com.example.mtot.ui.post.PostHamburgerFragment
 import com.example.mtot.ui.social.SocialFragment
 import com.google.android.material.navigation.NavigationBarView
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.work.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener{
 
@@ -32,7 +34,27 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         binding.bnv.setOnItemSelectedListener{
             onNavigationItemSelected(it)
         }
-        binding.fab.setOnClickListener {
+
+
+        //핀 10분마다 자동생성=====================================
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .build()
+
+        val photoWorkRequest = PeriodicWorkRequestBuilder<PhotoWorker>(
+            repeatInterval = 10, // 10 minutes
+            repeatIntervalTimeUnit = TimeUnit.MINUTES
+        )
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniquePeriodicWork("PhotoWorker", ExistingPeriodicWorkPolicy.KEEP, photoWorkRequest)
+
+
+    //=============================================================
+
+    binding.fab.setOnClickListener {
             if(binding.bnv.selectedItemId == R.id.navigation_post){
                 val fragment = supportFragmentManager.findFragmentById(R.id.main_frm) as PostFragment
                 fragment.addMark()
