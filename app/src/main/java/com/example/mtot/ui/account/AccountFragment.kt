@@ -20,7 +20,7 @@ import retrofit2.Response
 
 class AccountFragment : Fragment() {
 
-    var binding: FragmentAccountBinding?=null
+    lateinit var binding: FragmentAccountBinding
     var journeysData: JourneysData?=null
     var groupData: List<GetTeamResponse>?=null
 
@@ -52,30 +52,30 @@ class AccountFragment : Fragment() {
 
 
 
-        var groupInterface = getRetrofitInterface()
-        groupInterface.getTeams().enqueue(object : Callback<List<GetTeamResponse>> {
-            override fun onFailure(call: Call<List<GetTeamResponse>>, t: Throwable) {
-                Log.d("Hello", t.message.toString())
-            }
-
-            override fun onResponse(
-                call: Call<List<GetTeamResponse>>,
-                response: Response<List<GetTeamResponse>>
-            ) {
-                Log.d("Hello", response.body().toString())
-                if(response.isSuccessful) {
-                    groupData = response.body()!!
-                    binding!!.groupCount.text = groupData!!.size.toString()
-                }
-            }
-        })
-
-        binding!!.imageView3.setOnClickListener {
-            val i = Intent(requireContext(), EditProfileActivity::class.java)
-            startActivity(i)
-        }
-
-
+//        var groupInterface = getRetrofitInterface()
+//        groupInterface.getTeams().enqueue(object : Callback<List<GetTeamResponse>> {
+//            override fun onFailure(call: Call<List<GetTeamResponse>>, t: Throwable) {
+//                Log.d("Hello", t.message.toString())
+//            }
+//
+//            override fun onResponse(
+//                call: Call<List<GetTeamResponse>>,
+//                response: Response<List<GetTeamResponse>>
+//            ) {
+//                Log.d("Hello", response.body().toString())
+//                if(response.isSuccessful) {
+//                    groupData = response.body()!!
+//                    binding!!.groupCount.text = groupData!!.size.toString()
+//                }
+//            }
+//        })
+//
+//        binding!!.imageView3.setOnClickListener {
+//            val i = Intent(requireContext(), EditProfileActivity::class.java)
+//            startActivity(i)
+//        }
+//
+//
         return binding.root
     }
 }

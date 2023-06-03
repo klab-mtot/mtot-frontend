@@ -45,8 +45,6 @@ data class JourneysData(
     @SerializedName("journeys") val journeys: List<JourneyData>,
 )
 
-
-
 data class SpecificJourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
