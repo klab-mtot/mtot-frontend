@@ -31,7 +31,7 @@ interface RetrofitInterface {
 
     @GET("/friendship")
     fun getFriends(
-    ): Call<List<GetFriendResponse>>
+    ): Call<GetFriendshipResponse>
 
     @POST("/journey")
     fun addJourney(

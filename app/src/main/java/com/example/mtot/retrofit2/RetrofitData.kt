@@ -45,6 +45,10 @@ data class GetFriendResponse(
     @SerializedName("email") val email: String
 )
 
+data class GetFriendshipResponse(
+    @SerializedName("friendships") val friendships: List<GetFriendResponse>
+)
+
 data class AddJourneyResponse(
     @SerializedName("journeyId") val journeyId: String
 )
