@@ -8,8 +8,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.mtot.databinding.ActivityStartBinding
 import com.example.mtot.retrofit2.LoginData
 import com.example.mtot.retrofit2.LoginObject
+import com.example.mtot.retrofit2.saveAccessToken
+import com.example.mtot.retrofit2.saveMyEmail
+import com.example.mtot.retrofit2.saveUserId
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.gson.JsonObject
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +45,11 @@ class StartActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     if(response.isSuccessful){
                         val str = response.body().toString()
-                        Log.d("helloraw", str)
+                        val responseBody = JSONObject(str)
+                        saveAccessToken(this@StartActivity, responseBody.getString("accessToken"))
+                        saveMyEmail(this@StartActivity, responseBody.getString("email"))
+                        val i = Intent(this@StartActivity, MainActivity::class.java)
+                        startActivity(i)
                     }
                     Log.d("hello", response.toString())
                 }

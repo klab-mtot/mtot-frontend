@@ -18,6 +18,8 @@ import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.work.*
+import com.example.mtot.retrofit2.getAccessToken
+import com.example.mtot.retrofit2.getMyEmail
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener{
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("hello", getAccessToken(this))
+        Log.d("hello", getMyEmail(this))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
