@@ -10,13 +10,13 @@ data class LoginData(
 )
 
 data class TestMember(
-    @SerializedName("id") val id : Int,
-    @SerializedName("name") val name : String,
-    @SerializedName("email") val email : String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("email") val email: String,
 )
 
 data class TestMemberList(
-    @SerializedName("members") val members : List<TestMember>
+    @SerializedName("members") val members: List<TestMember>
 )
 
 data class Pin(
@@ -83,6 +83,7 @@ data class AddJourneyRequest(
 
 data class AddTeamRequest(
     @SerializedName("teamName") val teamName: String,
+    @SerializedName("memberList") val memberList: List<AddMember>
 )
 
 data class AddTeamResponse(
@@ -137,4 +138,14 @@ data class RequestAddMemberToTeam(
 
 data class ResponseAddMemberToTeam(
     @SerializedName("teamId") val teamId: Int
+)
+
+data class PendingFriendshipsData(
+    @SerializedName("pendingFriendships") val pendingFriendships: List<PendingFriendshipData>
+)
+
+data class PendingFriendshipData(
+    @SerializedName("friendshipId") val friendshipId: Int,
+    @SerializedName("requesterName") val requesterName: String,
+    @SerializedName("requesterEmail") val requesterEmail: String
 )

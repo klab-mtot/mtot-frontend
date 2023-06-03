@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mtot.FriendRequestActivity
 import com.example.mtot.databinding.FragmentSocialBinding
 import com.example.mtot.retrofit2.FriendsData
 import com.example.mtot.retrofit2.GetTeamsResponse
@@ -54,10 +55,17 @@ class SocialFragment : Fragment() {
             val i = Intent(requireContext(), AddGroupActivity::class.java)
             startActivity(i)
         }
+
         binding.ivSocialFriendlist.setOnClickListener {
             val i = Intent(requireContext(), AddFriendActivity::class.java)
             startActivity(i)
         }
+
+        binding.friendRequestListButton.setOnClickListener {
+            val i=Intent(requireContext(), FriendRequestActivity::class.java)
+            startActivity(i)
+        }
+
 
         return binding.root
     }
