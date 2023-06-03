@@ -27,11 +27,11 @@ interface RetrofitInterface {
 
     @GET("/teams")
     fun getTeams(
-    ): Call<List<GetTeamResponse>>
+    ): Call<GetTeamsResponse>
 
     @GET("/friendship")
     fun getFriends(
-    ): Call<List<GetFriendResponse>>
+    ): Call<GetFriendshipResponse>
 
     @POST("/journey")
     fun addJourney(
@@ -44,6 +44,12 @@ interface RetrofitInterface {
     ): Call<AddTeamResponse>
 
     @GET("/journey")
-    fun requestJourneyData(): Call<List<JourneyData>>
+    fun requestJourneyData(): Call<JourneysData>
+
+    @GET("/photo/calendarThumbnail")
+    fun requestCalendarPhoto(
+        @Query("year") year: Int,
+        @Query("month") month: Int,
+    ): Call<CalendarPhotoMonth>
 
 }
