@@ -31,6 +31,26 @@ class PostHamburgerFragment : Fragment() {
     }
 
     fun initData(){
+//        journeyInterface.requestJourneyData().enqueue(object: Callback<ArrayList<JourneyData>>{
+//            override fun onResponse(
+//                call: Call<ArrayList<JourneyData>>,
+//                response: Response<ArrayList<JourneyData>>
+//            ) {
+//                Log.d("hello", response.toString())
+//                if(response.isSuccessful){
+//                    mapHamburgerDataList = ArrayList<HamburgerItemInfo>()
+//                    val list = response.body()!!.map {
+//                        HamburgerItemInfo(0, it.name)
+//                    }
+//                    mapHamburgerDataList.addAll(list)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ArrayList<JourneyData>>, t: Throwable) {
+//                Log.d("hello", t.message.toString())
+//            }
+//        })
+
         postHamburgerDataList = arrayListOf(
             HamburgerItemInfo(R.drawable.ic_post_hamburger_journey_detail, "여정 상세"),
             HamburgerItemInfo(R.drawable.ic_post_hamburger_edit_post, "포스트 수정"),

@@ -3,6 +3,7 @@ package com.example.mtot.ui.calendar
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.databinding.FragmentCalendarBinding
+import com.example.mtot.retrofit2.CalendarPhotoDay
+import com.example.mtot.retrofit2.CalendarPhotoMonth
+import com.example.mtot.retrofit2.RetrofitInterface
+import com.example.mtot.retrofit2.getRetrofitInterface
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CalendarFragment : Fragment() {
     lateinit var binding: FragmentCalendarBinding
@@ -25,7 +33,7 @@ class CalendarFragment : Fragment() {
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
         initCalendar()
-        adapter = CalendarAdapter(calList)
+        adapter = CalendarAdapter(requireContext(), calList)
         val gridLayoutManager =
             GridLayoutManager(requireContext(), 7, GridLayoutManager.VERTICAL, false)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -52,6 +60,8 @@ class CalendarFragment : Fragment() {
 
     fun initCalendar() {
         val cal = GregorianCalendar()
+        val retrofitInterface = getRetrofitInterface()
+        val photoUrlList = ArrayList<CalendarPhotoDay>()
 
         for (i in -150..50) {
             val calendar = GregorianCalendar(
@@ -65,6 +75,26 @@ class CalendarFragment : Fragment() {
             calList.add(
                 CalendarItemInfo(calendar, 0)
             )
+
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+
+            retrofitInterface.requestCalendarPhoto(year, month+1).enqueue(object: Callback<CalendarPhotoMonth>{
+                override fun onResponse(
+                    call: Call<CalendarPhotoMonth>,
+                    response: Response<CalendarPhotoMonth>
+                ) {
+                    Log.d("hello", response.toString())
+                    if(response.isSuccessful){
+                        photoUrlList.addAll(response.body()!!.dayList)
+                    }
+                }
+
+                override fun onFailure(call: Call<CalendarPhotoMonth>, t: Throwable) {
+                    t.message.toString()
+                }
+            })
+
 
             val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
             val max = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -94,6 +124,10 @@ class CalendarFragment : Fragment() {
                     )
                 )
             }
+            photoUrlList.forEach {
+                calList[calList.size - 1 - max + it.day].url = it.url
+            }
+
             if (i < 0) {
                 scrollPosition += dayOfWeek + max + 1
             }

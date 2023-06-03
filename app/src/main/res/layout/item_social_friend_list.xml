@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_marginVertical="5dp"
-    android:background="@drawable/social_friendlist_background">
+    android:background="@drawable/background_social_friendlist">
 
     <ImageView
         android:id="@+id/iv_social_list"

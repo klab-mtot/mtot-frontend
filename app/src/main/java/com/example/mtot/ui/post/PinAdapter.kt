@@ -3,19 +3,19 @@ package com.example.mtot.ui.post
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mtot.HamburgerItemInfo
-import com.example.mtot.databinding.ItemHamburgerBinding
+import com.example.mtot.databinding.ItemPinImageBinding
 
-class MapHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerView.Adapter<MapHamburgerAdapter.ViewHolder>() {
+class PinAdapter(private val items: List<PinData>) :
+    RecyclerView.Adapter<PinAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ItemHamburgerBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemPinImageBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            binding.tvItemPostHamburger.text = items[position].text
+            binding.imageItem.setImageResource(items[position].image)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemHamburgerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemPinImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -28,3 +28,4 @@ class MapHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerVie
     }
 
 }
+
