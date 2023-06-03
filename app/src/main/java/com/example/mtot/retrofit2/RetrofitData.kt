@@ -3,7 +3,6 @@ package com.example.mtot.retrofit2
 import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
-import okhttp3.CertificatePinner
 
 data class LoginData(
     @SerializedName("accessToken") val accessToken: String,
@@ -11,13 +10,13 @@ data class LoginData(
 )
 
 data class TestMember(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("email") val email: String,
+    @SerializedName("id") val id : Int,
+    @SerializedName("name") val name : String,
+    @SerializedName("email") val email : String,
 )
 
 data class TestMemberList(
-    @SerializedName("members") val members: List<TestMember>
+    @SerializedName("members") val members : List<TestMember>
 )
 
 data class Pin(
@@ -55,21 +54,24 @@ data class SpecificJourneyData(
     @SerializedName("postData") val postData: PostData
 )
 
-data class GetTeamResponse(
+data class GetTeamResponse( //타입이 list이어야 함
     @SerializedName("teamId") val teamId: Int,
     @SerializedName("teamName") val teamName: String
 )
-
 data class GetTeamsResponse(
     @SerializedName("count") val count: Int,
     @SerializedName("teamList") val teamList: List<GetTeamResponse>
 )
 
-data class GetFriendResponse(
+data class GetFriendResponse( //타입이 list이어야 함
     @SerializedName("friendshipId") val teamId: Int,
     @SerializedName("memberId") val memberId: Int,
     @SerializedName("name") val name: String,
     @SerializedName("email") val email: String
+)
+
+data class GetFriendshipResponse(
+    @SerializedName("friendships") val friendships: List<GetFriendResponse>
 )
 
 data class AddJourneyResponse(

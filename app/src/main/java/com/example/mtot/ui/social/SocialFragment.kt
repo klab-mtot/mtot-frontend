@@ -34,12 +34,12 @@ class SocialFragment : Fragment() {
 
         binding.rvSocialGrouplist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        groupAdapter = GroupListAdapter(groupDataList)
+        groupAdapter = GroupListAdapter()
         binding.rvSocialGrouplist.adapter = groupAdapter
 
         binding.rvSocialFriendlist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        friendAdapter = FriendListAdapter(friendDataList)
+        friendAdapter = FriendListAdapter()
         binding.rvSocialFriendlist.adapter = friendAdapter
 
         binding.ivSocialGrouplist.setOnClickListener {
