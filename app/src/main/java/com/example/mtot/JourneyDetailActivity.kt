@@ -1,34 +1,45 @@
 package com.example.mtot
 
-import android.app.ProgressDialog.show
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.init
 import com.example.mtot.databinding.ActivityJourneyDetailBinding
 import com.example.mtot.retrofit2.JourneyData
-import com.example.mtot.retrofit2.JourneysData
 import com.example.mtot.retrofit2.PhotoData
 import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.Post
-import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
-import com.example.mtot.ui.map.MapFragment
 import com.example.mtot.ui.post.PinAdapter
+import com.example.mtot.ui.post.PinListActivity
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class JourneyDetailActivity : AppCompatActivity() {
+
+class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener {
+
     lateinit var binding: ActivityJourneyDetailBinding
     var journeyPhoto: String? = null
     var journeyPost: Post? = null
+    var journeyData: JourneyData? = null
+    var arrLoc = ArrayList<LatLng>()
 
+    lateinit var mMap: GoogleMap
 
     private lateinit var adapter: PinAdapter
     var dataList = ArrayList<PhotoData>()
@@ -37,6 +48,9 @@ class JourneyDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityJourneyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val mapFragment =
+            supportFragmentManager.findFragmentById(binding.journeyDetailMap.id) as SupportMapFragment?
+        mapFragment!!.getMapAsync(this@JourneyDetailActivity)
 
         initLayout()
 
@@ -46,7 +60,7 @@ class JourneyDetailActivity : AppCompatActivity() {
     fun initLayout() {
         //정진우-아예 연결할 때 저니 데이터를 줘서 찍어주도록 해야될 듯.
         //아니면 짤 때 Id를 받아서 하도록 해야 하는데 그건 어케했지.. 페비는 어케했지.. 봐야겠다.
-        val journeyId = intent.getIntExtra("journeyId",0)
+        val journeyId = intent.getIntExtra("journeyId", 0)
 
         binding.journeyDetailPin.layoutManager = GridLayoutManager(this, 3)
         adapter = PinAdapter(dataList)
@@ -74,9 +88,24 @@ class JourneyDetailActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JourneyData>, response: Response<JourneyData>) {
                 Log.d("HELLO", response.body().toString())
                 if (response.isSuccessful) {
+                    journeyData = response.body()
                     binding.journeyDetailTitle.text = response.body()!!.name
-                    binding.journeyDetailPostTitle.text = response.body()!!.post.title
-                    binding.journeyDetailPostText.text = response.body()!!.post.article
+                    if (journeyData!!.post != null) {
+                        binding.journeyDetailPostTitle.text = response.body()!!.post.title
+                        binding.journeyDetailPostText.text = response.body()!!.post.article
+                    }
+                    if (journeyData!!.pins.size > 0) {
+                        response.body()!!.pins.forEach {
+                            arrLoc.add(
+                                LatLng(
+                                    it.location.latitude,
+                                    it.location.longitude
+                                )
+                            )
+                        }
+                    }
+
+
                 }
             }
         })
@@ -110,9 +139,44 @@ class JourneyDetailActivity : AppCompatActivity() {
 
         })
 
-
+        binding.journeyPostDetailBack.setOnClickListener {
+            finish()
+        }
 
     }
 
+    override fun onMapReady(p0: GoogleMap) {
+        mMap = p0
+        if (arrLoc.size > 0) {
+            mMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(arrLoc!![0], 9.0f)
+            )
+        } else {
+            mMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(LatLng(40.5, 127.5), 9.0f)
+            )
+            Toast.makeText(this, "해당 여정에 핀이 없어요! 핀 개수: ${arrLoc.size}", Toast.LENGTH_SHORT).show()
+        }
+        val markerOptions = MarkerOptions()
+        val polylineOption = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
+        mMap.setOnMarkerClickListener(this@JourneyDetailActivity)
+
+
+        arrLoc!!.forEach {
+            markerOptions.position(it)
+            mMap.addMarker(markerOptions)
+            mMap.addPolyline(polylineOption)
+        }
+
+    }
+
+
+    //아래를 핀 상세로 가는걸로 변경
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val intent= Intent(this@JourneyDetailActivity, PinListActivity::class.java)
+        intent.putExtra("pinId", marker.id)
+        startActivity(intent)
+        return true
+    }
 
 }

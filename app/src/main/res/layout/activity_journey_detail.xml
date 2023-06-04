@@ -44,8 +44,9 @@
         android:layout_weight="3"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/journey_detail_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:elevation="0dp" />

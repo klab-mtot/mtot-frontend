@@ -36,7 +36,6 @@ data class Post(
     @SerializedName("title") val title: String,
     @SerializedName("article") val article: String
 )
-
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
