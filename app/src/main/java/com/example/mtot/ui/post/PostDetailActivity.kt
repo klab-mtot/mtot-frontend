@@ -29,7 +29,7 @@ class PostDetailActivity : AppCompatActivity() {
     }
 
     fun initLayout() {
-        var journeyId = 0
+        val journeyId = intent.getStringExtra("journeyId")
 
         var journeyInterface = getRetrofitInterface()
 

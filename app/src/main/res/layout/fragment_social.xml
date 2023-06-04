@@ -13,8 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_margin="30dp"
-        android:layout_marginVertical="50dp"
+        android:layout_marginHorizontal= "30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@id/cl_social_friendlist"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -24,7 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/social_group_list"
             android:textColor="@color/quaternary"
-            android:textSize="36sp"
+            android:textSize="24dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,9 +54,10 @@
         android:id="@+id/cl_social_friendlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_marginHorizontal="30dp"
         android:layout_weight="1"
-        android:layout_marginVertical="50dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_social_grouplist">
 
@@ -65,15 +67,15 @@
             android:layout_height="wrap_content"
             android:text="@string/social_friend_list"
             android:textColor="@color/quaternary"
-            android:textSize="36sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/friendRequestListButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_friend_request"
             app:layout_constraintBottom_toTopOf="@+id/rv_social_friendlist"
             app:layout_constraintEnd_toStartOf="@+id/iv_social_friendlist"
@@ -86,6 +88,7 @@
             android:id="@+id/iv_social_friendlist"
             android:layout_width="30dp"
             android:layout_height="30dp"
+
             android:background="@drawable/background_social_add_button"
             android:src="@drawable/ic_bottom_navigation_add"
             app:layout_constraintBottom_toBottomOf="@id/tv_social_friendlist"

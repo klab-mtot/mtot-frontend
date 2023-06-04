@@ -1,8 +1,5 @@
 package com.example.mtot.retrofit2
 
-import android.graphics.Bitmap
-import com.example.mtot.ui.post.PinData
-import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
 data class LoginData(
@@ -111,6 +108,10 @@ data class CalendarPhotoDay(
 
 data class CalendarPhotoMonth(
     @SerializedName("dayList") val dayList: List<CalendarPhotoDay>
+)
+
+data class PhotoUrls(
+    @SerializedName("url") val url: String
 )
 
 data class FriendEmailData(

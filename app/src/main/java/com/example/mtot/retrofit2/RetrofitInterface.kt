@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LoginInterface {
@@ -44,6 +45,7 @@ interface RetrofitInterface {
     fun rejectPendingFriendship(
         @Body friendshipId:Int
     ):Call<String>
+
     @POST("/friendship/accept")
     fun acceptPendingFriendship(
         @Body friendshipId:Int
@@ -76,6 +78,11 @@ interface RetrofitInterface {
         @Query("year") year: Int,
         @Query("month") month: Int,
     ): Call<CalendarPhotoMonth>
+
+    @GET("/photo/journey/{journeyId}")
+    fun getJourneyPhotos(
+        @Path("journeyId") journeyId: String
+    ): Call<List<PhotoUrls>>
 
     @POST("/teams/register")
     fun addMemberToTeam(
