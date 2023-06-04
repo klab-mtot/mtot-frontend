@@ -116,5 +116,9 @@ interface RetrofitInterface {
         @Path("pinId") pinId: Int
     ): Call<RequestPhotos>
 
+    @POST("/post")
+    fun addPost(
+        @Body requestBody: Post
+    ): Call<ResponseAddPost>
 
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.mtot.MainActivity
 import com.example.mtot.databinding.FragmentAccountBinding
 import com.example.mtot.retrofit2.GetTeamResponse
 import com.example.mtot.retrofit2.GetTeamsResponse
@@ -40,6 +41,14 @@ class AccountFragment : Fragment() {
         }
 
         binding.username.text = getMyEmail(requireContext()).split("@")[0]
+
+        binding.groupCount.setOnClickListener {
+            (requireActivity() as MainActivity).selectSocialFragment()
+        }
+
+        binding.journeyConunt.setOnClickListener {
+            (requireActivity() as MainActivity).selectMapFragmentAndHamburger()
+        }
 
 
         return binding.root

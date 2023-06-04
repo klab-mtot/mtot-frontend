@@ -11,6 +11,8 @@ import com.example.mtot.retrofit2.AddJourneyRequest
 import com.example.mtot.retrofit2.AddJourneyResponse
 import com.example.mtot.retrofit2.GetTeamResponse
 import com.example.mtot.retrofit2.GetTeamsResponse
+import com.example.mtot.retrofit2.Post
+import com.example.mtot.retrofit2.ResponseAddPost
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.example.mtot.retrofit2.saveJourneyId
 import com.example.mtot.retrofit2.savePostState
@@ -86,12 +88,31 @@ class AddJourneyActivity : AppCompatActivity() {
                         savePostState(this@AddJourneyActivity, true)
                         saveJourneyId(this@AddJourneyActivity, journeyId)
                         setResult(journeyId, intent)
+
+                        val requestBody = Post(
+                            journeyId, "", ""
+                        )
+                        retrofitInterface.addPost(requestBody).enqueue(object: Callback<ResponseAddPost>{
+                            override fun onResponse(
+                                call: Call<ResponseAddPost>,
+                                response: Response<ResponseAddPost>
+                            ) {
+                                Log.d("hello", response.body().toString())
+                                if(response.isSuccessful)
+                                    finish()
+                            }
+
+                            override fun onFailure(call: Call<ResponseAddPost>, t: Throwable) {
+                                Log.d("hello", response.body().toString())
+                                finish()
+                            }
+                        })
                     }
-                    finish()
                 }
 
                 override fun onFailure(call: Call<AddJourneyResponse>, t: Throwable) {
                     Log.d("hello", t.message.toString())
+                    finish()
                 }
 
             })

@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -82,6 +83,15 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 resultLauncher.launch(i)
             }
         }
+    }
+
+    fun selectSocialFragment(){
+        binding.bnv.selectedItemId = R.id.navigation_social
+    }
+
+    fun selectMapFragmentAndHamburger(){
+        binding.bnv.selectedItemId = R.id.navigation_map
+        showMapHamburgerToolbar()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

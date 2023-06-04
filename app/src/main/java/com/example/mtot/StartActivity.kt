@@ -35,7 +35,6 @@ class StartActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             val account = task.result!!
             val code = account.serverAuthCode.toString()
-            Log.d("qwerty", "here2")
 
 
             loginInterface.requestUrl(code).enqueue(object : Callback<String> {
@@ -67,7 +66,6 @@ class StartActivity : AppCompatActivity() {
                     .build()
             val client = GoogleSignIn.getClient(this, gso)
             val i = Intent(client.signInIntent)
-            Log.d("qwerty", "here")
             launcher.launch(i)
         }
 
