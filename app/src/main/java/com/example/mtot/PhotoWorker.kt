@@ -19,19 +19,18 @@ import com.example.mtot.retrofit2.getRetrofitExceptJsonInterface
 import com.example.mtot.retrofit2.getRetrofitInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Multipart
 import retrofit2.http.Part
 import java.io.File
+
 
 class PhotoWorker(appContext: Context, workerParams: WorkerParameters) :
     CoroutineWorker(appContext, workerParams) {
@@ -69,22 +68,24 @@ class PhotoWorker(appContext: Context, workerParams: WorkerParameters) :
 
         val retrofitInterface = getRetrofitInterface()
 
-        val files = ArrayList<RequestBody>()
+        val files = ArrayList<MultipartBody.Part>()
         cursor?.use {
             while (it.moveToNext()) {
                 val imagePath = it.getString(it.getColumnIndex(MediaStore.Images.ImageColumns.DATA))
                 Log.d("workmanager", "imagePath : " + imagePath)
                 val imageFile = File(imagePath)
-                files.add(
-                        imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                )
+                files.add(MultipartBody.Part.createFormData(
+                    "photos", imageFile.name,
+                    imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                ))
             }
         }
 
         var pinId = -1
 
-        val retrofitExceptJsonInterface = getRetrofitExceptJsonInterface()
-        retrofitExceptJsonInterface.addPinToJourney(
+        val retrofitInterfaceExceptJson = getRetrofitExceptJsonInterface()
+
+        retrofitInterface.addPinToJourney(
             RequestAddPin(
                 getJourneyId(applicationContext),
                 LocationData(36.5, 127.5)
@@ -97,13 +98,10 @@ class PhotoWorker(appContext: Context, workerParams: WorkerParameters) :
                 Log.d("workmanager", response.body().toString())
                 if (response.isSuccessful) {
                     pinId = response.body()!!.pinId
-                    val requestBuilder = MultipartBody.Builder()
-                    requestBuilder.setType(MultipartBody.FORM)
-                    for (file in files){
-                           requestBuilder.addFormDataPart("my_images[]", "", file)
-                    }
-
-                    retrofitInterface.addPhotoToPin(requestBuilder.build())
+                    val pinIdRequestBody = pinId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+                    val requestList = files.toList()
+                    Log.d("workmanager", requestList.toString())
+                    retrofitInterfaceExceptJson.addPhotoToPin(pinIdRequestBody, requestList)
                         .enqueue(object : Callback<ResponseAddPhotoToPin> {
                             override fun onResponse(
                                 call: Call<ResponseAddPhotoToPin>,

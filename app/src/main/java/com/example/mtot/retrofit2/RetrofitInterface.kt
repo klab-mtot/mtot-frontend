@@ -91,9 +91,11 @@ interface RetrofitInterface {
         @Body requestBody: RequestAddPin
     ): Call<ResponseAddPin>
 
+    @Multipart
     @POST("/photo")
     fun addPhotoToPin(
-        @Body requestBody: RequestBody
+        @Part ("pinId") pinId: RequestBody,
+        @Part imageList : List<MultipartBody.Part>
     ): Call<ResponseAddPhotoToPin>
 //
 //    @Query("pinId") pinId: Int,
