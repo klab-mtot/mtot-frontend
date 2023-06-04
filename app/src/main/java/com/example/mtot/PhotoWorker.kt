@@ -8,7 +8,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.work.CoroutineWorker
+import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.mtot.retrofit2.LocationData
 import com.example.mtot.retrofit2.RequestAddPin
@@ -17,29 +17,24 @@ import com.example.mtot.retrofit2.ResponseAddPin
 import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitExceptJsonInterface
 import com.example.mtot.retrofit2.getRetrofitInterface
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Part
 import java.io.File
 
 
 class PhotoWorker(appContext: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(appContext, workerParams) {
+    Worker(appContext, workerParams) {
 
     private val ALBUM_DIRECTORY =
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()
 
     @SuppressLint("Range")
-    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+    override fun doWork() : Result {
         Log.d("workmanager", "ALBUM_DIRECTORY : " + ALBUM_DIRECTORY)
         checkPermissions()
         Log.d("workmanager", "pass permission checking")
@@ -126,7 +121,7 @@ class PhotoWorker(appContext: Context, workerParams: WorkerParameters) :
             }
         })
 
-        Result.success()
+        return Result.success()
     }
 
     private fun checkPermissions() {

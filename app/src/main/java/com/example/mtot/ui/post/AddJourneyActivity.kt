@@ -34,8 +34,6 @@ class AddJourneyActivity : AppCompatActivity() {
     fun init(){
 
 
-
-
         val retrofitInterface = getRetrofitInterface()
         /* 최초에 팀 정보 로딩 */
         retrofitInterface.getTeams().enqueue(object: retrofit2.Callback<GetTeamsResponse>{
