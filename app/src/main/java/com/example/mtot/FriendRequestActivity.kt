@@ -1,7 +1,9 @@
 package com.example.mtot
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.system.Os.remove
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -35,14 +37,12 @@ class FriendRequestActivity : AppCompatActivity() {
     }
 
     fun initLayout() {
-        adapter = FriendRequestAdapter(dataList) // 데이터 리스트를 어댑터에 전달합니다
-        binding.friendRequestNameList.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        binding.friendRequestNameList.adapter=adapter
 
-        val retrofitInterface = getRetrofitInterface()
+        val friendRequestInterface = getRetrofitInterface()
         Log.d("QQQ","WWW")
-        retrofitInterface.getPendingFriendships()
+        friendRequestInterface.getPendingFriendships()
             .enqueue(object : Callback<PendingFriendshipsData> {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(
                     call: Call<PendingFriendshipsData>,
                     response: Response<PendingFriendshipsData>
@@ -61,6 +61,56 @@ class FriendRequestActivity : AppCompatActivity() {
                 }
             })
 
+        adapter = FriendRequestAdapter(dataList) // 데이터 리스트를 어댑터에 전달합니다
+        binding.friendRequestNameList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        adapter.OnItemClickListener = object : FriendRequestAdapter.onItemClickListener {
+            override fun onAcceptButtonClicked(position: Int) {
+                friendRequestInterface.acceptPendingFriendship(dataList[position].friendshipId)
+                    .enqueue(object : Callback<String> {
+                        override fun onResponse(
+                            call: Call<String>,
+                            response: Response<String>
+                        ) {
+                            Log.d("HHH", response.body().toString())
+                            if (response.isSuccessful) {
+                                remove(position)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                            Log.d("QQQ", t.message.toString())
+                        }
+                    })
+            }
+
+            override fun onRejectButtonClicked(position: Int) {
+                friendRequestInterface.rejectPendingFriendship(dataList[position].friendshipId)
+                    .enqueue(object : Callback<String> {
+                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                            Log.d("HHH", response.body().toString())
+                            if (response.isSuccessful) {
+                                remove(position)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                            Log.d("QQQ", t.message.toString())
+                        }
+                    })
+
+            }
+        }
+
+        binding.friendRequestNameList.adapter = adapter
+
 
     }
+
+    fun remove(position:Int) {
+        dataList.removeAt(position)
+        adapter.notifyItemRemoved(position)
+    }
 }
+

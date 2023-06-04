@@ -3,9 +3,11 @@ package com.example.mtot.ui.social
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.databinding.ItemFriendRequestListRowBinding
 import com.example.mtot.retrofit2.PendingFriendshipsData
+import com.example.mtot.retrofit2.getPostState
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.example.mtot.retrofit2.saveFriendData
 import retrofit2.Call
@@ -15,7 +17,12 @@ import retrofit2.Response
 class FriendRequestAdapter(private var items: ArrayList<FriendRequestListInfo>) :
     RecyclerView.Adapter<FriendRequestAdapter.ViewHolder>() {
 
-    private val friendRequestInterface = getRetrofitInterface()
+
+    var OnItemClickListener : onItemClickListener? = null
+    interface onItemClickListener {
+        fun onAcceptButtonClicked(position: Int)
+        fun onRejectButtonClicked(position: Int)
+    }
 
     inner class ViewHolder(private val binding: ItemFriendRequestListRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -25,39 +32,11 @@ class FriendRequestAdapter(private var items: ArrayList<FriendRequestListInfo>) 
             binding.friendName.text = item.name
 
             binding.acceptRequest.setOnClickListener {
-                friendRequestInterface.acceptPendingFriendship(item.friendshipId)
-                    .enqueue(object : Callback<String> {
-                        override fun onResponse(
-                            call: Call<String>,
-                            response: Response<String>
-                        ) {
-                            Log.d("HHH",response.body().toString())
-                            if (response.isSuccessful) {
-                                removeItem(position)
-                            }
-                        }
-
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            // Handle failure
-                            Log.d("QQQ", t.message.toString())
-                        }
-                    })
+                OnItemClickListener?.onAcceptButtonClicked(position)
             }
 
             binding.cancelRequest.setOnClickListener {
-                friendRequestInterface.rejectPendingFriendship(item.friendshipId)
-                    .enqueue(object : Callback<String> {
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
-                            Log.d("HHH",response.body().toString())
-                            if (response.isSuccessful) {
-                                // 목록 갱신
-                                removeItem(position)
-                            }
-                        }
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                            Log.d("QQQ", t.message.toString())
-                        }
-                    })
+                OnItemClickListener?.onRejectButtonClicked(position)
             }
         }
     }
@@ -79,8 +58,4 @@ class FriendRequestAdapter(private var items: ArrayList<FriendRequestListInfo>) 
         holder.bind(position)
     }
 
-    private fun removeItem(position: Int) {
-        items.removeAt(position)
-        notifyItemRemoved(position)
-    }
 }
