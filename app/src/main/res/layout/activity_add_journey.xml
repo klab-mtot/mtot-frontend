@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:text="Journey 만들기"
+        android:text="Add Journey"
         android:textColor="@color/quaternary"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -33,7 +33,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
-        android:text="여정 이름"
+        android:text="Journey name"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -48,7 +48,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="30dp"
         android:ems="10"
-        android:hint="여정 이름"
+        android:hint="Journey name"
         android:inputType="textPersonName"
         android:textColor="@android:color/darker_gray"
         android:textSize="15sp" />
@@ -60,7 +60,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="30dp"
-        android:text="그룹 선택"
+        android:text="Group"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold" />
@@ -82,7 +82,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginRight="80dp"
         android:background="@drawable/blue_rounded_corner"
-        android:text="만들기"
+        android:text="add"
         android:textSize="15sp" />
 
 

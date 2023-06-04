@@ -47,9 +47,9 @@ class AddFriendActivity : AppCompatActivity() {
                         addFriend = response.body()!!
                         if (addFriend == null) {
                             val dialog = AlertDialog.Builder(this@AddFriendActivity)
-                                .setTitle("친구 추가 요청 발송 실패")
-                                .setMessage("친구 ID가 없습니다.")
-                                .setPositiveButton("확인") { dialog, _ ->
+                                .setTitle("Friend request failed")
+                                .setMessage("Friend ID does not exist")
+                                .setPositiveButton("OK") { dialog, _ ->
                                     dialog.dismiss()
                                     binding.editTextText.text.clear()
                                 }
@@ -57,15 +57,15 @@ class AddFriendActivity : AppCompatActivity() {
                             alertDialog = dialog
                             alertDialog?.show()
                         } else {
-                            val message = "친구 추가 요청 발송했습니다\nid: $addFriend"
+                            val message = "Friend request sent\nid: $addFriend"
                             Toast.makeText(this@AddFriendActivity, message, Toast.LENGTH_SHORT).show()
                             finish()
                         }
                     } else {
                         val dialog = AlertDialog.Builder(this@AddFriendActivity)
-                            .setTitle("친구 추가 요청 발송 실패")
-                            .setMessage("친구 ID가 없습니다.")
-                            .setPositiveButton("확인") { dialog, _ ->
+                            .setTitle("Friend request failed")
+                            .setMessage("Friend ID does not exist.")
+                            .setPositiveButton("OK") { dialog, _ ->
                                 dialog.dismiss()
                                 binding.editTextText.text.clear()
                             }

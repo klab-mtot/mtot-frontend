@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="게시글"
+                    android:text="Post"
                     android:textColor="@color/quaternary"
                     android:textSize="15sp"
                     android:layout_marginBottom="5dp"
@@ -141,7 +141,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="핀"
+                    android:text="Pin"
                     android:textColor="@color/quaternary"
                     android:textSize="15sp"
                     android:layout_marginBottom="5dp"
