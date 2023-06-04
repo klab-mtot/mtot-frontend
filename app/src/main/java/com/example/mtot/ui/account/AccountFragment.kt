@@ -14,6 +14,7 @@ import com.example.mtot.retrofit2.GetTeamsResponse
 import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.JourneysData
 import com.example.mtot.retrofit2.getJourneyId
+import com.example.mtot.retrofit2.getMyEmail
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.google.android.gms.maps.model.LatLng
 import retrofit2.Call
@@ -33,10 +34,12 @@ class AccountFragment : Fragment() {
     ): View {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
 
-        binding!!.imageView3.setOnClickListener {
+        binding.imageView3.setOnClickListener {
             val i = Intent(requireContext(), EditProfileActivity::class.java)
             startActivity(i)
         }
+
+        binding.username.text = getMyEmail(requireContext()).split("@")[0]
 
 
         return binding.root

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.mtot.databinding.ActivityPinListBinding
+import com.example.mtot.databinding.ActivityPinDetailBinding
 import com.example.mtot.retrofit2.PhotoData
 import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.getRetrofitInterface
@@ -22,7 +22,7 @@ class PinDetailActivity : AppCompatActivity() {
         binding= ActivityPinDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val journeyId = intent.getIntExtra("journeyId")
+        val journeyId = intent.getIntExtra("journeyId", -1)
         adapter = PinAdapter(dataList)
         binding.pinRecyclerView.layoutManager = GridLayoutManager(this, 3)
 
