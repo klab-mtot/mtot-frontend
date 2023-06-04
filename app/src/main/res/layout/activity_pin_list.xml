@@ -25,6 +25,8 @@
                 android:background="#FFFFFF"
                 android:minWidth="32dp"
                 android:minHeight="32dp"
+
+                android:layout_marginRight="10dp"
                 app:srcCompat="@drawable/ic_post_left_arrow" />
 
             <TextView
@@ -41,7 +43,8 @@
             android:id="@+id/pin_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"/>
 
 
 
