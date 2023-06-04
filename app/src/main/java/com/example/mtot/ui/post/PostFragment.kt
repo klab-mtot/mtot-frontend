@@ -33,6 +33,11 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentPostBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val mapFragment= childFragmentManager.findFragmentById(R.id.fcv_post_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -40,8 +45,6 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showPostHamburgerToolbar()
         }
-
-        return binding.root
     }
 
     override fun onMapReady(p0: GoogleMap) {

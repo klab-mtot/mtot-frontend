@@ -40,20 +40,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        initMap()
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initMap()
         binding.cvMapHamburgerButton.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showMapHamburgerToolbar()
         }
-
-        return binding.root
     }
 
     private fun initMap() {
-        val journeyInterface = getRetrofitInterface()
+        val retrofitInterface = getRetrofitInterface()
 
-        journeyInterface.requestJourneyData().enqueue(object : Callback<JourneysData> {
+        retrofitInterface.requestJourneysData().enqueue(object : Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
                 Log.d("Hello", t.message.toString())
             }
@@ -65,14 +67,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.d("Hello", response.body().toString())
                 if (response.isSuccessful) {
                     journeysData = response.body()!!
-                    journeysData.journeys.forEach {
-                        arrLoc.add(
-                            LatLng(
-                                it.pins[0].location.latitude,
-                                it.pins[0].location.longitude
-                            )
-                        )
-                    }
+//                    journeysData.journeys.forEach {
+//                        if(it.pins.size > 0) {
+//                            arrLoc.add(
+//                                LatLng(
+//                                    it.pins[0].location.latitude,
+//                                    it.pins[0].location.longitude
+//                                )
+//                            )
+//                        } else {
+//                            arrLoc.add(
+//                                LatLng(
+//                                    0.0,0.0
+//                                )
+//                            )
+//                        }
+//                    }
                 }
             }
         })
@@ -98,19 +108,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         option.icon(
             BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
         )
-        arrLoc.forEach {
-        }
+//        arrLoc.forEach {
+//        }
 
-        googleMap.setOnMapClickListener { loc ->
-            arrLoc.add(loc)
-            val option2 = MarkerOptions()
-            option2.position(loc)
-            option2.icon(
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-            )
-            googleMap.addMarker(option2)
-            val option3 = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
-            googleMap.addPolyline(option3)
-        }
+//        googleMap.setOnMapClickListener { loc ->
+//            arrLoc.add(loc)
+//            val option2 = MarkerOptions()
+//            option2.position(loc)
+//            option2.icon(
+//                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+//            )
+//            googleMap.addMarker(option2)
+//            val option3 = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
+//            googleMap.addPolyline(option3)
+//        }
     }
 }

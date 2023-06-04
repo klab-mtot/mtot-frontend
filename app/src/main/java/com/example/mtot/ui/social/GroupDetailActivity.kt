@@ -38,7 +38,6 @@ class GroupDetailActivity : AppCompatActivity() {
             val retrofitInterface = getRetrofitInterface()
             val str = binding.editTextMemberSearch.text.toString()
             val teamId = intent.getIntExtra("teamId", -1)
-            Log.d("hello",RequestAddMemberToTeam(teamId,str).toString())
             retrofitInterface.addMemberToTeam(RequestAddMemberToTeam(teamId,str)).enqueue(object: Callback<ResponseAddMemberToTeam>{
                 override fun onResponse(
                     call: Call<ResponseAddMemberToTeam>,

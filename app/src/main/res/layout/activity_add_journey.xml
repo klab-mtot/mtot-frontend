@@ -11,6 +11,8 @@
         android:id="@+id/iv_add_journey_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
         app:srcCompat="@drawable/back_icon" />
 
@@ -80,7 +82,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginRight="80dp"
         android:background="@drawable/blue_rounded_corner"
-        android:text="추가"
+        android:text="만들기"
         android:textSize="15sp" />
 
 

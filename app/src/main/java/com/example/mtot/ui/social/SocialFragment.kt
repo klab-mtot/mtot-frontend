@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.databinding.FragmentSocialBinding
@@ -31,8 +29,13 @@ class SocialFragment : Fragment() {
     ): View {
         binding = FragmentSocialBinding.inflate(inflater, container, false)
 
-        initData()
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initData()
         binding.rvSocialGrouplist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         groupAdapter = GroupListAdapter(groupDataList)
@@ -54,19 +57,17 @@ class SocialFragment : Fragment() {
             val i = Intent(requireContext(), AddGroupActivity::class.java)
             startActivity(i)
         }
+
         binding.ivSocialFriendlist.setOnClickListener {
             val i = Intent(requireContext(), AddFriendActivity::class.java)
             startActivity(i)
         }
 
-        return binding.root
-    }
+        binding.friendRequestListButton.setOnClickListener {
+            val i=Intent(requireContext(), FriendRequestActivity::class.java)
+            startActivity(i)
+        }
 
-    override fun onResume() {
-        super.onResume()
-        groupDataList.clear()
-        friendDataList.clear()
-        initData()
     }
 
     fun initData() {
@@ -85,7 +86,6 @@ class SocialFragment : Fragment() {
                         SocialListInfo(it.teamId, 0, it.teamName)
                     }.toList())
                     groupAdapter.notifyDataSetChanged()
-                    Log.d("hello", groupDataList.toString())
                 }
 
             }

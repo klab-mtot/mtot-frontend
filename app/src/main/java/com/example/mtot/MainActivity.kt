@@ -1,6 +1,7 @@
 package com.example.mtot
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.view.MenuItem
 import android.view.View
@@ -17,14 +18,25 @@ import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.work.*
+import com.example.mtot.retrofit2.getPostState
+import com.example.mtot.retrofit2.saveJourneyId
+import com.example.mtot.retrofit2.savePostState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
-    var journeyId : Int = -1
+    val mapFragment = MapFragment()
+    val calendarFragment = CalendarFragment()
+    val postFragment = PostFragment()
+    val socialFragment = SocialFragment()
+    val accountFragment = AccountFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,44 +45,43 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bnv.setOnItemSelectedListener{
+        binding.bnv.setOnItemSelectedListener {
             onNavigationItemSelected(it)
         }
 
+        supportFragmentManager.beginTransaction().add(R.id.main_frm, mapFragment).hide(mapFragment)
+            .add(R.id.main_frm, calendarFragment).hide(calendarFragment)
+            .add(R.id.main_frm, postFragment).hide(postFragment)
+            .add(R.id.main_frm, socialFragment).hide(socialFragment)
+            .add(R.id.main_frm, accountFragment).hide(accountFragment).show(mapFragment)
+            .commit()
 
-        //핀 10분마다 자동생성=====================================
-//        val constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.UNMETERED)
-//            .build()
-//
-//        val photoWorkRequest = PeriodicWorkRequestBuilder<PhotoWorker>(
-//            repeatInterval = 10, // 10 minutes
-//            repeatIntervalTimeUnit = TimeUnit.MINUTES
-//        )
-//            .setConstraints(constraints)
-//            .build()
-//
-//        WorkManager.getInstance(applicationContext)
-//            .enqueueUniquePeriodicWork("PhotoWorker", ExistingPeriodicWorkPolicy.KEEP, photoWorkRequest)
+        val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == -1) {
+                    binding.bnv.selectedItemId = R.id.navigation_map
+                } else {    //만약 journey를 만들었으면
+                    saveJourneyId(this@MainActivity, result.resultCode)
+                    addPhotoWorker()
+                }
+            }
 
-
-    //=============================================================
-    val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-        if (result.resultCode == -1){
-            Log.d("hello","add journey error")
-            binding.bnv.selectedItemId = R.id.navigation_map
-        } else {
-            journeyId = result.resultCode
-            Log.d("hello", "journeyId : " + journeyId)
+        binding.antiHamburgerFrm.setOnClickListener {
+            binding.llHamburgerFrm.visibility = View.GONE
         }
-    }
+        binding.hamburgerFrm.setOnClickListener {
+            //do nothing just cover event
+        }
 
-    binding.fab.setOnClickListener {
-            if(binding.bnv.selectedItemId == R.id.navigation_post){
-                val fragment = supportFragmentManager.findFragmentById(R.id.main_frm) as PostFragment
-                fragment.addMark()
-            }else {
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, PostFragment()).commit()
+        binding.fab.setOnClickListener {
+            if (getPostState(this)) {
+                if (binding.bnv.selectedItemId == R.id.navigation_post) {
+                    postFragment.addMark()
+                } else {
+                    showPostFragment()
+                }
+            } else {
+                showPostFragment()
                 binding.bnv.selectedItemId = R.id.navigation_post
                 binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
                 binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
@@ -80,52 +91,126 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 resultLauncher.launch(i)
             }
         }
-        binding.antiHamburgerFrm.setOnClickListener {
-            binding.llHamburgerFrm.visibility = View.GONE
+
+        getAppListAction()
+    }
+
+    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+        if(it){
+            Toast.makeText(this, "권한 허용됨", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "권한 거부됨", Toast.LENGTH_SHORT).show()
         }
-        binding.hamburgerFrm.setOnClickListener {
-            //do nothing just cover event
+    }
+
+    fun getAppListAction(){
+        val i = Intent(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        when {
+            ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+//                    dialog()
+            }
+            else -> {
+                requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
         }
-        supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
+    }
+
+    fun addPhotoWorker(){
+        //핀 10분마다 자동생성=====================================
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)  //wifi connected
+            .build()
+
+        val photoWorkRequest = OneTimeWorkRequestBuilder<PhotoWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniqueWork("PhotoWorker", ExistingWorkPolicy.KEEP, photoWorkRequest)
+        //=============================================================
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        binding.fab.setImageResource(R.drawable.ic_bottom_navigation_plane)
-        binding.fab.supportBackgroundTintList = ColorStateList.valueOf(getColor(R.color.primary))
-        binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.white))
-        binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
-        when(item.itemId){
+        if (!getPostState(this)) {
+            binding.fab.setImageResource(R.drawable.ic_bottom_navigation_plane)
+            binding.fab.supportBackgroundTintList =
+                ColorStateList.valueOf(getColor(R.color.primary))
+            binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.white))
+            binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
+        }
+        when (item.itemId) {
             R.id.navigation_map -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, MapFragment()).commit()
+                showMapFragment()
                 return true
             }
+
             R.id.navigation_calendar -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, CalendarFragment()).commit()
+                showCalendarFragment()
                 return true
             }
+
             R.id.navigation_social -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, SocialFragment()).commit()
+                showSocialFragment()
                 return true
             }
+
             R.id.navigation_account -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, AccountFragment()).commit()
+                showAccountfragment()
                 return true
             }
+
             R.id.navigation_post -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_frm, PostFragment()).commit()
+                showPostFragment()
+                if (!getPostState(this))
+                    savePostState(this, true)
                 return true
             }
+
             else -> return true
         }
     }
 
-    fun showPostHamburgerToolbar(){
+    fun showPostHamburgerToolbar() {
         binding.llHamburgerFrm.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().replace(R.id.hamburger_frm, PostHamburgerFragment()).commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.hamburger_frm, PostHamburgerFragment()).commit()
     }
 
-    fun showMapHamburgerToolbar(){
+    fun showMapHamburgerToolbar() {
         binding.llHamburgerFrm.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().replace(R.id.hamburger_frm, MapHamburgerFragment()).commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.hamburger_frm, MapHamburgerFragment()).commit()
+    }
+
+    fun showMapFragment(){
+        supportFragmentManager.beginTransaction().hide(calendarFragment)
+            .hide(postFragment).hide(socialFragment).hide(accountFragment).show(mapFragment)
+            .commit()
+    }
+    fun showCalendarFragment(){
+        supportFragmentManager.beginTransaction().hide(mapFragment)
+            .hide(postFragment).hide(socialFragment).hide(accountFragment)
+            .show(calendarFragment)
+            .commit()
+    }
+    fun showPostFragment(){
+        supportFragmentManager.beginTransaction().hide(mapFragment).hide(calendarFragment)
+            .hide(socialFragment).hide(accountFragment).show(postFragment)
+            .commit()
+    }
+
+    fun showSocialFragment(){
+        supportFragmentManager.beginTransaction().hide(mapFragment).hide(calendarFragment)
+            .hide(postFragment).hide(accountFragment).show(socialFragment)
+            .commit()
+    }
+
+    fun showAccountfragment(){
+        supportFragmentManager.beginTransaction().hide(mapFragment).hide(calendarFragment)
+            .hide(postFragment).hide(socialFragment).show(accountFragment)
+            .commit()
     }
 }

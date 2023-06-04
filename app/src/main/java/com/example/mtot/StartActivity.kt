@@ -9,6 +9,7 @@ import com.example.mtot.databinding.ActivityStartBinding
 import com.example.mtot.retrofit2.getLoginInterface
 import com.example.mtot.retrofit2.saveAccessToken
 import com.example.mtot.retrofit2.saveMyEmail
+import com.example.mtot.retrofit2.savePostState
 import com.example.mtot.retrofit2.setAccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -43,6 +44,7 @@ class StartActivity : AppCompatActivity() {
                         val responseBody = JSONObject(str)
                         saveAccessToken(this@StartActivity, responseBody.getString("accessToken"))
                         setAccessToken(responseBody.getString("accessToken"))
+                        savePostState(this@StartActivity, false)
                         saveMyEmail(this@StartActivity, responseBody.getString("email"))
                         val i = Intent(this@StartActivity, MainActivity::class.java)
                         startActivity(i)
@@ -65,46 +67,7 @@ class StartActivity : AppCompatActivity() {
             val client = GoogleSignIn.getClient(this, gso)
             val i = Intent(client.signInIntent)
             launcher.launch(i)
-//            loginInterface.requestUrl().enqueue(object : Callback<String> {
-//
-//                override fun onResponse(call: Call<String>, response: Response<String>) {
-//                    if(response.isSuccessful){
-//                        val str = response.body().toString()
-//                        Log.d("helloraw", str)
-//                    }
-////                    val str = response.body
-////                    val i = str.indexOf("url")
-////                    val url = str.substring(43+3, str.length-1)
-////                    val index = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-////                    startActivity(index)
-//                    Log.d("hello", response.toString())
-//                }
-//
-//                override fun onFailure(call: Call<String>, t: Throwable) {
-//                    Log.d("hello", t.message.toString())
-//                }
-//            })
-//
         }
 
-//        loginInterface.requestTestMember().enqueue(object : Callback<TestMemberList>{
-//            override fun onResponse(
-//                call: Call<TestMemberList>,
-//                response: Response<TestMemberList>
-//            ) {
-//                Log.d("hello", response.body()!!.toString())
-//            }
-//
-//            override fun onFailure(call: Call<TestMemberList>, t: Throwable) {
-//                Log.d("hello", t.message.toString())
-//            }
-//
-//        })
-
-
-//        binding.googleButton.setOnClickListener {
-//            val i = Intent(this, MainActivity::class.java)
-//            startActivity(i)
-//        }
     }
 }
