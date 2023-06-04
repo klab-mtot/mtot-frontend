@@ -46,7 +46,7 @@ class MapHamburgerFragment : Fragment() {
             override fun MapHamburgerButtonClicked(position: Int) {
 
                 val intent = Intent(requireActivity(), JourneyDetailActivity::class.java)
-                intent.putExtra("key", journeysData.journeys[position].journeyId)
+                intent.putExtra("journeyId", journeysData.journeys[position].journeyId)
                 requireActivity().startActivity(intent)
 
 
