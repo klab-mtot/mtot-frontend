@@ -16,6 +16,7 @@ import com.example.mtot.retrofit2.Post
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.example.mtot.ui.post.PinAdapter
 import com.example.mtot.ui.post.PinDetailActivity
+import com.example.mtot.ui.post.PostDetailActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -146,6 +147,12 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
 
         binding.journeyPostDetailBack.setOnClickListener {
             finish()
+        }
+
+        binding.postDetailPostEdit.setOnClickListener {
+            val intent=Intent(this, PostDetailActivity::class.java)
+            intent.putExtra("journeyId", journeyId)
+            startActivity(intent)
         }
 
     }
