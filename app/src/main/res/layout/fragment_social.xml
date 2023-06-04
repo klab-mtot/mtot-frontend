@@ -36,9 +36,8 @@
             android:layout_height="30dp"
             android:background="@drawable/background_social_add_button"
             android:src="@drawable/ic_bottom_navigation_add"
-            app:layout_constraintBottom_toBottomOf="@id/tv_social_grouplist"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_social_grouplist"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_social_grouplist"
             app:tint="@color/white" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -74,24 +73,25 @@
 
         <ImageButton
             android:id="@+id/friendRequestListButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="44dp"
+            android:layout_height="42dp"
+            android:background="#FFFFFF"
             android:src="@drawable/ic_friend_request"
-            app:layout_constraintBottom_toTopOf="@+id/rv_social_friendlist"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_social_friendlist"
             app:layout_constraintEnd_toStartOf="@+id/iv_social_friendlist"
             app:layout_constraintHorizontal_bias="0.867"
             app:layout_constraintStart_toEndOf="@+id/tv_social_friendlist"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.478" />
+            app:layout_constraintVertical_bias="0.478"
+            app:tint="@color/tertiary" />
 
         <ImageView
             android:id="@+id/iv_social_friendlist"
             android:layout_width="30dp"
             android:layout_height="30dp"
-
             android:background="@drawable/background_social_add_button"
             android:src="@drawable/ic_bottom_navigation_add"
-            app:layout_constraintBottom_toBottomOf="@id/tv_social_friendlist"
+            app:layout_constraintBottom_toBottomOf="@+id/friendRequestListButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_social_friendlist"
             app:tint="@color/white" />
