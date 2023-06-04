@@ -1,5 +1,6 @@
 package com.example.mtot.retrofit2
 
+import android.provider.ContactsContract.Contacts.Photo
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -59,7 +60,10 @@ interface RetrofitInterface {
     ): Call<AddTeamResponse>
 
     @GET("/journey")
-    fun requestJourneyData(): Call<JourneysData>
+    fun requestJourneysData(): Call<JourneysData>
+
+    @GET("/journey/{journeyId}")
+    fun requestJourneyData():Call<JourneyData>
 
     @GET("/journey/journey_id")
     fun getJourney(
@@ -87,5 +91,9 @@ interface RetrofitInterface {
 //    fun addPhotoToPin(
 //        @Body requestBody: RequestAddPhotoToPin
 //    ): Call<RequestAddPhotoToPin>
+
+    @GET("/photo/journey/{journeyId}")
+    fun requestJourneyPhotos(
+    ):Call<List<PhotoData>>
 
 }

@@ -1,6 +1,7 @@
 package com.example.mtot.retrofit2
 
 import android.graphics.Bitmap
+import com.example.mtot.ui.post.PinData
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
@@ -38,18 +39,11 @@ data class Post(
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("post") val post: String,
+    @SerializedName("post") val post: Post,
     @SerializedName("pins") val pins: List<Pin>
 )
 data class JourneysData(
     @SerializedName("journeys") val journeys: List<JourneyData>,
-)
-
-data class SpecificJourneyData(
-    @SerializedName("journeyId") val journeyId: Int,
-    @SerializedName("name") val name: String,
-    @SerializedName("pinData") val pinData: PinData,
-    @SerializedName("postData") val postData: PostData
 )
 
 data class GetTeamResponse( //타입이 list이어야 함
@@ -93,13 +87,6 @@ data class AddMember(
     @SerializedName("memberId") val memberId: Int,
 )
 
-data class PinData(
-    val pinName: String
-)
-
-data class PostData(
-    val postName: String
-)
 
 
 data class FriendData(
@@ -162,3 +149,12 @@ data class LocationData(
 data class ResponseAddPin(
     @SerializedName("pinId") val pinId: Int
 )
+
+data class RequestPhotos(
+    @SerializedName("photoUrls") val photoUrls :List<PhotoData>
+)
+
+data class  PhotoData(
+    val url:String
+)
+

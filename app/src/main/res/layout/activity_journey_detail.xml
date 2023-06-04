@@ -13,7 +13,7 @@
         android:layout_weight="1">
 
         <ImageButton
-            android:id="@+id/post_detail_back"
+            android:id="@+id/journey_post_detail_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#FFFFFF"
@@ -22,7 +22,7 @@
             app:srcCompat="@drawable/ic_post_left_arrow" />
 
         <EditText
-            android:id="@+id/post_detail_title"
+            android:id="@+id/journey_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
         android:orientation="horizontal">
 
         <FrameLayout
-            android:id="@+id/post_detail_map"
+            android:id="@+id/journey_detail_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:elevation="0dp" />
@@ -89,28 +89,26 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/post_detail_post_imageView"
+                android:id="@+id/journey_detail_post_imageView"
                 android:layout_width="200dp"
                 android:layout_height="136dp"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-            <EditText
-                android:id="@+id/post_detail_post_title"
+            <TextView
+                android:id="@+id/journey_detail_post_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:ems="10"
                 android:inputType="textPersonName"
                 android:text="post_title"
                 android:textColor="#000000"
                 android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/post_detail_post_text"
+            <TextView
+                android:id="@+id/journey_detail_post_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:ems="10"
                 android:inputType="textPersonName"
                 android:text="post_text"
                 android:textColor="#000000" />
@@ -140,7 +138,7 @@
                     android:textStyle="bold" />
 
                 <GridView
-                    android:id="@+id/post_detail_pin"
+                    android:id="@+id/journey_detail_pin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:numColumns="2" />
