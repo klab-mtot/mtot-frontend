@@ -93,7 +93,6 @@ class SocialFragment : Fragment() {
                         SocialListInfo(it.teamId, 0, it.teamName)
                     }.toList())
                     groupAdapter.notifyDataSetChanged()
-                    Log.d("hello", groupDataList.toString())
                 }
 
             }

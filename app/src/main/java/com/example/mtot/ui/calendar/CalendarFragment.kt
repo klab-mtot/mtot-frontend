@@ -84,14 +84,14 @@ class CalendarFragment : Fragment() {
                     call: Call<CalendarPhotoMonth>,
                     response: Response<CalendarPhotoMonth>
                 ) {
-                    Log.d("hello", response.toString())
+//                    Log.d("hello", response.toString())
                     if(response.isSuccessful){
                         photoUrlList.addAll(response.body()!!.dayList)
                     }
                 }
 
                 override fun onFailure(call: Call<CalendarPhotoMonth>, t: Throwable) {
-                    t.message.toString()
+                    Log.d("hello", t.message.toString())
                 }
             })
 

@@ -34,12 +34,6 @@ class AddJourneyActivity : AppCompatActivity() {
     fun init(){
 
 
-//        dataList = arrayListOf(
-//            "그룹1",
-//            "그룹2",
-//            "그룹3"
-//        )
-
 
 
         val retrofitInterface = getRetrofitInterface()
@@ -72,7 +66,6 @@ class AddJourneyActivity : AppCompatActivity() {
         binding.ivAddJourneyBack.setOnClickListener {
             val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
             setResult(-1, intent)
-            Log.d("hello", "set result 0")
             finish()
         }
 

@@ -38,8 +38,6 @@ class MapHamburgerFragment : Fragment() {
 
 
     fun initData(){
-        Log.d("hello", "abc")
-
         val retrofitInterface = getRetrofitInterface()
         retrofitInterface.requestJourneyData().enqueue(object: retrofit2.Callback<JourneysData>{
             override fun onResponse(
@@ -54,7 +52,6 @@ class MapHamburgerFragment : Fragment() {
                     mapHamburgerDataList.addAll(list)
                     adapter.notifyDataSetChanged()
                 }
-                Log.d("hello", response.toString())
 
             }
 

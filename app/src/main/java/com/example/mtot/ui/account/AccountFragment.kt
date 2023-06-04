@@ -36,13 +36,13 @@ class AccountFragment : Fragment() {
         val journeyInterface = getRetrofitInterface()
         journeyInterface.requestJourneyData().enqueue(object:Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
-                Log.d("Hello",t.message.toString())
+                Log.d("hello",t.message.toString())
             }
             override fun onResponse(
                 call: Call<JourneysData>,
                 response: Response<JourneysData>
             ) {
-                Log.d("Hello",response.body().toString())
+                Log.d("hello",response.body().toString())
                 if(response.isSuccessful){
                     journeysData = response.body()!!
                     binding!!.journeyConunt.text = journeysData!!.journeys.size.toString()

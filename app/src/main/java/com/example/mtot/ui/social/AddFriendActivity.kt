@@ -31,16 +31,19 @@ class AddFriendActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.button.setOnClickListener {
-            val friendInterface = getRetrofitInterface()
+        binding.buttonAddFriend.setOnClickListener {
+
+            val retrofitInterface = getRetrofitInterface()
             val friendEmail = binding.editTextText.text.toString()
 
-
-            friendInterface.addFriend(FriendEmailData(friendEmail)).enqueue(object : Callback<AddFriend> {
+            retrofitInterface.addFriend(FriendEmailData(friendEmail)).enqueue(object : Callback<AddFriend> {
                 override fun onResponse(call: Call<AddFriend>, response: Response<AddFriend>) {
                     Log.d("hello", response.body().toString())
-                    if (response.isSuccessful) {
-                        addFriend = response.body()!!
+                }
+
+
+//                    if (response.isSuccessful) {
+//                        addFriend = response.body()!!
 //                        val dialog = AlertDialog.Builder(this@AddFriendActivity)
 //                            .setTitle("친구 추가 요청 발송했습니다")
 //                            .setMessage("id: " + addFriend.toString())
@@ -51,7 +54,7 @@ class AddFriendActivity : AppCompatActivity() {
 //                            .create()
 //                        alertDialog = dialog
 //                        alertDialog?.show()
-                    } else {
+//                    } else {
 //                        val dialog = AlertDialog.Builder(this@AddFriendActivity)
 //                            .setTitle("아이디가 없습니다")
 //                            .setPositiveButton("확인") { dialog, _ ->
@@ -60,8 +63,8 @@ class AddFriendActivity : AppCompatActivity() {
 //                            }
 //                            .create()
 //                        alertDialog = dialog
-                    }
-                }
+//                    }
+//                }
 
                 override fun onFailure(call: Call<AddFriend>, t: Throwable) {
                     Log.d("hello", t.message.toString())

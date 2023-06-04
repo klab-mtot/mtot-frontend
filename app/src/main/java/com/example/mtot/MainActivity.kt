@@ -1,6 +1,7 @@
 package com.example.mtot
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.view.MenuItem
 import android.view.View
@@ -17,16 +18,20 @@ import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.work.*
 import com.example.mtot.retrofit2.getPostState
+import com.example.mtot.retrofit2.saveJourneyId
 import com.example.mtot.retrofit2.savePostState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
-    var journeyId: Int = -1
     val mapFragment = MapFragment()
     val calendarFragment = CalendarFragment()
     val postFragment = PostFragment()
@@ -52,33 +57,23 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .commit()
 
 
-        //핀 10분마다 자동생성=====================================
-//        val constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.UNMETERED)
-//            .build()
-//
-//        val photoWorkRequest = PeriodicWorkRequestBuilder<PhotoWorker>(
-//            repeatInterval = 10, // 10 minutes
-//            repeatIntervalTimeUnit = TimeUnit.MINUTES
-//        )
-//            .setConstraints(constraints)
-//            .build()
-//
-//        WorkManager.getInstance(applicationContext)
-//            .enqueueUniquePeriodicWork("PhotoWorker", ExistingPeriodicWorkPolicy.KEEP, photoWorkRequest)
 
-
-        //=============================================================
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == -1) {
-                    Log.d("hello", "add journey error")
                     binding.bnv.selectedItemId = R.id.navigation_map
-                } else {
-                    journeyId = result.resultCode
-                    Log.d("hello", "journeyId : " + journeyId)
+                } else {    //만약 journey를 만들었으면
+                    saveJourneyId(this@MainActivity, result.resultCode)
+                    addPhotoWorker()
                 }
             }
+
+        binding.antiHamburgerFrm.setOnClickListener {
+            binding.llHamburgerFrm.visibility = View.GONE
+        }
+        binding.hamburgerFrm.setOnClickListener {
+            //do nothing just cover event
+        }
 
         binding.fab.setOnClickListener {
             if (getPostState(this)) {
@@ -97,14 +92,47 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 val i = Intent(this@MainActivity, AddJourneyActivity::class.java)
                 resultLauncher.launch(i)
             }
-            binding.antiHamburgerFrm.setOnClickListener {
-                binding.llHamburgerFrm.visibility = View.GONE
-            }
-            binding.hamburgerFrm.setOnClickListener {
-                //do nothing just cover event
-            }
         }
 
+        getAppListAction()
+    }
+
+    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+        if(it){
+            Toast.makeText(this, "권한 허용됨", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "권한 거부됨", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun getAppListAction(){
+        val i = Intent(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        when {
+            ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+//                    dialog()
+            }
+            else -> {
+                requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    fun addPhotoWorker(){
+        //핀 10분마다 자동생성=====================================
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)  //wifi connected
+            .build()
+
+        val photoWorkRequest = OneTimeWorkRequestBuilder<PhotoWorker>()
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(applicationContext)
+            .enqueueUniqueWork("PhotoWorker", ExistingWorkPolicy.KEEP, photoWorkRequest)
+        //=============================================================
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

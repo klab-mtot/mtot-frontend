@@ -22,9 +22,6 @@ import retrofit2.Response
 
 class AddGroupActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddGroupBinding
-//    lateinit var rvAdapter : SelectedMemberAdapter
-//    lateinit var recyclerDataList : ArrayList<String>
-//    lateinit var memberList : ArrayList<GetFriendResponse>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +31,6 @@ class AddGroupActivity : AppCompatActivity() {
     }
     fun init(){
 
-//        recyclerDataList = ArrayList<String>()
-//
-//        rvAdapter = SelectedMemberAdapter(recyclerDataList)
-//        binding.rvSelectedMembers.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        rvAdapter.OnItemClickListener = object: SelectedMemberAdapter.onItemClickListener {
-//            override fun onItemClicked(position: Int) {
-//                val str = rvAdapter.items[position]
-//                rvAdapter.removeItem(position)
-//            }
-//        }
-//        binding.rvSelectedMembers.adapter = rvAdapter
-//
         binding.button.setOnClickListener {
             val str = binding.editTextGroupName.text.toString()
             val retrofitInterface = getRetrofitInterface()
