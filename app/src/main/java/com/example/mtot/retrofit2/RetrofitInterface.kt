@@ -121,4 +121,11 @@ interface RetrofitInterface {
         @Body requestBody: Post
     ): Call<ResponseAddPost>
 
+    @POST("/post/edit")
+    fun EditPost(
+        @Body journeyId: Int,
+        @Body title: String,
+        @Body article: String
+    ):Call<Int>
+
 }

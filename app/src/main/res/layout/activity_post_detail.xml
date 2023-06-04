@@ -75,6 +75,20 @@
             android:textColor="@color/quaternary"
             android:textSize="24sp" />
 
+        <EditText
+            android:id="@+id/post_title_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="textPersonName"
+            android:text="post_title_edit"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/quaternary"
+            android:textSize="24sp"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/post_text"
             android:layout_width="wrap_content"
@@ -85,6 +99,18 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/post_text_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="textPersonName"
+            android:text="post_text_edit"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:visibility="gone"/>
 
 
     </LinearLayout>
