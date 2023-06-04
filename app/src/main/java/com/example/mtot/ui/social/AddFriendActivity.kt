@@ -35,6 +35,7 @@ class AddFriendActivity : AppCompatActivity() {
 
             val retrofitInterface = getRetrofitInterface()
             val friendEmail = binding.editTextText.text.toString()
+            Log.d("hello", friendEmail)
 
             retrofitInterface.addFriend(FriendEmailData(friendEmail)).enqueue(object : Callback<AddFriend> {
                 override fun onResponse(call: Call<AddFriend>, response: Response<AddFriend>) {

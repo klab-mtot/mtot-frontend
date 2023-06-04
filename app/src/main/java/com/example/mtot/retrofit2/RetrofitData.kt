@@ -148,3 +148,17 @@ data class PendingFriendshipData(
     @SerializedName("requesterName") val requesterName: String,
     @SerializedName("requesterEmail") val requesterEmail: String
 )
+
+data class RequestAddPin(
+    @SerializedName("journeyId") val journeyId: Int,
+    @SerializedName("location") val location: LocationData
+)
+
+data class LocationData(
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double
+)
+
+data class ResponseAddPin(
+    @SerializedName("pinId") val pinId: Int
+)

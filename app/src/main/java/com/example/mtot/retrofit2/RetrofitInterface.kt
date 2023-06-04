@@ -78,4 +78,14 @@ interface RetrofitInterface {
         @Body requestBody: RequestAddMemberToTeam
     ): Call<ResponseAddMemberToTeam>
 
+    @POST("/journey/requestPin")
+    fun addPinToJourney(
+        @Body requestBody: RequestAddPin
+    ): Call<ResponseAddPin>
+
+//    @POST("/photo")
+//    fun addPhotoToPin(
+//        @Body requestBody: RequestAddPhotoToPin
+//    ): Call<RequestAddPhotoToPin>
+
 }
