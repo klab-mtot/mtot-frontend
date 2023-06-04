@@ -38,6 +38,18 @@ fun getRetrofitInterface(): RetrofitInterface {
     return retrofit.create(RetrofitInterface::class.java)
 }
 
+fun getRetrofitExceptJsonInterface(): RetrofitInterface {
+    val gson: Gson = GsonBuilder()
+        .setLenient()
+        .create()
+    var retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .client(retrofitOkHttpClientExceptJson())
+        .build()
+
+    return retrofit.create(RetrofitInterface::class.java)
+}
 fun loginOkHttpClient(): OkHttpClient {
     val builder = OkHttpClient.Builder()
     builder.followRedirects(false)
@@ -57,6 +69,15 @@ fun retrofitOkHttpClient(): OkHttpClient {
         .build()
 }
 
+fun retrofitOkHttpClientExceptJson(): OkHttpClient {
+    val builder = OkHttpClient.Builder()
+    val logging = HttpLoggingInterceptor()
+    logging.level = HttpLoggingInterceptor.Level.BODY
+
+    return builder.addInterceptor(logging).addInterceptor(AddedTokenRequestExceptJson(accessTokenString!!))
+        .build()
+}
+
 fun setAccessToken(str: String) {
     accessTokenString = str
 }
@@ -71,3 +92,15 @@ class AddedTokenRequest(val localToken: String) : Interceptor {
         return chain.proceed(tokenRequest)
     }
 }
+
+class AddedTokenRequestExceptJson(val localToken: String) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+
+        val tokenRequest = chain.request().newBuilder()
+            .addHeader("Authorization", "Bearer " + accessTokenString).build()
+
+
+        return chain.proceed(tokenRequest)
+    }
+}
+

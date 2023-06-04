@@ -1,6 +1,7 @@
 package com.example.mtot.ui.post
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.HamburgerItemInfo
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentPostHamburgerBinding
+import com.example.mtot.retrofit2.JourneyData
+import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PostHamburgerFragment : Fragment() {
     lateinit var binding: FragmentPostHamburgerBinding
@@ -38,25 +44,24 @@ class PostHamburgerFragment : Fragment() {
         )
 
         val retrofitInterface = getRetrofitInterface()
-//        retrofitInterface.requestJourneyData().enqueue(object: Callback<ArrayList<JourneyData>>{
-//            override fun onResponse(
-//                call: Call<ArrayList<JourneyData>>,
-//                response: Response<ArrayList<JourneyData>>
-//            ) {
-//                Log.d("hello", response.toString())
-//                if(response.isSuccessful){
-//                    mapHamburgerDataList = ArrayList<HamburgerItemInfo>()
-//                    val list = response.body()!!.map {
-//                        HamburgerItemInfo(0, it.name)
-//                    }
-//                    mapHamburgerDataList.addAll(list)
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ArrayList<JourneyData>>, t: Throwable) {
-//                Log.d("hello", t.message.toString())
-//            }
-//        })
+        retrofitInterface.getJourney(getJourneyId(requireContext())).enqueue(object: Callback<JourneyData> {
+            override fun onResponse(
+                call: Call<JourneyData>,
+                response: Response<JourneyData>
+            ) {
+                Log.d("hello", response.body().toString())
+                if(response.isSuccessful){
+                    postHamburgerDataList.addAll(response.body()!!.pins.map {
+                        HamburgerItemInfo(R.drawable.ic_post_hamburger_edit_pin, it.pinId.toString())
+                    })
+                    adapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(call: Call<JourneyData>, t: Throwable) {
+                Log.d("hello", t.message.toString())
+            }
+        })
     }
 
     override fun onDestroyView() {

@@ -3,6 +3,8 @@ package com.example.mtot.retrofit2
 import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
 
 data class LoginData(
     @SerializedName("accessToken") val accessToken: String,
@@ -161,4 +163,10 @@ data class LocationData(
 
 data class ResponseAddPin(
     @SerializedName("pinId") val pinId: Int
+)
+
+
+data class ResponseAddPhotoToPin(
+    @SerializedName("photoIds") val photoIds: List<Int>,
+    @SerializedName("photosUrl") val photosUrl: List<String>
 )

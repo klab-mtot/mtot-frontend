@@ -1,10 +1,19 @@
 package com.example.mtot.retrofit2
 
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
+import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.PartMap
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LoginInterface {
@@ -61,11 +70,10 @@ interface RetrofitInterface {
     @GET("/journey")
     fun requestJourneyData(): Call<JourneysData>
 
-    @GET("/journey/journey_id")
+    @GET("/journey/{journey_id}")
     fun getJourney(
-        @Query("year") year: Int,
-        @Query("month") month: Int,
-    ): Call<CalendarPhotoMonth>
+        @Path("journey_id") journey_id: Int
+    ): Call<JourneyData>
 
     @GET("/photo/calendarThumbnail")
     fun requestCalendarPhoto(
@@ -83,9 +91,14 @@ interface RetrofitInterface {
         @Body requestBody: RequestAddPin
     ): Call<ResponseAddPin>
 
-//    @POST("/photo")
-//    fun addPhotoToPin(
-//        @Body requestBody: RequestAddPhotoToPin
-//    ): Call<RequestAddPhotoToPin>
+    @POST("/photo")
+    fun addPhotoToPin(
+        @Body requestBody: RequestBody
+    ): Call<ResponseAddPhotoToPin>
+//
+//    @Query("pinId") pinId: Int,
+//    @Part imageList : List<MultipartBody.Part>
+
+
 
 }

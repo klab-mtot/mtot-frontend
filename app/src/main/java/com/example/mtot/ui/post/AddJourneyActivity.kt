@@ -43,7 +43,7 @@ class AddJourneyActivity : AppCompatActivity() {
                 call: Call<GetTeamsResponse>,
                 response: Response<GetTeamsResponse>
             ) {
-                Log.d("hello", response.toString())
+                Log.d("hello", response.body()!!.toString())
                 if(response.isSuccessful){
                     teamsList = response.body()!!
                     val nameList = teamsList.teamList.map{
@@ -82,11 +82,13 @@ class AddJourneyActivity : AppCompatActivity() {
                     response: Response<AddJourneyResponse>
                 ) {
                     Log.d("hello", response.toString())
-                    val journeyId = response.body()!!.journeyId
-                    val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
-                    savePostState(this@AddJourneyActivity, true)
-                    saveJourneyId(this@AddJourneyActivity, journeyId)
-                    setResult(journeyId, intent)
+                    if(response.isSuccessful) {
+                        val journeyId = response.body()!!.journeyId
+                        val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
+                        savePostState(this@AddJourneyActivity, true)
+                        saveJourneyId(this@AddJourneyActivity, journeyId)
+                        setResult(journeyId, intent)
+                    }
                     finish()
                 }
 
