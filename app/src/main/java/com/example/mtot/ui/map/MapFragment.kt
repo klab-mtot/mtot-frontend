@@ -132,40 +132,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
 
         googleMap.setOnMarkerClickListener(this@MapFragment)
-
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        googleMap.isMyLocationEnabled=true
     }
-
-//        googleMap.setOnMapClickListener { loc ->
-//            arrLoc.add(loc)
-//            val option2 = MarkerOptions()
-//            option2.position(loc)
-//            option2.icon(
-//                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-//            )
-//            googleMap.addMarker(option2)
-//            val option3 = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
-//            googleMap.addPolyline(option3)
-//        }
-//    }
 
     override fun onMarkerClick(marker: Marker): Boolean {
         val intent=Intent(requireContext(),JourneyDetailActivity::class.java)

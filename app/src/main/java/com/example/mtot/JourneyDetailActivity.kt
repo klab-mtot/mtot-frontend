@@ -110,11 +110,6 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
             }
         })
 
-
-
-
-
-
         //페비
         val retrofitInterface = getRetrofitInterface()
 

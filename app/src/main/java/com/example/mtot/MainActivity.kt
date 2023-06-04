@@ -94,6 +94,12 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         showMapHamburgerToolbar()
     }
 
+    fun stopRecording(){
+        savePostState(this, false)
+        binding.bnv.selectedItemId = R.id.navigation_map
+        postFragment.removeLocationUpdate()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (!getPostState(this)) {
             binding.fab.setImageResource(R.drawable.ic_bottom_navigation_plane)
