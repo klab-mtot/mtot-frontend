@@ -43,7 +43,7 @@ interface RetrofitInterface {
     fun rejectPendingFriendship(
         @Body friendshipId:Int
     ):Call<String>
-    @POST("/friendship/reject")
+    @POST("/friendship/accept")
     fun acceptPendingFriendship(
         @Body friendshipId:Int
     ):Call<String>
