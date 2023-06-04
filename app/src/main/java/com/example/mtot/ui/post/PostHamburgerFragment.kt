@@ -44,7 +44,7 @@ class PostHamburgerFragment : Fragment() {
         )
 
         val retrofitInterface = getRetrofitInterface()
-        retrofitInterface.getJourney(getJourneyId(requireContext())).enqueue(object: Callback<JourneyData> {
+        retrofitInterface.requestJourneyData(getJourneyId(requireContext())).enqueue(object: Callback<JourneyData> {
             override fun onResponse(
                 call: Call<JourneyData>,
                 response: Response<JourneyData>

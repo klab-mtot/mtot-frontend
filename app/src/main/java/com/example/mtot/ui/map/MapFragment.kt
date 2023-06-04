@@ -53,7 +53,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun initMap() {
         val retrofitInterface = getRetrofitInterface()
 
-        retrofitInterface.requestJourneyData().enqueue(object : Callback<JourneysData> {
+        retrofitInterface.requestJourneysData().enqueue(object : Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
                 Log.d("Hello", t.message.toString())
             }

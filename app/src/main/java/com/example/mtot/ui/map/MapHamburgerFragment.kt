@@ -39,7 +39,7 @@ class MapHamburgerFragment : Fragment() {
 
     fun initData(){
         val retrofitInterface = getRetrofitInterface()
-        retrofitInterface.requestJourneyData().enqueue(object: retrofit2.Callback<JourneysData>{
+        retrofitInterface.requestJourneysData().enqueue(object: retrofit2.Callback<JourneysData>{
             override fun onResponse(
                 call: retrofit2.Call<JourneysData>,
                 response: Response<JourneysData>

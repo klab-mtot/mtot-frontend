@@ -13,6 +13,7 @@ import com.example.mtot.retrofit2.GetTeamResponse
 import com.example.mtot.retrofit2.GetTeamsResponse
 import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.JourneysData
+import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.google.android.gms.maps.model.LatLng
 import retrofit2.Call
@@ -34,7 +35,7 @@ class AccountFragment : Fragment() {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
 
         val journeyInterface = getRetrofitInterface()
-        journeyInterface.requestJourneyData().enqueue(object:Callback<JourneysData> {
+        journeyInterface.requestJourneysData().enqueue(object:Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
                 Log.d("hello",t.message.toString())
             }
