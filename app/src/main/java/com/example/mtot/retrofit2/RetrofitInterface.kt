@@ -51,13 +51,13 @@ interface RetrofitInterface {
 
     @POST("/friendship/reject")
     fun rejectPendingFriendship(
-        @Body friendshipId:Int
-    ):Call<ResponseFriendRequestData>
+        @Body friendshipId: Int
+    ): Call<ResponseFriendRequestData>
 
     @POST("/friendship/accept")
     fun acceptPendingFriendship(
-        @Body friendshipId:Int
-    ):Call<ResponseFriendRequestData>
+        @Body friendshipId: Int
+    ): Call<ResponseFriendRequestData>
 
     @POST("/journey")
     fun addJourney(
@@ -102,18 +102,19 @@ interface RetrofitInterface {
     @Multipart
     @POST("/photo")
     fun addPhotoToPin(
-        @Part ("pinId") pinId: RequestBody,
-        @Part imageList : List<MultipartBody.Part>
+        @Part("pinId") pinId: RequestBody,
+        @Part imageList: List<MultipartBody.Part>
     ): Call<ResponseAddPhotoToPin>
-//
-//    @Query("pinId") pinId: Int,
-//    @Part imageList : List<MultipartBody.Part>
-
 
 
     @GET("/photo/journey/{journeyId}")
     fun requestJourneyPhotos(
-    ):Call<List<PhotoData>>
+    ): Call<List<PhotoData>>
+
+    @GET("/photo/pin/{pinId}")
+    fun requestPinPhotos(
+        @Path("pinId") pinId: Int
+    ): Call<RequestPhotos>
 
 
 }

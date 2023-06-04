@@ -54,7 +54,7 @@ class PostHamburgerFragment : Fragment() {
                     2 -> { //핀
                         val pinId = item.id
                         val i = Intent(requireActivity(), PinDetailActivity::class.java)
-                        i.putExtra("journeyId", pinId)
+                        i.putExtra("pinId", pinId)
                         startActivity(i)
                     }
                 }
@@ -67,7 +67,7 @@ class PostHamburgerFragment : Fragment() {
     fun initData(){
         postHamburgerDataList = arrayListOf(
             PostHamburgerItemInfo(0, getJourneyId(requireContext()), "여정 상세",R.drawable.ic_post_hamburger_journey_detail),
-            PostHamburgerItemInfo(0, getJourneyId(requireContext()), "포스트 수정",R.drawable.ic_post_hamburger_edit_post)
+            PostHamburgerItemInfo(1, getJourneyId(requireContext()), "포스트 수정",R.drawable.ic_post_hamburger_edit_post)
         )
 
         val retrofitInterface = getRetrofitInterface()
@@ -79,7 +79,7 @@ class PostHamburgerFragment : Fragment() {
                 Log.d("hello", response.body().toString())
                 if(response.isSuccessful){
                     postHamburgerDataList.addAll(response.body()!!.pins.map {
-                        PostHamburgerItemInfo(1, getJourneyId(requireContext()), it.pinId.toString(),R.drawable.ic_post_hamburger_edit_pin)
+                        PostHamburgerItemInfo(2, it.pinId, it.pinId.toString(),R.drawable.ic_post_hamburger_edit_pin)
                     })
                     adapter.notifyDataSetChanged()
                 }

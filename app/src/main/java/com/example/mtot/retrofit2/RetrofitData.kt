@@ -96,11 +96,11 @@ data class AddMember(
 )
 
 data class PinData(
-    val pinName: String
+    @SerializedName("pinName") val pinName: String
 )
 
 data class PostData(
-    val postName: String
+    @SerializedName("postName") val postName: String
 )
 
 
@@ -174,10 +174,8 @@ data class RequestPhotos(
 )
 
 data class  PhotoData(
-    val url:String
+    @SerializedName("url") val url: String
 )
-
-
 
 data class ResponseAddPhotoToPin(
     @SerializedName("photoIds") val photoIds: List<Int>,
