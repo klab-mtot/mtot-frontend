@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide.init
 import com.example.mtot.databinding.ActivityFriendRequestBinding
 import com.example.mtot.databinding.ItemFriendRequestListRowBinding
@@ -13,6 +15,7 @@ import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.PendingFriendshipsData
 import com.example.mtot.retrofit2.RetrofitInterface
 import com.example.mtot.retrofit2.getRetrofitInterface
+import com.example.mtot.ui.social.FriendListAdapter
 import com.example.mtot.ui.social.FriendRequestAdapter
 import com.example.mtot.ui.social.FriendRequestListInfo
 import retrofit2.Call
@@ -32,19 +35,24 @@ class FriendRequestActivity : AppCompatActivity() {
     }
 
     fun initLayout() {
-        val retrofitInterface = getRetrofitInterface()
+        adapter = FriendRequestAdapter(dataList) // 데이터 리스트를 어댑터에 전달합니다
+        binding.friendRequestNameList.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.friendRequestNameList.adapter=adapter
 
+        val retrofitInterface = getRetrofitInterface()
+        Log.d("QQQ","WWW")
         retrofitInterface.getPendingFriendships()
             .enqueue(object : Callback<PendingFriendshipsData> {
                 override fun onResponse(
                     call: Call<PendingFriendshipsData>,
                     response: Response<PendingFriendshipsData>
                 ) {
-                    Log.d("hello", response.body().toString())
+                    Log.d("HHHH", response.body().toString())
                     if (response.isSuccessful) {
-                        var temp = response.body()!!.pendingFriendships.forEach {
+                        response.body()!!.pendingFriendships.forEach {
                             dataList.add(FriendRequestListInfo(it.friendshipId, it.requesterName))
                         }
+                        adapter.notifyDataSetChanged()
                     }
                 }
 
@@ -53,8 +61,6 @@ class FriendRequestActivity : AppCompatActivity() {
                 }
             })
 
-        adapter = FriendRequestAdapter(dataList) // 데이터 리스트를 어댑터에 전달합니다
-        binding.friendRequestNameList.adapter = adapter
 
     }
 }
