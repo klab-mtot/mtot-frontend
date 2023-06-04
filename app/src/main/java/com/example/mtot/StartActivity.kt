@@ -20,7 +20,6 @@ import retrofit2.Response
 
 class StartActivity : AppCompatActivity() {
     lateinit var binding: ActivityStartBinding
-    var accessToken: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
@@ -36,6 +35,7 @@ class StartActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             val account = task.result!!
             val code = account.serverAuthCode.toString()
+
 
             loginInterface.requestUrl(code).enqueue(object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {

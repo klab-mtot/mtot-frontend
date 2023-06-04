@@ -1,5 +1,7 @@
 package com.example.mtot
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -18,6 +20,7 @@ import com.google.android.material.navigation.NavigationBarView
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -25,9 +28,6 @@ import androidx.work.*
 import com.example.mtot.retrofit2.getPostState
 import com.example.mtot.retrofit2.saveJourneyId
 import com.example.mtot.retrofit2.savePostState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 
@@ -39,8 +39,11 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     val accountFragment = AccountFragment()
 
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getStoragePermission()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -56,16 +59,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .add(R.id.main_frm, accountFragment).hide(accountFragment).show(mapFragment)
             .commit()
 
-        val resultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == -1) {
-                    binding.bnv.selectedItemId = R.id.navigation_map
-                } else {    //만약 journey를 만들었으면
-                    saveJourneyId(this@MainActivity, result.resultCode)
-                    addPhotoWorker()
-                }
-            }
-
         binding.antiHamburgerFrm.setOnClickListener {
             binding.llHamburgerFrm.visibility = View.GONE
         }
@@ -75,15 +68,14 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
 
         binding.fab.setOnClickListener {
             if (getPostState(this)) {
-                if (binding.bnv.selectedItemId == R.id.navigation_post) {
-                    postFragment.addMark()
-                } else {
+                if (binding.bnv.selectedItemId != R.id.navigation_post) {
+                    binding.bnv.selectedItemId = R.id.navigation_post
                     showPostFragment()
                 }
             } else {
                 showPostFragment()
                 binding.bnv.selectedItemId = R.id.navigation_post
-                binding.fab.setImageResource(R.drawable.ic_bottom_navigation_add)
+                binding.fab.setImageResource(R.drawable.ic_bottom_navigation_trail)
                 binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
                 binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
 
@@ -91,46 +83,15 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 resultLauncher.launch(i)
             }
         }
-
-        getAppListAction()
     }
 
-    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
-        if(it){
-            Toast.makeText(this, "권한 허용됨", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "권한 거부됨", Toast.LENGTH_SHORT).show()
-        }
+    fun selectSocialFragment(){
+        binding.bnv.selectedItemId = R.id.navigation_social
     }
 
-    fun getAppListAction(){
-        val i = Intent(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        when {
-            ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                    PackageManager.PERMISSION_GRANTED -> {
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-//                    dialog()
-            }
-            else -> {
-                requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
-        }
-    }
-
-    fun addPhotoWorker(){
-        //핀 10분마다 자동생성=====================================
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED)  //wifi connected
-            .build()
-
-        val photoWorkRequest = OneTimeWorkRequestBuilder<PhotoWorker>()
-            .setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(applicationContext)
-            .enqueueUniqueWork("PhotoWorker", ExistingWorkPolicy.KEEP, photoWorkRequest)
-        //=============================================================
+    fun selectMapFragmentAndHamburger(){
+        binding.bnv.selectedItemId = R.id.navigation_map
+        showMapHamburgerToolbar()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -173,6 +134,17 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         }
     }
 
+    val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            Log.d("hello", result.resultCode.toString())
+            if (result.resultCode == -1) {
+                binding.bnv.selectedItemId = R.id.navigation_map
+            } else {    //만약 journey를 만들었으면
+                saveJourneyId(this@MainActivity, result.resultCode)
+                postFragment.setLocationUpdate()
+            }
+        }
+
     fun showPostHamburgerToolbar() {
         binding.llHamburgerFrm.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction()
@@ -185,32 +157,131 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .replace(R.id.hamburger_frm, MapHamburgerFragment()).commit()
     }
 
-    fun showMapFragment(){
+    fun showMapFragment() {
         supportFragmentManager.beginTransaction().hide(calendarFragment)
             .hide(postFragment).hide(socialFragment).hide(accountFragment).show(mapFragment)
             .commit()
     }
-    fun showCalendarFragment(){
+
+    fun showCalendarFragment() {
         supportFragmentManager.beginTransaction().hide(mapFragment)
             .hide(postFragment).hide(socialFragment).hide(accountFragment)
             .show(calendarFragment)
             .commit()
     }
-    fun showPostFragment(){
+
+    fun showPostFragment() {
         supportFragmentManager.beginTransaction().hide(mapFragment).hide(calendarFragment)
             .hide(socialFragment).hide(accountFragment).show(postFragment)
             .commit()
     }
 
-    fun showSocialFragment(){
+    fun showSocialFragment() {
         supportFragmentManager.beginTransaction().hide(mapFragment).hide(calendarFragment)
             .hide(postFragment).hide(accountFragment).show(socialFragment)
             .commit()
     }
 
-    fun showAccountfragment(){
+    fun showAccountfragment() {
         supportFragmentManager.beginTransaction().hide(mapFragment).hide(calendarFragment)
             .hide(postFragment).hide(socialFragment).show(accountFragment)
             .commit()
     }
+
+
+    val requestFineGPSPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Toast.makeText(this, "Fine GPS 권한 허용됨", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Fine GPS 권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    fun getFineGPSPermission() {
+        when {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) -> {
+            }
+
+            else -> {
+                requestFineGPSPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+
+    val requestCoarseGPSPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            getFineGPSPermission()
+            if (it) {
+                Toast.makeText(this, "Coarse GPS 권한 허용됨", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Coarse GPS 권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    fun getCoarseGPSPermission() {
+        when {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) -> {
+            }
+
+            else -> {
+                requestCoarseGPSPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            }
+        }
+    }
+
+
+
+    val requestStoragePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            getCoarseGPSPermission()
+            if (it) {
+                Toast.makeText(this, "저장소 접근 권한 허용됨", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "저장소 접근 권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    fun getStoragePermission() {
+        when {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) -> {
+            }
+
+            else -> {
+                requestStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
 }

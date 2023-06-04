@@ -44,8 +44,9 @@
         android:layout_weight="3"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/journey_detail_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:elevation="0dp" />
@@ -75,7 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="게시글"
+                    android:text="Post"
                     android:textColor="@color/quaternary"
                     android:textSize="15sp"
                     android:layout_marginBottom="5dp"
@@ -141,7 +142,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="핀"
+                    android:text="Pin"
                     android:textColor="@color/quaternary"
                     android:textSize="15sp"
                     android:layout_marginBottom="5dp"
