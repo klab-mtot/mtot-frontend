@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import android.provider.ContactsContract.Contacts.Photo
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -52,6 +53,7 @@ interface RetrofitInterface {
     fun rejectPendingFriendship(
         @Body friendshipId:Int
     ):Call<String>
+
     @POST("/friendship/accept")
     fun acceptPendingFriendship(
         @Body friendshipId:Int
@@ -68,10 +70,10 @@ interface RetrofitInterface {
     ): Call<AddTeamResponse>
 
     @GET("/journey")
-    fun requestJourneyData(): Call<JourneysData>
+    fun requestJourneysData(): Call<JourneysData>
 
     @GET("/journey/{journey_id}")
-    fun getJourney(
+    fun requestJourneyData(
         @Path("journey_id") journey_id: Int
     ): Call<JourneyData>
 
@@ -80,6 +82,11 @@ interface RetrofitInterface {
         @Query("year") year: Int,
         @Query("month") month: Int,
     ): Call<CalendarPhotoMonth>
+
+    @GET("/photo/journey/{journeyId}")
+    fun getJourneyPhotos(
+        @Path("journeyId") journeyId: String
+    ): Call<List<PhotoUrls>>
 
     @POST("/teams/register")
     fun addMemberToTeam(
@@ -102,5 +109,9 @@ interface RetrofitInterface {
 //    @Part imageList : List<MultipartBody.Part>
 
 
+
+    @GET("/photo/journey/{journeyId}")
+    fun requestJourneyPhotos(
+    ):Call<List<PhotoData>>
 
 }

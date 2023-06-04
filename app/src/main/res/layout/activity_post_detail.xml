@@ -15,7 +15,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            >
 
             <ImageButton
                 android:id="@+id/post_back"
@@ -24,14 +26,17 @@
                 android:background="#FFFFFF"
                 android:minWidth="32dp"
                 android:minHeight="32dp"
+                android:layout_marginStart="30dp"
                 app:srcCompat="@drawable/ic_post_left_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="게시글"
-                android:textColor="#000000"
-                android:textSize="20sp"
+                android:minHeight="32dp"
+                android:layout_marginStart="10dp"
+                android:textSize="24sp"
+                android:textColor="@color/quaternary"
                 android:textStyle="bold" />
 
             <View
@@ -44,44 +49,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:minWidth="20dp"
                 app:srcCompat="@drawable/ic_post_pencil" />
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/post_imageView"
-            android:layout_width="200dp"
-            android:layout_height="136dp"
+            android:id="@+id/post_detail_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:maxHeight="500dp"
+            android:layout_marginTop="10dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <EditText
+        <TextView
             android:id="@+id/post_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:ems="10"
             android:inputType="textPersonName"
             android:text="post_title"
-            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/quaternary"
             android:textSize="24sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/post_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:ems="10"
             android:inputType="textPersonName"
             android:text="post_text"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
             android:textColor="#000000" />
-
-        <EditText
-            android:id="@+id/post_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:text="post_date"
-            android:textColor="#968F8F"
-            android:textSize="12sp" />
 
 
     </LinearLayout>

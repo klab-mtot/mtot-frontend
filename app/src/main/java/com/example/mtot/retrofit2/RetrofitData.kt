@@ -40,7 +40,7 @@ data class Post(
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("post") val post: String,
+    @SerializedName("post") val post: Post,
     @SerializedName("pins") val pins: List<Pin>
 )
 data class JourneysData(
@@ -128,6 +128,10 @@ data class CalendarPhotoMonth(
     @SerializedName("dayList") val dayList: List<CalendarPhotoDay>
 )
 
+data class PhotoUrls(
+    @SerializedName("url") val url: String
+)
+
 data class FriendEmailData(
     @SerializedName("receiverEmail") val receiverEmail: String
 )
@@ -164,6 +168,15 @@ data class LocationData(
 data class ResponseAddPin(
     @SerializedName("pinId") val pinId: Int
 )
+
+data class RequestPhotos(
+    @SerializedName("photoUrls") val photoUrls :List<PhotoData>
+)
+
+data class  PhotoData(
+    val url:String
+)
+
 
 
 data class ResponseAddPhotoToPin(
