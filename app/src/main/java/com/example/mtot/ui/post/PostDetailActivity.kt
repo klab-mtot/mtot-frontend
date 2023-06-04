@@ -3,12 +3,14 @@ package com.example.mtot.ui.post
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mtot.R
 import com.example.mtot.databinding.ActivityPostDetailBinding
 import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.JourneysData
 import com.example.mtot.retrofit2.PhotoData
+import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.Post
 import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
@@ -30,33 +32,23 @@ class PostDetailActivity : AppCompatActivity() {
     }
 
     fun initLayout() {
-        val journeyId = intent.getStringExtra("journeyId")
+        //val journeyId = intent.getIntExtra("journeyId")
+        val journeyId = 0
+
+        if (journeyId != null) {
+            initData(journeyId)
+        }
+
+    }
+    fun initData(journeyId: Int) {
+
 
         var journeyInterface = getRetrofitInterface()
 
-        journeyInterface.requestJourneyPhotos()
-            .enqueue(object : retrofit2.Callback<List<PhotoData>> {
-                override fun onFailure(call: Call<List<PhotoData>>, t: Throwable) {
-                    Log.d("HELLO", t.message.toString())
-                }
-
-                override fun onResponse(
-                    call: Call<List<PhotoData>>,
-                    response: Response<List<PhotoData>>
-                ) {
-                    Log.d("HELLO", response.body().toString())
-                    if (response.isSuccessful) {
-                        var journeyPhotos = response.body()!!
-                        journeyPhoto = journeyPhotos[0].toString()
-                        Glide.with(this@PostDetailActivity)
-                            .load(journeyPhoto)
-                            .into(binding!!.postDetailImageView)
-                    }
-                }
-            })
 
 
-        journeyInterface.requestJourneyData(getJourneyId(this)).enqueue(object : retrofit2.Callback<JourneyData> {
+        journeyInterface.requestJourneyData(journeyId).enqueue(object :
+            retrofit2.Callback<JourneyData> {
             override fun onFailure(call: Call<JourneyData>, t: Throwable) {
                 Log.d("HELLO", t.message.toString())
             }
@@ -64,13 +56,37 @@ class PostDetailActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JourneyData>, response: Response<JourneyData>) {
                 Log.d("HELLO", response.body().toString())
                 if (response.isSuccessful) {
-                    journeyPost = response.body()!!.post
-                    binding!!.postTitle.text = journeyPost!!.title
-                    binding!!.postText.text = journeyPost!!.article
+                    binding.postTitle .text = response.body()!!.post.title
+                    binding.postText.text = response.body()!!.post.article
                 }
             }
         })
 
+        //페비
+        val retrofitInterface = getRetrofitInterface()
 
+        retrofitInterface.getJourneyPhotos(journeyId).enqueue(object :
+            retrofit2.Callback<List<PhotoUrls>> {
+            override fun onResponse(
+                call: Call<List<PhotoUrls>>,
+                response: Response<List<PhotoUrls>>
+            ) {
+                Log.d("hello", response.body().toString())
+                if (response.isSuccessful) {
+                    val photoUrlsList = response.body()
+                    if (photoUrlsList != null) {
+                        Glide.with(this@PostDetailActivity)
+                            .load(photoUrlsList[0])
+                            .into(binding.postDetailImageView)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<PhotoUrls>>, t: Throwable) {
+                Log.d("hello", t.message.toString())
+            }
+
+        })
     }
+
 }

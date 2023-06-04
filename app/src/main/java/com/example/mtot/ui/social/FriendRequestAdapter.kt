@@ -17,7 +17,6 @@ import retrofit2.Response
 class FriendRequestAdapter(var items: ArrayList<FriendRequestListInfo>) :
     RecyclerView.Adapter<FriendRequestAdapter.ViewHolder>() {
 
-
     var OnItemClickListener : onItemClickListener? = null
     interface onItemClickListener {
         fun onAcceptButtonClicked(position: Int)

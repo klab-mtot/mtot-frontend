@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.mtot.databinding.ActivityPinDetailBinding
+import com.example.mtot.databinding.ActivityPinListBinding
 import com.example.mtot.retrofit2.PhotoData
 import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.getRetrofitInterface
@@ -22,8 +22,7 @@ class PinDetailActivity : AppCompatActivity() {
         binding= ActivityPinDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val journeyId = intent.getStringExtra("journeyId")
-
+        val journeyId = intent.getIntExtra("journeyId")
         adapter = PinAdapter(dataList)
         binding.pinRecyclerView.layoutManager = GridLayoutManager(this, 3)
 
@@ -34,11 +33,14 @@ class PinDetailActivity : AppCompatActivity() {
         binding.pinRecyclerView.adapter = adapter
     }
 
-    fun initData(journeyId: String) {
+    fun initData(journeyId: Int) {
         val retrofitInterface = getRetrofitInterface()
 
         retrofitInterface.getJourneyPhotos(journeyId).enqueue(object : Callback<List<PhotoUrls>> {
-            override fun onResponse(call: Call<List<PhotoUrls>>, response: Response<List<PhotoUrls>>) {
+            override fun onResponse(
+                call: Call<List<PhotoUrls>>,
+                response: Response<List<PhotoUrls>>
+            ) {
                 if (response.isSuccessful) {
                     Log.d("hello", response.body().toString())
                     val photoUrlsList = response.body()

@@ -85,8 +85,9 @@ interface RetrofitInterface {
 
     @GET("/photo/journey/{journeyId}")
     fun getJourneyPhotos(
-        @Path("journeyId") journeyId: String
+        @Path("journeyId") journeyId: Int
     ): Call<List<PhotoUrls>>
+
 
     @POST("/teams/register")
     fun addMemberToTeam(
