@@ -19,7 +19,9 @@ import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentMapBinding
 import com.example.mtot.retrofit2.JourneysData
+import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
+import com.example.mtot.ui.post.PinDetailActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,6 +41,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
     lateinit var googleMap: GoogleMap
 
     var arrLoc = ArrayList<LatLng>()
+    var pinMarkerId=ArrayList<Int>()
     lateinit var journeysData: JourneysData
 
     override fun onCreateView(
@@ -83,6 +86,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                                     it.pins[0].location.longitude
                                 )
                             )
+                            pinMarkerId.add(
+                                it.journeyId
+                            )
                         }
                     }
                 }
@@ -115,17 +121,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         googleMap.setMinZoomPreference(5.0f)
         googleMap.setMaxZoomPreference(20.0f)
 
-        val option = MarkerOptions()
-        option.icon(
-            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-        )
-        arrLoc.forEach {
-            //핀 찍어서 보여주기
-            option.position(it)
+        for (i in 0 ..arrLoc.size-1){
+            val option = MarkerOptions()
+            option.icon(
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+            )
+            option.title(pinMarkerId[i].toString())
+            option.position(arrLoc[i])
             googleMap.addMarker(option)
         }
-
-
 
         googleMap.setOnMarkerClickListener(this@MapFragment)
 
@@ -164,9 +168,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 //    }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.position, 15.0f))
         val intent=Intent(requireContext(),JourneyDetailActivity::class.java)
+        intent.putExtra("journeyId", marker.title!!.toInt())
+        requireContext().startActivity(intent)
         return true
     }
+
 
 }
