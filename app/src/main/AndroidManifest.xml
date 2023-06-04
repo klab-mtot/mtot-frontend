@@ -33,7 +33,7 @@
             android:name=".ui.post.PostDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.post.PinListActivity"
+            android:name=".ui.post.PinDetailActivity"
             android:exported="true" />
         <activity
             android:name=".ui.social.AddGroupActivity"

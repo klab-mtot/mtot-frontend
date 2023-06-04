@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.mtot.databinding.ActivityPinListBinding
+import com.example.mtot.databinding.ActivityPinDetailBinding
 import com.example.mtot.retrofit2.PhotoData
 import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.getRetrofitInterface
@@ -12,14 +12,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PinListActivity : AppCompatActivity() {
-    lateinit var binding: ActivityPinListBinding
+class PinDetailActivity : AppCompatActivity() {
+    lateinit var binding: ActivityPinDetailBinding
     private lateinit var adapter: PinAdapter
     var dataList = ArrayList<PhotoData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityPinListBinding.inflate(layoutInflater)
+        binding= ActivityPinDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val journeyId = intent.getStringExtra("journeyId")
