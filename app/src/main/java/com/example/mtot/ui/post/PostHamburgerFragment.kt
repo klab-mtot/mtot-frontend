@@ -39,8 +39,8 @@ class PostHamburgerFragment : Fragment() {
 
     fun initData(){
         postHamburgerDataList = arrayListOf(
-            HamburgerItemInfo(R.drawable.ic_post_hamburger_journey_detail, "여정 상세"),
-            HamburgerItemInfo(R.drawable.ic_post_hamburger_edit_post, "포스트 수정")
+            HamburgerItemInfo(getJourneyId(requireContext()), "여정 상세",R.drawable.ic_post_hamburger_journey_detail),
+            HamburgerItemInfo(getJourneyId(requireContext()), "포스트 수정",R.drawable.ic_post_hamburger_edit_post)
         )
 
         val retrofitInterface = getRetrofitInterface()
@@ -52,7 +52,7 @@ class PostHamburgerFragment : Fragment() {
                 Log.d("hello", response.body().toString())
                 if(response.isSuccessful){
                     postHamburgerDataList.addAll(response.body()!!.pins.map {
-                        HamburgerItemInfo(R.drawable.ic_post_hamburger_edit_pin, it.pinId.toString())
+                        HamburgerItemInfo(getJourneyId(requireContext()), it.pinId.toString(),R.drawable.ic_post_hamburger_edit_pin)
                     })
                     adapter.notifyDataSetChanged()
                 }

@@ -19,11 +19,11 @@ class PinListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityPinListBinding.inflate(layoutInflater)
+        binding = ActivityPinListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val journeyId = intent.getStringExtra("journeyId")
-
+//        val journeyId = intent.getIntExtra("journeyId")
+        val journeyId = 0
         adapter = PinAdapter(dataList)
         binding.pinRecyclerView.layoutManager = GridLayoutManager(this, 3)
 
@@ -34,11 +34,14 @@ class PinListActivity : AppCompatActivity() {
         binding.pinRecyclerView.adapter = adapter
     }
 
-    fun initData(journeyId: String) {
+    fun initData(journeyId: Int) {
         val retrofitInterface = getRetrofitInterface()
 
         retrofitInterface.getJourneyPhotos(journeyId).enqueue(object : Callback<List<PhotoUrls>> {
-            override fun onResponse(call: Call<List<PhotoUrls>>, response: Response<List<PhotoUrls>>) {
+            override fun onResponse(
+                call: Call<List<PhotoUrls>>,
+                response: Response<List<PhotoUrls>>
+            ) {
                 if (response.isSuccessful) {
                     Log.d("hello", response.body().toString())
                     val photoUrlsList = response.body()
