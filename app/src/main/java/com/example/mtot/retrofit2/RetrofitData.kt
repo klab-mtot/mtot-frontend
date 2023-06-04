@@ -126,6 +126,10 @@ data class CalendarPhotoMonth(
     @SerializedName("dayList") val dayList: List<CalendarPhotoDay>
 )
 
+data class PhotoUrls(
+    @SerializedName("url") val url: String
+)
+
 data class FriendEmailData(
     @SerializedName("receiverEmail") val receiverEmail: String
 )
