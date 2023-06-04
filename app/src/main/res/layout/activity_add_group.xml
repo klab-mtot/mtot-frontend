@@ -56,7 +56,7 @@
         android:layout_marginRight="30dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="그룹 이름 "
+        android:hint="그룹 이름 "
         android:textColor="@android:color/darker_gray"
         android:textSize="15sp" />
 

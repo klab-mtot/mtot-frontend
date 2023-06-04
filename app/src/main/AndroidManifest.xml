@@ -21,7 +21,7 @@
             android:name=".ui.social.GroupDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".FriendRequestActivity"
+            android:name=".ui.social.FriendRequestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.post.AddJourneyActivity"

@@ -183,3 +183,7 @@ data class ResponseAddPhotoToPin(
     @SerializedName("photoIds") val photoIds: List<Int>,
     @SerializedName("photosUrl") val photosUrl: List<String>
 )
+
+data class ResponseFriendRequestData(
+    @SerializedName("success") val success: Boolean
+)

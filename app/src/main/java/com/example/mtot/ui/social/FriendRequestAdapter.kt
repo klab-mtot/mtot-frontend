@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FriendRequestAdapter(private var items: ArrayList<FriendRequestListInfo>) :
+class FriendRequestAdapter(var items: ArrayList<FriendRequestListInfo>) :
     RecyclerView.Adapter<FriendRequestAdapter.ViewHolder>() {
 
 
@@ -56,6 +56,14 @@ class FriendRequestAdapter(private var items: ArrayList<FriendRequestListInfo>) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
+    }
+
+    fun removeItem(position: Int){
+        items.removeAt(position)
+        Log.d("jin", "item removed : " + items.toString())
+        notifyItemRemoved(position)
+        Log.d("jin", "notified : " + items.toString())
+
     }
 
 }

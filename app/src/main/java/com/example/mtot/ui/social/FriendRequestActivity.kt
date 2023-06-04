@@ -1,25 +1,15 @@
-package com.example.mtot
+package com.example.mtot.ui.social
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.system.Os.remove
 import android.util.Log
-import android.view.LayoutInflater
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.activity.addCallback
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.bumptech.glide.Glide.init
 import com.example.mtot.databinding.ActivityFriendRequestBinding
-import com.example.mtot.databinding.ItemFriendRequestListRowBinding
-import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.PendingFriendshipsData
-import com.example.mtot.retrofit2.RetrofitInterface
+import com.example.mtot.retrofit2.ResponseFriendRequestData
 import com.example.mtot.retrofit2.getRetrofitInterface
-import com.example.mtot.ui.social.FriendListAdapter
-import com.example.mtot.ui.social.FriendRequestAdapter
-import com.example.mtot.ui.social.FriendRequestListInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,18 +58,19 @@ class FriendRequestActivity : AppCompatActivity() {
         adapter.OnItemClickListener = object : FriendRequestAdapter.onItemClickListener {
             override fun onAcceptButtonClicked(position: Int) {
                 friendRequestInterface.acceptPendingFriendship(dataList[position].friendshipId)
-                    .enqueue(object : Callback<String> {
+                    .enqueue(object : Callback<ResponseFriendRequestData> {
                         override fun onResponse(
-                            call: Call<String>,
-                            response: Response<String>
+                            call: Call<ResponseFriendRequestData>,
+                            response: Response<ResponseFriendRequestData>
                         ) {
                             Log.d("HHH", response.body().toString())
                             if (response.isSuccessful) {
-                                remove(position)
+                                adapter.removeItem(position)
+                                Log.d("jin", adapter.items.toString())
                             }
                         }
 
-                        override fun onFailure(call: Call<String>, t: Throwable) {
+                        override fun onFailure(call: Call<ResponseFriendRequestData>, t: Throwable) {
                             Log.d("QQQ", t.message.toString())
                         }
                     })
@@ -87,30 +78,31 @@ class FriendRequestActivity : AppCompatActivity() {
 
             override fun onRejectButtonClicked(position: Int) {
                 friendRequestInterface.rejectPendingFriendship(dataList[position].friendshipId)
-                    .enqueue(object : Callback<String> {
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                    .enqueue(object : Callback<ResponseFriendRequestData> {
+                        override fun onResponse(call: Call<ResponseFriendRequestData>, response: Response<ResponseFriendRequestData>) {
                             Log.d("HHH", response.body().toString())
                             if (response.isSuccessful) {
-                                remove(position)
+                                adapter.removeItem(position)
                             }
                         }
 
-                        override fun onFailure(call: Call<String>, t: Throwable) {
+                        override fun onFailure(call: Call<ResponseFriendRequestData>, t: Throwable) {
                             Log.d("QQQ", t.message.toString())
                         }
                     })
 
             }
         }
-
         binding.friendRequestNameList.adapter = adapter
 
+        binding.friendRequestBack.setOnClickListener {
+            finish()
+        }
 
-    }
+        val callback = onBackPressedDispatcher.addCallback {
+            finish()
+        }
 
-    fun remove(position:Int) {
-        dataList.removeAt(position)
-        adapter.notifyItemRemoved(position)
     }
 }
 

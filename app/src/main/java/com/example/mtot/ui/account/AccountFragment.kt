@@ -26,7 +26,6 @@ class AccountFragment : Fragment() {
     lateinit var journeysData: JourneysData
     lateinit var groupData: GetTeamsResponse
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +33,16 @@ class AccountFragment : Fragment() {
     ): View {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
 
+        binding!!.imageView3.setOnClickListener {
+            val i = Intent(requireContext(), EditProfileActivity::class.java)
+            startActivity(i)
+        }
+
+
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val journeyInterface = getRetrofitInterface()
         journeyInterface.requestJourneysData().enqueue(object:Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
@@ -50,8 +59,6 @@ class AccountFragment : Fragment() {
                 }
             }
         })
-
-
 
 
         var groupInterface = getRetrofitInterface()
@@ -71,14 +78,7 @@ class AccountFragment : Fragment() {
                 }
             }
         })
-
-        binding!!.imageView3.setOnClickListener {
-            val i = Intent(requireContext(), EditProfileActivity::class.java)
-            startActivity(i)
-        }
-
-
-        return binding.root
     }
+
 }
 

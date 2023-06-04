@@ -32,6 +32,12 @@ class CalendarFragment : Fragment() {
     ): View {
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initCalendar()
         adapter = CalendarAdapter(requireContext(), calList)
         val gridLayoutManager =
@@ -54,8 +60,6 @@ class CalendarFragment : Fragment() {
         binding.rvCalendar.layoutManager = gridLayoutManager
         binding.rvCalendar.adapter = adapter
         binding.rvCalendar.scrollToPosition(scrollPosition)
-
-        return binding.root
     }
 
     fun initCalendar() {
@@ -63,7 +67,7 @@ class CalendarFragment : Fragment() {
         val retrofitInterface = getRetrofitInterface()
         val photoUrlList = ArrayList<CalendarPhotoDay>()
 
-        for (i in -150..50) {
+        for (i in -12..12) {
             val calendar = GregorianCalendar(
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH) + i,

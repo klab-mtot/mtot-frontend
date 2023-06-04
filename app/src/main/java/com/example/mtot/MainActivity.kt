@@ -56,8 +56,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .add(R.id.main_frm, accountFragment).hide(accountFragment).show(mapFragment)
             .commit()
 
-
-
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == -1) {

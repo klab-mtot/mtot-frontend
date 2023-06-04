@@ -52,12 +52,12 @@ interface RetrofitInterface {
     @POST("/friendship/reject")
     fun rejectPendingFriendship(
         @Body friendshipId:Int
-    ):Call<String>
+    ):Call<ResponseFriendRequestData>
 
     @POST("/friendship/accept")
     fun acceptPendingFriendship(
         @Body friendshipId:Int
-    ):Call<String>
+    ):Call<ResponseFriendRequestData>
 
     @POST("/journey")
     fun addJourney(
@@ -113,5 +113,6 @@ interface RetrofitInterface {
     @GET("/photo/journey/{journeyId}")
     fun requestJourneyPhotos(
     ):Call<List<PhotoData>>
+
 
 }

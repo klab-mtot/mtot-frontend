@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/post_detail_back"
+            android:id="@+id/friend_request_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#FFFFFF"

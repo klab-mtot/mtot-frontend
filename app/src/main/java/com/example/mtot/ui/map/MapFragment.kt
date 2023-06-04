@@ -40,14 +40,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
 
-        initMap()
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initMap()
         binding.cvMapHamburgerButton.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showMapHamburgerToolbar()
         }
-
-        return binding.root
     }
 
     private fun initMap() {

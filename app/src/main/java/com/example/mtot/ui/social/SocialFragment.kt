@@ -6,11 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mtot.FriendRequestActivity
 import com.example.mtot.databinding.FragmentSocialBinding
 import com.example.mtot.retrofit2.FriendsData
 import com.example.mtot.retrofit2.GetTeamsResponse
@@ -32,8 +29,13 @@ class SocialFragment : Fragment() {
     ): View {
         binding = FragmentSocialBinding.inflate(inflater, container, false)
 
-        initData()
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initData()
         binding.rvSocialGrouplist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         groupAdapter = GroupListAdapter(groupDataList)
@@ -66,15 +68,6 @@ class SocialFragment : Fragment() {
             startActivity(i)
         }
 
-
-        return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        groupDataList.clear()
-        friendDataList.clear()
-        initData()
     }
 
     fun initData() {
