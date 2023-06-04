@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.mtot.databinding.ActivityJourneyDetailBinding
@@ -16,7 +15,7 @@ import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.Post
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.example.mtot.ui.post.PinAdapter
-import com.example.mtot.ui.post.PinListActivity
+import com.example.mtot.ui.post.PinDetailActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -48,9 +47,6 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onCreate(savedInstanceState)
         binding = ActivityJourneyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val mapFragment =
-            supportFragmentManager.findFragmentById(binding.journeyDetailMap.id) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this@JourneyDetailActivity)
 
         initLayout()
 
@@ -104,6 +100,10 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
                             )
                         }
                     }
+                    val mapFragment =
+                        supportFragmentManager.findFragmentById(binding.journeyDetailMap.id) as SupportMapFragment?
+                    mapFragment!!.getMapAsync(this@JourneyDetailActivity)
+
 
 
                 }
@@ -173,7 +173,7 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
 
     //아래를 핀 상세로 가는걸로 변경
     override fun onMarkerClick(marker: Marker): Boolean {
-        val intent= Intent(this@JourneyDetailActivity, PinListActivity::class.java)
+        val intent= Intent(this@JourneyDetailActivity, PinDetailActivity::class.java)
         intent.putExtra("pinId", marker.id)
         startActivity(intent)
         return true
