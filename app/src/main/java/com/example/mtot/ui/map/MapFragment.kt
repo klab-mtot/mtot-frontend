@@ -54,9 +54,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        arrLoc.clear()
+        pinMarkerId.clear()
+        initMap()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initMap()
         binding.cvMapHamburgerButton.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showMapHamburgerToolbar()
@@ -91,13 +97,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                             )
                         }
                     }
+
+                    val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+                    mapFragment.getMapAsync(this@MapFragment)
                 }
             }
         })
 
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this@MapFragment)
     }
 
     override fun onMapReady(p0: GoogleMap) {

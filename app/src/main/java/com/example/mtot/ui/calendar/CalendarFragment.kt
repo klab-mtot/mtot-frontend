@@ -93,7 +93,7 @@ class CalendarFragment : Fragment() {
                     Log.d("hello", response.toString())
                     if(response.isSuccessful){
                         response.body()!!.dayList.forEach {
-                            photoUrlList.add(CalendarItemInfo(GregorianCalendar(), size+it.day-1, it.url))
+                            photoUrlList.add(CalendarItemInfo(GregorianCalendar(), size+it.day-1+4, it.url))
                         }
                         if(i==12){
                             photoUrlList.forEach {

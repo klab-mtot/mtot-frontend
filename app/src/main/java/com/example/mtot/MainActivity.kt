@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.work.*
+import com.example.mtot.retrofit2.getAccessToken
 import com.example.mtot.retrofit2.getPostState
 import com.example.mtot.retrofit2.saveJourneyId
 import com.example.mtot.retrofit2.savePostState
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("hi", getAccessToken(this))
 
 
         binding = ActivityMainBinding.inflate(layoutInflater)
