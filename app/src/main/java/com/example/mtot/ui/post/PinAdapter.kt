@@ -1,16 +1,22 @@
-package com.example.mtot.ui.post
+package com.example.mtot
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.databinding.ItemPinImageBinding
+import com.bumptech.glide.Glide
 
-class PinAdapter(private val items: List<PinData>) :
+
+class PinAdapter(var context: Context,  var items: ArrayList<String>) :
     RecyclerView.Adapter<PinAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemPinImageBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-            binding.imageItem.setImageResource(items[position].image)
+            val imageUrl = items[position]
+            Glide.with(context)
+                .load(imageUrl)
+                .into(binding.imageItem)
         }
     }
 
@@ -28,4 +34,5 @@ class PinAdapter(private val items: List<PinData>) :
     }
 
 }
+
 

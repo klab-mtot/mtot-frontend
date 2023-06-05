@@ -11,7 +11,11 @@ import com.example.mtot.retrofit2.AddJourneyRequest
 import com.example.mtot.retrofit2.AddJourneyResponse
 import com.example.mtot.retrofit2.GetTeamResponse
 import com.example.mtot.retrofit2.GetTeamsResponse
+import com.example.mtot.retrofit2.Post
+import com.example.mtot.retrofit2.ResponseAddPost
 import com.example.mtot.retrofit2.getRetrofitInterface
+import com.example.mtot.retrofit2.saveJourneyId
+import com.example.mtot.retrofit2.savePostState
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,14 +36,6 @@ class AddJourneyActivity : AppCompatActivity() {
     fun init(){
 
 
-//        dataList = arrayListOf(
-//            "그룹1",
-//            "그룹2",
-//            "그룹3"
-//        )
-
-
-
         val retrofitInterface = getRetrofitInterface()
         /* 최초에 팀 정보 로딩 */
         retrofitInterface.getTeams().enqueue(object: retrofit2.Callback<GetTeamsResponse>{
@@ -47,7 +43,7 @@ class AddJourneyActivity : AppCompatActivity() {
                 call: Call<GetTeamsResponse>,
                 response: Response<GetTeamsResponse>
             ) {
-                Log.d("hello", response.toString())
+                Log.d("hello", response.body()!!.toString())
                 if(response.isSuccessful){
                     teamsList = response.body()!!
                     val nameList = teamsList.teamList.map{
@@ -70,7 +66,6 @@ class AddJourneyActivity : AppCompatActivity() {
         binding.ivAddJourneyBack.setOnClickListener {
             val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
             setResult(-1, intent)
-            Log.d("hello", "set result 0")
             finish()
         }
 
@@ -87,14 +82,37 @@ class AddJourneyActivity : AppCompatActivity() {
                     response: Response<AddJourneyResponse>
                 ) {
                     Log.d("hello", response.toString())
-                    val journeyId = response.body()!!.journeyId
-                    val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
-                    setResult(journeyId, intent)
-                    finish()
+                    if(response.isSuccessful) {
+                        val journeyId = response.body()!!.journeyId
+                        val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
+                        savePostState(this@AddJourneyActivity, true)
+                        saveJourneyId(this@AddJourneyActivity, journeyId)
+                        setResult(journeyId, intent)
+
+                        val requestBody = Post(
+                            journeyId, "this is title", "this is article"
+                        )
+                        retrofitInterface.addPost(requestBody).enqueue(object: Callback<ResponseAddPost>{
+                            override fun onResponse(
+                                call: Call<ResponseAddPost>,
+                                response: Response<ResponseAddPost>
+                            ) {
+                                Log.d("hello", response.body().toString())
+                                if(response.isSuccessful)
+                                    finish()
+                            }
+
+                            override fun onFailure(call: Call<ResponseAddPost>, t: Throwable) {
+                                Log.d("hello", response.body().toString())
+                                finish()
+                            }
+                        })
+                    }
                 }
 
                 override fun onFailure(call: Call<AddJourneyResponse>, t: Throwable) {
                     Log.d("hello", t.message.toString())
+                    finish()
                 }
 
             })

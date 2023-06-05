@@ -7,18 +7,9 @@ import com.example.mtot.databinding.ItemSelectedMemberBinding
 
 class SelectedMemberAdapter(val items: ArrayList<String>) : RecyclerView.Adapter<SelectedMemberAdapter.ViewHolder>() {
 
-    var OnItemClickListener : onItemClickListener? = null
-
-    interface onItemClickListener {
-        fun onItemClicked(position: Int)
-    }
-
     inner class ViewHolder(val binding: ItemSelectedMemberBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.tvSocialList.text = items[position]
-            binding.clItemSelectedMember.setOnClickListener {
-                OnItemClickListener?.onItemClicked(position)
-            }
         }
     }
 
@@ -40,8 +31,4 @@ class SelectedMemberAdapter(val items: ArrayList<String>) : RecyclerView.Adapter
         notifyItemInserted(items.size-1)
     }
 
-    fun removeItem(position: Int){
-        items.removeAt(position)
-        notifyItemRemoved(position)
-    }
 }

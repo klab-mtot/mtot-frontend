@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.post.PinListActivity">
+    tools:context=".ui.post.PinDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,18 +19,20 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/pin_back"
+                android:id="@+id/button_pin_detail_back"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
                 android:minWidth="32dp"
                 android:minHeight="32dp"
+
+                android:layout_marginRight="10dp"
                 app:srcCompat="@drawable/ic_post_left_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="핀"
+                android:text="Pin"
                 android:textColor="#000000"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -41,7 +43,8 @@
             android:id="@+id/pin_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"/>
 
 
 

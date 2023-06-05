@@ -39,7 +39,7 @@
         tools:layout_editor_absoluteY="1dp">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map"
+            android:id="@+id/mao34y86p"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:name="com.google.android.gms.maps.SupportMapFragment"/>

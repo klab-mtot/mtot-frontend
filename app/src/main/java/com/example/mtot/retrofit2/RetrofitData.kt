@@ -3,6 +3,8 @@ package com.example.mtot.retrofit2
 import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
 
 data class LoginData(
     @SerializedName("accessToken") val accessToken: String,
@@ -10,13 +12,13 @@ data class LoginData(
 )
 
 data class TestMember(
-    @SerializedName("id") val id : Int,
-    @SerializedName("name") val name : String,
-    @SerializedName("email") val email : String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("email") val email: String,
 )
 
 data class TestMemberList(
-    @SerializedName("members") val members : List<TestMember>
+    @SerializedName("members") val members: List<TestMember>
 )
 
 data class Pin(
@@ -34,11 +36,10 @@ data class Post(
     @SerializedName("title") val title: String,
     @SerializedName("article") val article: String
 )
-
 data class JourneyData(
     @SerializedName("journeyId") val journeyId: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("post") val post: String,
+    @SerializedName("post") val post: Post,
     @SerializedName("pins") val pins: List<Pin>
 )
 data class JourneysData(
@@ -83,7 +84,6 @@ data class AddJourneyRequest(
 
 data class AddTeamRequest(
     @SerializedName("teamName") val teamName: String,
-    @SerializedName("memberList") val memberList: List<AddMember>
 )
 
 data class AddTeamResponse(
@@ -95,11 +95,11 @@ data class AddMember(
 )
 
 data class PinData(
-    val pinName: String
+    @SerializedName("pinName") val pinName: String
 )
 
 data class PostData(
-    val postName: String
+    @SerializedName("postName") val postName: String
 )
 
 
@@ -108,6 +108,10 @@ data class FriendData(
     @SerializedName("memberId") val memberId: Int,
     @SerializedName("name") val name: String,
     @SerializedName("email") val email: String
+)
+
+data class FriendsData(
+    @SerializedName("friendships") val friendships: List<FriendData>,
 )
 
 data class AddFriend(
@@ -121,4 +125,70 @@ data class CalendarPhotoDay(
 
 data class CalendarPhotoMonth(
     @SerializedName("dayList") val dayList: List<CalendarPhotoDay>
+)
+
+data class PhotoUrls(
+    @SerializedName("url") val url: String
+)
+
+data class ResponsePhotoUrls(
+    @SerializedName("photoUrls") val photoUrls: List<String>
+)
+
+data class FriendEmailData(
+    @SerializedName("receiverEmail") val receiverEmail: String
+)
+
+data class RequestAddMemberToTeam(
+    @SerializedName("teamId") val teamId: Int,
+    @SerializedName("memberEmail") val memberEmail: String
+)
+
+data class ResponseAddMemberToTeam(
+    @SerializedName("teamId") val teamId: Int
+)
+
+data class PendingFriendshipsData(
+    @SerializedName("pendingFriendships") val pendingFriendships: List<PendingFriendshipData>
+)
+
+data class PendingFriendshipData(
+    @SerializedName("friendshipId") val friendshipId: Int,
+    @SerializedName("requesterName") val requesterName: String,
+    @SerializedName("requesterEmail") val requesterEmail: String
+)
+
+data class RequestAddPin(
+    @SerializedName("journeyId") val journeyId: Int,
+    @SerializedName("location") val location: LocationData
+)
+
+data class LocationData(
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double
+)
+
+data class ResponseAddPin(
+    @SerializedName("pinId") val pinId: Int
+)
+
+data class RequestPhotos(
+    @SerializedName("photoUrls") val photoUrls: List<String>
+)
+
+data class  PhotoData(
+    @SerializedName("url") val url: String
+)
+
+data class ResponseAddPhotoToPin(
+    @SerializedName("photoIds") val photoIds: List<Int>,
+    @SerializedName("photosUrl") val photosUrl: List<String>
+)
+
+data class ResponseFriendRequestData(
+    @SerializedName("success") val success: Boolean
+)
+
+data class ResponseAddPost(
+    @SerializedName("postId") val postId: Int
 )

@@ -3,11 +3,15 @@ package com.example.mtot.ui.post
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mtot.HamburgerItemInfo
 import com.example.mtot.R
 import com.example.mtot.databinding.ItemHamburgerBinding
 
-class PostHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerView.Adapter<PostHamburgerAdapter.ViewHolder>() {
+class PostHamburgerAdapter(val items: ArrayList<PostHamburgerItemInfo>) : RecyclerView.Adapter<PostHamburgerAdapter.ViewHolder>() {
+
+    var OnItemClickListener : onItemClickListener? = null
+    interface onItemClickListener {
+        fun onItemClicked(pos: Int)
+    }
 
     inner class ViewHolder(val binding: ItemHamburgerBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
@@ -17,6 +21,9 @@ class PostHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerVi
                 binding.ivItemPostHamburger.setImageResource(R.drawable.ic_post_hamburger_edit_pin)
             }
             binding.tvItemPostHamburger.text = items[position].text
+            binding.itemHamburgerRow.setOnClickListener {
+                OnItemClickListener?.onItemClicked(position)
+            }
         }
     }
 

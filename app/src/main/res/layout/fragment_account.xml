@@ -24,13 +24,13 @@
             android:id="@+id/imageView"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            tools:src="@tools:sample/avatars"
+            android:src="@drawable/ic_account_profile"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:layout_marginLeft="5dp"/>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3"
@@ -73,10 +73,9 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="나의 여정"
-                android:textColor="@color/black"
-                />
+                android:layout_height="match_parent"
+                android:text="My Journey"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/journeyConunt"
@@ -87,11 +86,7 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="#2A6F97"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="개"
-                android:textColor="@color/black"/>
+
         </LinearLayout>
 
         <View
@@ -108,7 +103,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="나의 그룹"
+                android:text="My Group"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -121,25 +116,19 @@
                 android:textColor="#2A6F97"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="개"
-                android:textColor="@color/black"
-                />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_logout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="18dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -149,9 +138,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="로그아웃"
-            android:textSize="15dp"
             android:layout_marginLeft="10dp"
+            android:text="Logout"
+            android:textSize="15dp"
 
             />
     </LinearLayout>
@@ -175,7 +164,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="계정 탈퇴"
+            android:text="Delete account"
             android:textSize="15dp"
             android:layout_marginLeft="10dp"
 
@@ -186,7 +175,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="450dp"
-        android:text="이용약관 | 개인정보처리방침 | 고객센터 | 후원" />
+        android:layout_marginTop="430dp"
+        android:textSize="10sp"
+        android:text="Terms of Service | Privacy Policy | Customer Service | Sponsorship" />
 
 </LinearLayout>

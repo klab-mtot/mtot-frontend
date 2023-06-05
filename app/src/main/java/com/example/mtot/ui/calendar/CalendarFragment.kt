@@ -14,6 +14,7 @@ import com.example.mtot.databinding.FragmentCalendarBinding
 import com.example.mtot.retrofit2.CalendarPhotoDay
 import com.example.mtot.retrofit2.CalendarPhotoMonth
 import com.example.mtot.retrofit2.RetrofitInterface
+import com.example.mtot.retrofit2.getAccessToken
 import com.example.mtot.retrofit2.getRetrofitInterface
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +32,12 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initCalendar()
         adapter = CalendarAdapter(requireContext(), calList)
@@ -54,16 +61,14 @@ class CalendarFragment : Fragment() {
         binding.rvCalendar.layoutManager = gridLayoutManager
         binding.rvCalendar.adapter = adapter
         binding.rvCalendar.scrollToPosition(scrollPosition)
-
-        return binding.root
     }
 
     fun initCalendar() {
         val cal = GregorianCalendar()
         val retrofitInterface = getRetrofitInterface()
-        val photoUrlList = ArrayList<CalendarPhotoDay>()
+        val photoUrlList = ArrayList<CalendarItemInfo>()
 
-        for (i in -150..50) {
+        for (i in -12..12) {
             val calendar = GregorianCalendar(
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH) + i,
@@ -79,6 +84,7 @@ class CalendarFragment : Fragment() {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
 
+            val size = calList.size
             retrofitInterface.requestCalendarPhoto(year, month+1).enqueue(object: Callback<CalendarPhotoMonth>{
                 override fun onResponse(
                     call: Call<CalendarPhotoMonth>,
@@ -86,12 +92,20 @@ class CalendarFragment : Fragment() {
                 ) {
                     Log.d("hello", response.toString())
                     if(response.isSuccessful){
-                        photoUrlList.addAll(response.body()!!.dayList)
+                        response.body()!!.dayList.forEach {
+                            photoUrlList.add(CalendarItemInfo(GregorianCalendar(), size+it.day-1+4, it.url))
+                        }
+                        if(i==12){
+                            photoUrlList.forEach {
+                                Log.d("hii", it.toString())
+                                calList[it.viewType].url = it.url
+                            }
+                        }
                     }
                 }
 
                 override fun onFailure(call: Call<CalendarPhotoMonth>, t: Throwable) {
-                    t.message.toString()
+                    Log.d("hello", t.message.toString())
                 }
             })
 
@@ -123,9 +137,6 @@ class CalendarFragment : Fragment() {
                         ), 2
                     )
                 )
-            }
-            photoUrlList.forEach {
-                calList[calList.size - 1 - max + it.day].url = it.url
             }
 
             if (i < 0) {
