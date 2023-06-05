@@ -4,6 +4,7 @@ import android.app.ActivityGroup
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.R
@@ -45,12 +46,15 @@ class GroupDetailActivity : AppCompatActivity() {
                 ) {
                     if(response.isSuccessful){
                         rvAdapter.addItem(str)
+                        Toast.makeText(this@GroupDetailActivity, "멤버 추가 완료", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@GroupDetailActivity, "멤버 추가 실패", Toast.LENGTH_SHORT).show()
                     }
-                    Log.d("hello", response.body().toString())
+                    Log.d("hi", response.body().toString())
                 }
 
                 override fun onFailure(call: Call<ResponseAddMemberToTeam>, t: Throwable) {
-                    Log.d("hello", t.message.toString())
+                    Log.d("hi", t.message.toString())
                 }
 
             })

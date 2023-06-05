@@ -52,7 +52,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
 
     lateinit var binding: FragmentPostBinding
     lateinit var googleMap: GoogleMap
-    lateinit var myCurrentLoc: LatLng
+    var myCurrentLoc = LatLng(36.5, 127.5)
     val previousLoc = ArrayList<LatLng>()
     var lastestPinNum = -1
 
@@ -77,15 +77,30 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showPostHamburgerToolbar()
         }
-
-
     }
 
+    @SuppressLint("MissingPermission")
     override fun onMapReady(p0: GoogleMap) {
         googleMap = p0
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.setMinZoomPreference(10.0f)
         googleMap.setMaxZoomPreference(20.0f)
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(myCurrentLoc))
+        val locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+        val location0 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val location1 = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        if (location0 != null && location1 != null) {
+            myCurrentLoc = LatLng(
+                (location0.latitude + location1.latitude) / 2,
+                (location0.longitude + location1.longitude) / 2
+            )
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc, 15.0f))
+            addPhotoWorker()
+            drawMarkers()
+        } else {
+            myCurrentLoc = LatLng(36.5,127.5)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc, 15.0f))
+        }
     }
 
 
@@ -98,17 +113,25 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             1.0f,
             myLocationListener
         )
+
+    }
+
+    fun removeLocationUpdate(){
+        val locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+        locationManager.removeUpdates(myLocationListener)
     }
 
     val myLocationListener = object : LocationListener {
         override fun onLocationChanged(p0: Location) {
             Log.d("hello", "onlocationchanged")
             myCurrentLoc = LatLng(p0.latitude, p0.longitude)
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc , 15.0f))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc, 15.0f))
             addPhotoWorker()
             drawMarkers()
         }
     }
+
+
 
     @SuppressLint("Range")
     fun addPhotoWorker() {
@@ -171,7 +194,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
                 Log.d("hello", response.body().toString())
                 if (response.isSuccessful) {
                     pinId = response.body()!!.pinId
-                    if(lastestPinNum != pinId){
+                    if (lastestPinNum != pinId) {
                         lastestPinNum = pinId
                         addMark()
                     }

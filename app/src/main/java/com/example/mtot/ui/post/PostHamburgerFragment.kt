@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.JourneyDetailActivity
+import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentPostHamburgerBinding
 import com.example.mtot.retrofit2.JourneyData
@@ -62,6 +63,10 @@ class PostHamburgerFragment : Fragment() {
         }
         binding.rvPostHamburger.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvPostHamburger.adapter = adapter
+
+        binding.llPostHamburgerStop.setOnClickListener {
+            (requireActivity() as MainActivity).stopRecording()
+        }
     }
 
     fun initData(){

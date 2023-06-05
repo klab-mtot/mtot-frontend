@@ -90,7 +90,7 @@ class AddJourneyActivity : AppCompatActivity() {
                         setResult(journeyId, intent)
 
                         val requestBody = Post(
-                            journeyId, "", ""
+                            journeyId, "this is title", "this is article"
                         )
                         retrofitInterface.addPost(requestBody).enqueue(object: Callback<ResponseAddPost>{
                             override fun onResponse(

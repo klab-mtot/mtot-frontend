@@ -19,7 +19,7 @@ class MapHamburgerAdapter(val items: ArrayList<HamburgerItemInfo>) : RecyclerVie
         fun bind(position: Int){
             binding.tvItemPostHamburger.text = items[position].text
 
-            binding.ivItemPostHamburger.setOnClickListener {
+            binding.itemHamburgerRow.setOnClickListener {
                 OnItemClickListener?.MapHamburgerButtonClicked(position)
 
             }

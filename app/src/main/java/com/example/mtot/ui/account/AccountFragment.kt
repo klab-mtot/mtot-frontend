@@ -53,8 +53,13 @@ class AccountFragment : Fragment() {
 
         return binding.root
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+    override fun onResume() {
+        super.onResume()
+        initData()
+    }
+
+    fun initData(){
         val journeyInterface = getRetrofitInterface()
         journeyInterface.requestJourneysData().enqueue(object:Callback<JourneysData> {
             override fun onFailure(call: Call<JourneysData>, t: Throwable) {
@@ -71,6 +76,7 @@ class AccountFragment : Fragment() {
                 }
             }
         })
+
 
 
         var groupInterface = getRetrofitInterface()
@@ -90,6 +96,9 @@ class AccountFragment : Fragment() {
                 }
             }
         })
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
 }

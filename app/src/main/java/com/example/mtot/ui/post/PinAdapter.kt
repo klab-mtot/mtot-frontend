@@ -1,22 +1,20 @@
-package com.example.mtot.ui.post
+package com.example.mtot
 
-import android.provider.ContactsContract.Contacts.Photo
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mtot.databinding.ItemPinImageBinding
 import com.bumptech.glide.Glide
-import com.example.mtot.retrofit2.PhotoData
 
 
-class PinAdapter(private val items: List<PhotoData>) :
+class PinAdapter(var context: Context,  var items: ArrayList<String>) :
     RecyclerView.Adapter<PinAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemPinImageBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             val imageUrl = items[position]
-
-            Glide.with(binding.root)
+            Glide.with(context)
                 .load(imageUrl)
                 .into(binding.imageItem)
         }
@@ -36,4 +34,5 @@ class PinAdapter(private val items: List<PhotoData>) :
     }
 
 }
+
 

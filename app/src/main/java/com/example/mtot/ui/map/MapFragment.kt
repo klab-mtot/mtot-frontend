@@ -54,9 +54,15 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        arrLoc.clear()
+        pinMarkerId.clear()
+        initMap()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initMap()
         binding.cvMapHamburgerButton.setOnClickListener {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showMapHamburgerToolbar()
@@ -91,13 +97,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
                             )
                         }
                     }
+
+                    val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+                    mapFragment.getMapAsync(this@MapFragment)
                 }
             }
         })
 
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this@MapFragment)
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -110,7 +117,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             Log.d("PIN", "가져올 핀이 있음ㅇㅇ : 핀 개수(여정 개수) = ${arrLoc.size}")
         } else {
             Log.d("PIN", "가져올 핀이 없음ㅇㅇ")
-            googleMap.addMarker(MarkerOptions().position(LatLng(36.5000, 127.5000)))
             googleMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(36.5000, 127.5000),
@@ -132,40 +138,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
         }
 
         googleMap.setOnMarkerClickListener(this@MapFragment)
-
-
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        googleMap.isMyLocationEnabled=true
     }
-
-//        googleMap.setOnMapClickListener { loc ->
-//            arrLoc.add(loc)
-//            val option2 = MarkerOptions()
-//            option2.position(loc)
-//            option2.icon(
-//                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
-//            )
-//            googleMap.addMarker(option2)
-//            val option3 = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
-//            googleMap.addPolyline(option3)
-//        }
-//    }
 
     override fun onMarkerClick(marker: Marker): Boolean {
         val intent=Intent(requireContext(),JourneyDetailActivity::class.java)

@@ -86,7 +86,7 @@ interface RetrofitInterface {
     @GET("/photo/journey/{journeyId}")
     fun getJourneyPhotos(
         @Path("journeyId") journeyId: Int
-    ): Call<List<PhotoUrls>>
+    ): Call<ResponsePhotoUrls>
 
 
     @POST("/teams/register")
@@ -120,5 +120,10 @@ interface RetrofitInterface {
     fun addPost(
         @Body requestBody: Post
     ): Call<ResponseAddPost>
+
+    @POST("/post/edit")
+    fun editPost(
+        @Body editBody:Post
+    ):Call<ResponseAddPost>
 
 }
