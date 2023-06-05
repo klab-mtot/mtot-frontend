@@ -70,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:background="@null"
             android:inputType="textPersonName"
             android:text="post_title"
             android:textColor="@color/quaternary"
@@ -84,27 +83,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
-            android:background="@null"
             android:inputType="textPersonName"
             android:text="post_text"
             android:textColor="#000000" />
 
 
-
     </LinearLayout>
-
-
-
-
-
-
-
 
 
     <LinearLayout
         android:id="@+id/post_detail_edit2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <LinearLayout
@@ -121,8 +112,8 @@
                 android:background="#FFFFFF"
                 android:minWidth="32dp"
                 android:minHeight="32dp"
-                app:srcCompat="@drawable/ic_post_left_arrow"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_post_left_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -165,7 +156,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:background="@null"
             android:inputType="textPersonName"
             android:text="post_title"
             android:textColor="@color/quaternary"
@@ -179,11 +169,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
-            android:background="@null"
             android:inputType="textPersonName"
             android:text="post_text"
             android:textColor="#000000" />
-
 
 
     </LinearLayout>

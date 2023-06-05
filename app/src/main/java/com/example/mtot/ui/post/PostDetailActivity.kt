@@ -19,6 +19,7 @@ import com.example.mtot.retrofit2.PhotoData
 import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.Post
 import com.example.mtot.retrofit2.ResponseAddPost
+import com.example.mtot.retrofit2.ResponsePhotoUrls
 import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -28,6 +29,8 @@ import retrofit2.Response
 
 class PostDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostDetailBinding
+    var title = ""
+    var article = ""
     var journeyPhoto: String? = null
     var journeyPost: Post? = null
 
@@ -35,67 +38,85 @@ class PostDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initLayout()
-    }
-
-    fun initLayout() {
         val journeyId = intent.getIntExtra("journeyId", -1)
-
-        if (journeyId != -1) {
-            initData(journeyId)
-        }
-
-
-
-        binding.postStart.setOnClickListener {
-            binding.postDetailEdit1.visibility = View.GONE
-            binding.postDetailEdit2.visibility = View.VISIBLE
-            binding.postBack2.visibility=View.INVISIBLE
-
-            binding.postTitle2.setText(binding.postTitle1.text)
-            binding.postText2.setText(binding.postText1.text)
-        }
-        binding.postFinish.setOnClickListener {
-            binding.postDetailEdit2.visibility = View.GONE
-            binding.postDetailEdit1.visibility = View.VISIBLE
-
-            binding.postTitle1.text = binding.postTitle2.text
-            binding.postText1.text = binding.postText2.text
-        }
-
-        binding.postBack1.setOnClickListener {
-            //POST로 저장하기
-
-
-            finish()
-        }
-
-    }
-
-    fun initData(journeyId: Int) {
-
-
-        var postInterface = getRetrofitInterface()
-
-        //찍어주기
-        postInterface.requestJourneyData(journeyId).enqueue(object : Callback<JourneyData> {
-
+        val retrofitInterface = getRetrofitInterface()
+        retrofitInterface.requestJourneyData(journeyId).enqueue(object: Callback<JourneyData>{
             override fun onResponse(call: Call<JourneyData>, response: Response<JourneyData>) {
-                Log.d("HI", "HI")
-                if (response.isSuccessful) {
-                    binding.postDetailEdit2.visibility=View.GONE
-                    binding.postTitle1.text = response.body()!!.post.title
-                    binding.postText1.text = response.body()!!.post.article
-                    binding.postTitle2.setText(binding.postTitle1.text)
-                    binding.postText2.setText(binding.postText1.text)
+                Log.d("retrofit", response.body().toString())
+                if(response.isSuccessful){
+                    val journeyData = response.body()!!
+                    title = journeyData.post.title
+                    article = journeyData.post.article
+                    binding.postTitle1.text = title
+                    binding.postText1.text = article
                 }
             }
 
             override fun onFailure(call: Call<JourneyData>, t: Throwable) {
-                Log.d("HI", t.message.toString())
+                Log.d("retrofit", t.message.toString())
             }
+
         })
+
+        retrofitInterface.getJourneyPhotos(journeyId).enqueue(object : Callback<ResponsePhotoUrls> {
+            override fun onResponse(
+                call: Call<ResponsePhotoUrls>,
+                response: Response<ResponsePhotoUrls>
+            ) {
+                Log.d("retrofit", response.body().toString())
+                if (response.isSuccessful) {
+                    val responseBody = response.body()!!
+                    val photoUrls = responseBody.photoUrls
+                    if (photoUrls.isNotEmpty()) {
+                        Glide.with(this@PostDetailActivity)
+                            .load(photoUrls[0])
+                            .into(binding.postDetailImageView1)
+                        Glide.with(this@PostDetailActivity)
+                            .load(photoUrls[0])
+                            .into(binding.postDetailImageView2)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePhotoUrls>, t: Throwable) {
+                Log.d("retrofit", t.message.toString())
+            }
+
+        })
+
+        binding.postStart.setOnClickListener {
+            binding.postDetailEdit2.visibility = View.VISIBLE
+            binding.postDetailEdit1.visibility = View.GONE
+
+            binding.postTitle2.setText(binding.postTitle1.text.toString())
+            binding.postText2.setText(binding.postText1.text.toString())
+        }
+
+        binding.postFinish.setOnClickListener {
+            binding.postDetailEdit2.visibility = View.GONE
+            binding.postDetailEdit1.visibility = View.VISIBLE
+
+            binding.postTitle1.setText(binding.postTitle2.text.toString())
+            binding.postText1.setText(binding.postText2.text.toString())
+        }
+
+        binding.postBack1.setOnClickListener {
+            retrofitInterface.editPost(
+                Post(journeyId,binding.postTitle1.text.toString(), binding.postText1.text.toString())
+            ).enqueue(object: Callback<ResponseAddPost>{
+                override fun onResponse(
+                    call: Call<ResponseAddPost>,
+                    response: Response<ResponseAddPost>
+                ) {
+                    Log.d("retrofit", response.body().toString())
+                    if(response.isSuccessful)
+                        finish()
+                }
+
+                override fun onFailure(call: Call<ResponseAddPost>, t: Throwable) {
+                    Log.d("retrofit", t.message.toString())
+                }
+            })
+        }
     }
-
-
 }
