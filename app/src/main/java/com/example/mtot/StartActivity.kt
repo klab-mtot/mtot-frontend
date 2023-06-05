@@ -1,10 +1,14 @@
 package com.example.mtot
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import com.example.mtot.databinding.ActivityStartBinding
 import com.example.mtot.retrofit2.getLoginInterface
 import com.example.mtot.retrofit2.saveAccessToken
@@ -27,7 +31,104 @@ class StartActivity : AppCompatActivity() {
         init()
     }
 
+
+    val requestFineGPSPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Toast.makeText(this, "Fine GPS 권한 허용됨", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Fine GPS 권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    fun getFineGPSPermission() {
+        when {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) -> {
+            }
+
+            else -> {
+                requestFineGPSPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+
+    val requestCoarseGPSPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            getFineGPSPermission()
+            if (it) {
+                Toast.makeText(this, "Coarse GPS 권한 허용됨", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Coarse GPS 권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    fun getCoarseGPSPermission() {
+        when {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) -> {
+            }
+
+            else -> {
+                requestCoarseGPSPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+            }
+        }
+    }
+
+
+
+    val requestStoragePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            getCoarseGPSPermission()
+            if (it) {
+                Toast.makeText(this, "저장소 접근 권한 허용됨", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "저장소 접근 권한 거부됨", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    fun getStoragePermission() {
+        when {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) -> {
+            }
+
+            else -> {
+                requestStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
     fun init() {
+
+        getStoragePermission()
 
         val loginInterface = getLoginInterface()
 
