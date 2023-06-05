@@ -28,8 +28,14 @@ class SocialFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSocialBinding.inflate(inflater, container, false)
-
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        groupDataList.clear()
+        friendDataList.clear()
+        initData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

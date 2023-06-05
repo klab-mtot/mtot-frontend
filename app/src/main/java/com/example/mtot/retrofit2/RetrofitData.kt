@@ -131,6 +131,10 @@ data class PhotoUrls(
     @SerializedName("url") val url: String
 )
 
+data class ResponsePhotoUrls(
+    @SerializedName("photoUrls") val photoUrls: List<String>
+)
+
 data class FriendEmailData(
     @SerializedName("receiverEmail") val receiverEmail: String
 )
@@ -169,7 +173,7 @@ data class ResponseAddPin(
 )
 
 data class RequestPhotos(
-    @SerializedName("photoUrls") val photoUrls :List<PhotoData>
+    @SerializedName("photoUrls") val photoUrls: List<String>
 )
 
 data class  PhotoData(

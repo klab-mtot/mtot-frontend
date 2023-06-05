@@ -8,6 +8,7 @@
     tools:context=".ui.post.PostDetailActivity">
 
     <LinearLayout
+        android:id="@+id/post_detail_edit1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -15,28 +16,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:layout_marginTop="30dp"
-            >
+            android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/post_back"
+                android:id="@+id/post_back1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
                 android:background="#FFFFFF"
                 android:minWidth="32dp"
                 android:minHeight="32dp"
-                android:layout_marginStart="30dp"
                 app:srcCompat="@drawable/ic_post_left_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post"
-                android:minHeight="32dp"
                 android:layout_marginStart="10dp"
-                android:textSize="24sp"
+                android:minHeight="32dp"
+                android:text="Post"
                 android:textColor="@color/quaternary"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <View
@@ -45,72 +45,145 @@
                 android:layout_weight="1" />
 
             <ImageView
-                android:id="@+id/post_edit"
+                android:id="@+id/post_start"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_marginEnd="10dp"
                 android:minWidth="20dp"
                 app:srcCompat="@drawable/ic_post_pencil" />
+
+
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/post_detail_imageView"
+            android:id="@+id/post_detail_imageView1"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:maxHeight="500dp"
             android:layout_marginTop="10dp"
+            android:maxHeight="500dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/post_title"
+            android:id="@+id/post_title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:inputType="textPersonName"
             android:text="post_title"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="30dp"
-            android:textColor="@color/quaternary"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/post_title_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:inputType="textPersonName"
-            android:text="post_title_edit"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="30dp"
             android:textColor="@color/quaternary"
             android:textSize="24sp"
-            android:visibility="gone"/>
+            android:textStyle="bold" />
+
 
         <TextView
-            android:id="@+id/post_text"
+            android:id="@+id/post_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
             android:background="@null"
             android:inputType="textPersonName"
             android:text="post_text"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
             android:textColor="#000000" />
 
-        <TextView
-            android:id="@+id/post_text_edit"
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/post_detail_edit2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/post_back2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:background="#FFFFFF"
+                android:minWidth="32dp"
+                android:minHeight="32dp"
+                app:srcCompat="@drawable/ic_post_left_arrow"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:minHeight="32dp"
+                android:text="Post"
+                android:textColor="@color/quaternary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/post_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:minWidth="20dp"
+                app:srcCompat="@drawable/ic_check" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/post_detail_imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
+            android:maxHeight="500dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <EditText
+            android:id="@+id/post_title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
             android:background="@null"
             android:inputType="textPersonName"
-            android:text="post_text_edit"
+            android:text="post_title"
+            android:textColor="@color/quaternary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/post_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
-            android:textColor="#000000"
-            android:visibility="gone"/>
+            android:background="@null"
+            android:inputType="textPersonName"
+            android:text="post_text"
+            android:textColor="#000000" />
+
 
 
     </LinearLayout>
