@@ -2,6 +2,7 @@ package com.example.mtot.ui.calendar
 
 import android.content.Context
 import android.icu.util.Calendar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,7 @@ class CalendarAdapter(val context: Context, val items: ArrayList<CalendarItemInf
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Log.d("hi", items[position].toString())
         when(items[position].viewType){
             Type.MONTH -> {
                 (holder as MonthViewHolder).bind(items[position])

@@ -110,7 +110,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
             Log.d("PIN", "가져올 핀이 있음ㅇㅇ : 핀 개수(여정 개수) = ${arrLoc.size}")
         } else {
             Log.d("PIN", "가져올 핀이 없음ㅇㅇ")
-            googleMap.addMarker(MarkerOptions().position(LatLng(36.5000, 127.5000)))
             googleMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(36.5000, 127.5000),

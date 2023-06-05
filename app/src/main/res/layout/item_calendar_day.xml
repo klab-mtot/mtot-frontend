@@ -13,9 +13,9 @@
 
     <ImageView
         android:id="@+id/iv_calendar_day"
+        android:alpha="0.3"
         android:layout_width="@dimen/calendar_cell_size"
         android:layout_height="@dimen/calendar_cell_size"
-        android:elevation="0dp"
-        android:src="@null" />
+        android:elevation="0dp" />
 
 </FrameLayout>

@@ -14,6 +14,7 @@ import com.example.mtot.databinding.FragmentCalendarBinding
 import com.example.mtot.retrofit2.CalendarPhotoDay
 import com.example.mtot.retrofit2.CalendarPhotoMonth
 import com.example.mtot.retrofit2.RetrofitInterface
+import com.example.mtot.retrofit2.getAccessToken
 import com.example.mtot.retrofit2.getRetrofitInterface
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,7 +66,7 @@ class CalendarFragment : Fragment() {
     fun initCalendar() {
         val cal = GregorianCalendar()
         val retrofitInterface = getRetrofitInterface()
-        val photoUrlList = ArrayList<CalendarPhotoDay>()
+        val photoUrlList = ArrayList<CalendarItemInfo>()
 
         for (i in -12..12) {
             val calendar = GregorianCalendar(
@@ -83,14 +84,23 @@ class CalendarFragment : Fragment() {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
 
+            val size = calList.size
             retrofitInterface.requestCalendarPhoto(year, month+1).enqueue(object: Callback<CalendarPhotoMonth>{
                 override fun onResponse(
                     call: Call<CalendarPhotoMonth>,
                     response: Response<CalendarPhotoMonth>
                 ) {
-//                    Log.d("hello", response.toString())
+                    Log.d("hello", response.toString())
                     if(response.isSuccessful){
-                        photoUrlList.addAll(response.body()!!.dayList)
+                        response.body()!!.dayList.forEach {
+                            photoUrlList.add(CalendarItemInfo(GregorianCalendar(), size+it.day-1, it.url))
+                        }
+                        if(i==12){
+                            photoUrlList.forEach {
+                                Log.d("hii", it.toString())
+                                calList[it.viewType].url = it.url
+                            }
+                        }
                     }
                 }
 
@@ -127,9 +137,6 @@ class CalendarFragment : Fragment() {
                         ), 2
                     )
                 )
-            }
-            photoUrlList.forEach {
-                calList[calList.size - 1 - max + it.day].url = it.url
             }
 
             if (i < 0) {
