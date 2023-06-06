@@ -133,27 +133,13 @@ class PostFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("Range")
     fun addPhotoWorker() {
-        //핀 10분마다 자동생성=====================================
-//        val constraints = Constraints.Builder()
-//            .setRequiredNetworkType(NetworkType.UNMETERED)  //wifi connected
-//            .build()
-//
-//        val photoWorkRequest = OneTimeWorkRequestBuilder<PhotoWorker>()
-//            .setConstraints(constraints)
-//            .build()
-//
-//        WorkManager.getInstance(applicationContext)
-//            .enqueueUniqueWork("PhotoWorker", ExistingWorkPolicy.KEEP, photoWorkRequest)
-        //=============================================================
 
-        val ALBUM_DIRECTORY =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()
-        Log.d("qwerty1", ALBUM_DIRECTORY)
         val currentTime = System.currentTimeMillis()
         val tenMinutesAgo = currentTime - 10 * 60 * 1000
         val selection = "${MediaStore.Images.ImageColumns.DATE_TAKEN} >= $tenMinutesAgo"
         val sortOrder = "${MediaStore.Images.ImageColumns.DATE_TAKEN} DESC"
         val projection = arrayOf(MediaStore.Images.ImageColumns.DATA)
+        Log.d("qwerty1", projection.toString())
         val cursor = requireContext().contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             projection,
@@ -161,14 +147,14 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             null,
             sortOrder
         )
+        Log.d("qwerty1", cursor.toString())
 
         val retrofitInterface = getRetrofitInterface()
-
         val files = ArrayList<MultipartBody.Part>()
         cursor?.use {
             while (it.moveToNext()) {
                 val imagePath = it.getString(it.getColumnIndex(MediaStore.Images.ImageColumns.DATA))
-                Log.d("hello", "imagePath : " + imagePath)
+                Log.d("qwerty1", imagePath)
                 val imageFile = File(imagePath)
                 files.add(
                     MultipartBody.Part.createFormData(
@@ -221,7 +207,8 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<ResponseAddPin>, t: Throwable) {
-                t.message.toString()
+                Log.d("retrofit", t.message.toString())
+
             }
         })
     }
