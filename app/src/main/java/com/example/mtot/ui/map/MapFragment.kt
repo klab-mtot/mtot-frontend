@@ -19,7 +19,6 @@ import com.example.mtot.MainActivity
 import com.example.mtot.R
 import com.example.mtot.databinding.FragmentMapBinding
 import com.example.mtot.retrofit2.JourneysData
-import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.example.mtot.ui.post.PinDetailActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -113,19 +112,17 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListe
 
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         if (!arrLoc.isEmpty()) {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(arrLoc[0], 9.0f))
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(arrLoc[0], 13.0f))
             Log.d("PIN", "가져올 핀이 있음ㅇㅇ : 핀 개수(여정 개수) = ${arrLoc.size}")
         } else {
             Log.d("PIN", "가져올 핀이 없음ㅇㅇ")
             googleMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     LatLng(36.5000, 127.5000),
-                    8.0f
+                    13.0f
                 )
             )
         }
-        googleMap.setMinZoomPreference(5.0f)
-        googleMap.setMaxZoomPreference(20.0f)
 
         for (i in 0 ..arrLoc.size-1){
             val option = MarkerOptions()

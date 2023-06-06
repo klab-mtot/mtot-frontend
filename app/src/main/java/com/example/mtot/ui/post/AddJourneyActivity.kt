@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
+import androidx.activity.addCallback
 import com.example.mtot.MainActivity
 import com.example.mtot.databinding.ActivityAddJourneyBinding
 import com.example.mtot.retrofit2.AddJourneyRequest
@@ -34,8 +35,6 @@ class AddJourneyActivity : AppCompatActivity() {
     }
 
     fun init(){
-
-
         val retrofitInterface = getRetrofitInterface()
         /* 최초에 팀 정보 로딩 */
         retrofitInterface.getTeams().enqueue(object: retrofit2.Callback<GetTeamsResponse>{
@@ -68,6 +67,7 @@ class AddJourneyActivity : AppCompatActivity() {
             setResult(-1, intent)
             finish()
         }
+
 
 
         /* add journey 버튼 클릭 */
@@ -117,6 +117,13 @@ class AddJourneyActivity : AppCompatActivity() {
 
             })
         }
+
+        val callback = onBackPressedDispatcher.addCallback {
+            val intent = Intent(this@AddJourneyActivity, MainActivity::class.java)
+            setResult(-1, intent)
+            finish()
+        }
+
     }
 
 }

@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.getSystemService
@@ -55,6 +56,9 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     var myCurrentLoc = LatLng(36.5, 127.5)
     val previousLoc = ArrayList<LatLng>()
     var lastestPinNum = -1
+    var isFirstChecked = true
+    var lastestPicStr = ""
+    var requestList = ArrayList<MultipartBody.Part>()
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(
@@ -77,14 +81,13 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             val mainActivity = requireActivity() as MainActivity
             mainActivity.showPostHamburgerToolbar()
         }
+
     }
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(p0: GoogleMap) {
         googleMap = p0
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-        googleMap.setMinZoomPreference(10.0f)
-        googleMap.setMaxZoomPreference(20.0f)
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(myCurrentLoc))
         val locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
         val location0 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -98,7 +101,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             addPhotoWorker()
             drawMarkers()
         } else {
-            myCurrentLoc = LatLng(36.5,127.5)
+            myCurrentLoc = LatLng(36.5, 127.5)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc, 15.0f))
         }
     }
@@ -115,7 +118,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
-    fun removeLocationUpdate(){
+    fun removeLocationUpdate() {
         val locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
         locationManager.removeUpdates(myLocationListener)
     }
@@ -130,39 +133,51 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-
     @SuppressLint("Range")
     fun addPhotoWorker() {
 
-        val currentTime = System.currentTimeMillis()
-        val tenMinutesAgo = currentTime - 10 * 60 * 1000
-        val selection = "${MediaStore.Images.ImageColumns.DATE_TAKEN} >= $tenMinutesAgo"
+
         val sortOrder = "${MediaStore.Images.ImageColumns.DATE_TAKEN} DESC"
         val projection = arrayOf(MediaStore.Images.ImageColumns.DATA)
         Log.d("qwerty1", projection.toString())
         val cursor = requireContext().contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             projection,
-            selection,
+            null,
             null,
             sortOrder
         )
         Log.d("qwerty1", cursor.toString())
 
         val retrofitInterface = getRetrofitInterface()
-        val files = ArrayList<MultipartBody.Part>()
+        var isFirstFile = true
+        var firstFileName = ""
         cursor?.use {
             while (it.moveToNext()) {
                 val imagePath = it.getString(it.getColumnIndex(MediaStore.Images.ImageColumns.DATA))
-                Log.d("qwerty1", imagePath)
+                if (isFirstFile) {
+                    isFirstFile = false
+                    firstFileName = imagePath
+                }
+                if (isFirstChecked) {
+                    Log.d("qwerty4", "isFirstCheked true")
+                    isFirstChecked = false
+                    break
+                }
+                if (imagePath == lastestPicStr) {
+                    Log.d("qwerty4", "imagePath == lastetstPicStr")
+                    break
+                }
                 val imageFile = File(imagePath)
-                files.add(
+                Log.d("qwerty4", "imagePath : " + imagePath)
+                requestList.add(
                     MultipartBody.Part.createFormData(
                         "photos", imageFile.name,
                         imageFile.asRequestBody("image/*".toMediaTypeOrNull())
                     )
                 )
             }
+            lastestPicStr = firstFileName
         }
         var pinId = -1
         val retrofitInterfaceExceptJson = getRetrofitExceptJsonInterface()
@@ -185,8 +200,11 @@ class PostFragment : Fragment(), OnMapReadyCallback {
                     }
                     val pinIdRequestBody =
                         pinId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-                    val requestList = files.toList()
-                    retrofitInterfaceExceptJson.addPhotoToPin(pinIdRequestBody, requestList)
+                    Log.d("qwerty4", requestList.toList().toString())
+                    retrofitInterfaceExceptJson.addPhotoToPin(
+                        pinIdRequestBody,
+                        requestList.toList()
+                    )
                         .enqueue(object : Callback<ResponseAddPhotoToPin> {
                             override fun onResponse(
                                 call: Call<ResponseAddPhotoToPin>,
@@ -203,6 +221,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
                             }
 
                         })
+                    requestList.clear()
                 }
             }
 
@@ -235,7 +254,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         googleMap.addMarker(curMarkerOption)
     }
 
-    fun clearPin(){
+    fun clearPin() {
         previousLoc.clear()
     }
 

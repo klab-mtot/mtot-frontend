@@ -42,11 +42,13 @@ class PostHamburgerFragment : Fragment() {
                 when(item.type){
                     0 -> { //여정
                         val journeyId = item.id
+                        Log.d("qwerty5", "journey" + item.id)
                         val i = Intent(requireActivity(), JourneyDetailActivity::class.java)
                         i.putExtra("journeyId", journeyId)
                         startActivity(i)
                     }
                     1 -> { //포스트
+                        Log.d("qwerty5", "post : " + item.id)
                         val journeyId = item.id
                         val i = Intent(requireActivity(), PostDetailActivity::class.java)
                         i.putExtra("journeyId", journeyId)
@@ -67,7 +69,7 @@ class PostHamburgerFragment : Fragment() {
         binding.llPostHamburgerStop.setOnClickListener {
             val mainActivity = (requireActivity() as MainActivity)
             mainActivity.stopRecording()
-            mainActivity.hidePostHamburgerToolbar()
+            mainActivity.hideHamburgerToolbar()
             mainActivity.postFragment.clearPin()
         }
     }

@@ -20,7 +20,6 @@ import com.example.mtot.retrofit2.PhotoUrls
 import com.example.mtot.retrofit2.Post
 import com.example.mtot.retrofit2.ResponseAddPost
 import com.example.mtot.retrofit2.ResponsePhotoUrls
-import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getRetrofitInterface
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import retrofit2.Call

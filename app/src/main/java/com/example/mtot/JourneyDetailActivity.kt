@@ -149,11 +149,11 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
         mMap = p0
         if (arrLoc.size > 0) {
             mMap.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(arrLoc!![0], 9.0f)
+                CameraUpdateFactory.newLatLngZoom(arrLoc!![0], 15.0f)
             )
         } else {
             mMap.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(LatLng(40.5, 127.5), 9.0f)
+                CameraUpdateFactory.newLatLngZoom(LatLng(40.5, 127.5), 15.0f)
             )
             Toast.makeText(this, "해당 여정에 핀이 없어요! 핀 개수: ${arrLoc.size}", Toast.LENGTH_SHORT).show()
         }

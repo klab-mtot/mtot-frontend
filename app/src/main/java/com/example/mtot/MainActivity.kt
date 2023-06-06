@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.work.*
@@ -75,11 +76,6 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 }
             } else {
                 showPostFragment()
-                binding.bnv.selectedItemId = R.id.navigation_post
-                binding.fab.setImageResource(R.drawable.ic_bottom_navigation_trail)
-                binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
-                binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
-
                 val i = Intent(this@MainActivity, AddJourneyActivity::class.java)
                 resultLauncher.launch(i)
             }
@@ -141,6 +137,16 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         }
     }
 
+    val callback = onBackPressedDispatcher.addCallback {
+        if(binding.llHamburgerFrm.visibility == View.VISIBLE){
+            hideHamburgerToolbar()
+        } else if(binding.bnv.selectedItemId != R.id.navigation_map) {
+            binding.bnv.selectedItemId = R.id.navigation_map
+        } else {
+            finish()
+        }
+    }
+
     val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             Log.d("hello", result.resultCode.toString())
@@ -148,6 +154,10 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
                 binding.bnv.selectedItemId = R.id.navigation_map
             } else {    //만약 journey를 만들었으면
                 saveJourneyId(this@MainActivity, result.resultCode)
+                binding.bnv.selectedItemId = R.id.navigation_post
+                binding.fab.setImageResource(R.drawable.ic_bottom_navigation_trail)
+                binding.fab.imageTintList = ColorStateList.valueOf(getColor(R.color.black))
+                binding.fab.backgroundTintList = ColorStateList.valueOf(getColor(R.color.secondary))
                 postFragment.setLocationUpdate()
             }
         }
@@ -158,7 +168,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .replace(R.id.hamburger_frm, PostHamburgerFragment()).commit()
     }
 
-    fun hidePostHamburgerToolbar() {
+    fun hideHamburgerToolbar() {
         binding.llHamburgerFrm.visibility = View.GONE
     }
 

@@ -14,7 +14,6 @@ import com.example.mtot.retrofit2.GetTeamResponse
 import com.example.mtot.retrofit2.GetTeamsResponse
 import com.example.mtot.retrofit2.JourneyData
 import com.example.mtot.retrofit2.JourneysData
-import com.example.mtot.retrofit2.getJourneyId
 import com.example.mtot.retrofit2.getMyEmail
 import com.example.mtot.retrofit2.getRetrofitInterface
 import com.google.android.gms.maps.model.LatLng
