@@ -31,8 +31,6 @@ class PostDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostDetailBinding
     var title = ""
     var article = ""
-    var journeyPhoto: String? = null
-    var journeyPost: Post? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -110,19 +110,19 @@ class StartActivity : AppCompatActivity() {
         when {
             ActivityCompat.checkSelfPermission(
                 this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_MEDIA_IMAGES
             ) ==
                     PackageManager.PERMISSION_GRANTED -> {
             }
 
             ActivityCompat.shouldShowRequestPermissionRationale(
                 this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_MEDIA_IMAGES
             ) -> {
             }
 
             else -> {
-                requestStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestStoragePermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
             }
         }
     }

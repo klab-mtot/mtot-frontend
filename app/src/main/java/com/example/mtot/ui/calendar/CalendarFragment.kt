@@ -26,13 +26,17 @@ class CalendarFragment : Fragment() {
     val calList = ArrayList<CalendarItemInfo>()
     var scrollPosition = 0
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        calList.clear()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -68,6 +72,8 @@ class CalendarFragment : Fragment() {
         val retrofitInterface = getRetrofitInterface()
         val photoUrlList = ArrayList<CalendarItemInfo>()
 
+        val dateList = ArrayList<Int>()
+
         for (i in -12..12) {
             val calendar = GregorianCalendar(
                 cal.get(Calendar.YEAR),
@@ -81,35 +87,7 @@ class CalendarFragment : Fragment() {
                 CalendarItemInfo(calendar, 0)
             )
 
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-
             val size = calList.size
-            retrofitInterface.requestCalendarPhoto(year, month+1).enqueue(object: Callback<CalendarPhotoMonth>{
-                override fun onResponse(
-                    call: Call<CalendarPhotoMonth>,
-                    response: Response<CalendarPhotoMonth>
-                ) {
-                    Log.d("hello", response.toString())
-                    if(response.isSuccessful){
-                        response.body()!!.dayList.forEach {
-                            photoUrlList.add(CalendarItemInfo(GregorianCalendar(), size+it.day-1+4, it.url))
-                        }
-                        if(i==12){
-                            photoUrlList.forEach {
-                                Log.d("hii", it.toString())
-                                calList[it.viewType].url = it.url
-                            }
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<CalendarPhotoMonth>, t: Throwable) {
-                    Log.d("hello", t.message.toString())
-                }
-            })
-
-
             val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
             val max = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
@@ -127,6 +105,7 @@ class CalendarFragment : Fragment() {
                     )
                 )
             }
+            dateList.add(calList.size)
             for (j in 1..max) {
                 calList.add(
                     CalendarItemInfo(
@@ -142,6 +121,39 @@ class CalendarFragment : Fragment() {
             if (i < 0) {
                 scrollPosition += dayOfWeek + max + 1
             }
+        }
+        for(i in -12..12){
+            val calendar = GregorianCalendar(
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH) + i,
+                1,
+                0,
+                0,
+                0
+            )
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            retrofitInterface.requestCalendarPhoto(year, month+1).enqueue(object: Callback<CalendarPhotoMonth>{
+                override fun onResponse(
+                    call: Call<CalendarPhotoMonth>,
+                    response: Response<CalendarPhotoMonth>
+                ) {
+                    Log.d("hello", response.toString())
+                    if(response.isSuccessful){
+                        Log.d("qwerty", response.body().toString())
+                        val index = dateList[12+i]
+                        response.body()!!.dayList.forEach {
+                            Log.d("qwerty", it.day.toString())
+                            calList[index+it.day-1].url = it.url
+                            adapter.notifyItemChanged(index+it.day-1)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CalendarPhotoMonth>, t: Throwable) {
+                    Log.d("hello", t.message.toString())
+                }
+            })
         }
     }
 

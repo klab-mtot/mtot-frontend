@@ -54,6 +54,7 @@ class CalendarAdapter(val context: Context, val items: ArrayList<CalendarItemInf
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
         Log.d("hi", items[position].toString())
         when(items[position].viewType){
             Type.MONTH -> {

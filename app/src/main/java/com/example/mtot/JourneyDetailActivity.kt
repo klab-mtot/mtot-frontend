@@ -1,9 +1,11 @@
 package com.example.mtot
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -31,8 +33,6 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
 
     lateinit var binding: ActivityJourneyDetailBinding
-    var journeyPhoto: String? = null
-    var journeyPost: Post? = null
     var journeyId = -1
     var journeyData: JourneyData? = null
     var arrLoc = ArrayList<LatLng>()
@@ -40,6 +40,26 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
     lateinit var mMap: GoogleMap
     private lateinit var adapter: PinAdapter
     var dataList = ArrayList<String>()
+    val editPostLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            val retrofitInterface = getRetrofitInterface()
+            retrofitInterface.requestJourneyData(journeyId).enqueue(object : Callback<JourneyData> {
+                override fun onFailure(call: Call<JourneyData>, t: Throwable) {
+                    Log.d("retrofit", t.message.toString())
+                }
+
+                override fun onResponse(call: Call<JourneyData>, response: Response<JourneyData>) {
+                    Log.d("retrofit", response.body().toString())
+                    if (response.isSuccessful) {
+                        journeyData = response.body()
+                        binding.journeyDetailTitle.text = response.body()!!.name
+                        if (journeyData!!.post != null) {
+                            binding.journeyDetailPostTitle.text = response.body()!!.post.title
+                            binding.journeyDetailPostText.text = response.body()!!.post.article
+                        }
+                    }
+                }
+            })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +79,7 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
         binding.postDetailPostEdit.setOnClickListener {
             val intent = Intent(this, PostDetailActivity::class.java)
             intent.putExtra("journeyId", journeyId)
-            startActivity(intent)
+            editPostLauncher.launch(intent)
         }
 
         val retrofitInterface = getRetrofitInterface()

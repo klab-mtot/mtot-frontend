@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.databinding.FragmentSocialBinding
@@ -22,6 +23,53 @@ class SocialFragment : Fragment() {
     lateinit var friendAdapter: FriendListAdapter
     var groupDataList = ArrayList<SocialListInfo>()
     var friendDataList = ArrayList<SocialListInfo>()
+    val friendAddLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            friendDataList.clear()
+            val retrofitInterface = getRetrofitInterface()
+            retrofitInterface.requestFriendsData().enqueue(object : Callback<FriendsData> {
+                override fun onFailure(call: Call<FriendsData>, t: Throwable) {
+                    Log.d("hello", t.message.toString())
+                }
+
+                override fun onResponse(call: Call<FriendsData>, response: Response<FriendsData>) {
+                    Log.d("hello", response.body().toString())
+                    if (response.isSuccessful) {
+                        friendDataList.addAll(response.body()!!.friendships.map {
+                            SocialListInfo(it.friendshipId, 0, it.name)
+                        }.toList())
+                        friendAdapter.notifyDataSetChanged()
+                    }
+
+                }
+            })
+        }
+
+    val groupAddLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            groupDataList.clear()
+            val retrofitInterface = getRetrofitInterface()
+            retrofitInterface.getTeams().enqueue(object : Callback<GetTeamsResponse> {
+                override fun onFailure(call: Call<GetTeamsResponse>, t: Throwable) {
+                    Log.d("hello", t.message.toString())
+                }
+
+                override fun onResponse(
+                    call: Call<GetTeamsResponse>,
+                    response: Response<GetTeamsResponse>
+                ) {
+                    Log.d("hello", response.body().toString())
+                    if (response.isSuccessful) {
+                        val list = response.body()!!
+                        groupDataList.addAll(list.teamList.map {
+                            SocialListInfo(it.teamId, 0, it.teamName)
+                        }.toList())
+                        groupAdapter.notifyDataSetChanged()
+                    }
+                }
+            })
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,20 +79,14 @@ class SocialFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        groupDataList.clear()
-        friendDataList.clear()
-        initData()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initData()
 
         binding.rvSocialGrouplist.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         groupAdapter = GroupListAdapter(groupDataList)
-        groupAdapter.OnItemClickListener = object: GroupListAdapter.onItemClickListener {
+        groupAdapter.OnItemClickListener = object : GroupListAdapter.onItemClickListener {
             override fun onItemClicked(position: Int) {
                 val i = Intent(requireContext(), GroupDetailActivity::class.java)
                 i.putExtra("teamId", groupAdapter.items[position].id)
@@ -60,17 +102,17 @@ class SocialFragment : Fragment() {
 
         binding.ivSocialGrouplist.setOnClickListener {
             val i = Intent(requireContext(), AddGroupActivity::class.java)
-            startActivity(i)
+            groupAddLauncher.launch(i)
         }
 
         binding.ivSocialFriendlist.setOnClickListener {
             val i = Intent(requireContext(), AddFriendActivity::class.java)
-            startActivity(i)
+            friendAddLauncher.launch(i)
         }
 
         binding.friendRequestListButton.setOnClickListener {
-            val i=Intent(requireContext(), FriendRequestActivity::class.java)
-            startActivity(i)
+            val i = Intent(requireContext(), FriendRequestActivity::class.java)
+            friendAddLauncher.launch(i)
         }
 
     }
@@ -83,11 +125,14 @@ class SocialFragment : Fragment() {
                 Log.d("hello", t.message.toString())
             }
 
-            override fun onResponse(call: Call<GetTeamsResponse>, response: Response<GetTeamsResponse>) {
+            override fun onResponse(
+                call: Call<GetTeamsResponse>,
+                response: Response<GetTeamsResponse>
+            ) {
                 Log.d("hello", response.body().toString())
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val list = response.body()!!
-                    groupDataList.addAll(list.teamList.map{
+                    groupDataList.addAll(list.teamList.map {
                         SocialListInfo(it.teamId, 0, it.teamName)
                     }.toList())
                     groupAdapter.notifyDataSetChanged()
@@ -103,7 +148,7 @@ class SocialFragment : Fragment() {
 
             override fun onResponse(call: Call<FriendsData>, response: Response<FriendsData>) {
                 Log.d("hello", response.body().toString())
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     friendDataList.addAll(response.body()!!.friendships.map {
                         SocialListInfo(it.friendshipId, 0, it.name)
                     }.toList())
