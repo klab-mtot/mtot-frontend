@@ -158,6 +158,10 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             .replace(R.id.hamburger_frm, PostHamburgerFragment()).commit()
     }
 
+    fun hidePostHamburgerToolbar() {
+        binding.llHamburgerFrm.visibility = View.GONE
+    }
+
     fun showMapHamburgerToolbar() {
         binding.llHamburgerFrm.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction()

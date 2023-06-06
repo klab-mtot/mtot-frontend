@@ -25,7 +25,6 @@ class SocialFragment : Fragment() {
     var friendDataList = ArrayList<SocialListInfo>()
     val friendAddLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            friendDataList.clear()
             val retrofitInterface = getRetrofitInterface()
             retrofitInterface.requestFriendsData().enqueue(object : Callback<FriendsData> {
                 override fun onFailure(call: Call<FriendsData>, t: Throwable) {
@@ -35,6 +34,7 @@ class SocialFragment : Fragment() {
                 override fun onResponse(call: Call<FriendsData>, response: Response<FriendsData>) {
                     Log.d("hello", response.body().toString())
                     if (response.isSuccessful) {
+                        friendDataList.clear()
                         friendDataList.addAll(response.body()!!.friendships.map {
                             SocialListInfo(it.friendshipId, 0, it.name)
                         }.toList())
@@ -47,7 +47,6 @@ class SocialFragment : Fragment() {
 
     val groupAddLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            groupDataList.clear()
             val retrofitInterface = getRetrofitInterface()
             retrofitInterface.getTeams().enqueue(object : Callback<GetTeamsResponse> {
                 override fun onFailure(call: Call<GetTeamsResponse>, t: Throwable) {
@@ -60,6 +59,7 @@ class SocialFragment : Fragment() {
                 ) {
                     Log.d("hello", response.body().toString())
                     if (response.isSuccessful) {
+                        groupDataList.clear()
                         val list = response.body()!!
                         groupDataList.addAll(list.teamList.map {
                             SocialListInfo(it.teamId, 0, it.teamName)

@@ -62,6 +62,18 @@ data class GetTeamsResponse(
     @SerializedName("teamList") val teamList: List<GetTeamResponse>
 )
 
+data class TeamMembersResponse(
+    @SerializedName("count") val count: Int,
+    @SerializedName("memberList") val memberList: List<TeamMember>
+)
+
+data class TeamMember(
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("email") val email: String,
+)
+
+
 data class GetFriendResponse( //타입이 list이어야 함
     @SerializedName("friendshipId") val teamId: Int,
     @SerializedName("memberId") val memberId: Int,

@@ -40,6 +40,11 @@ interface RetrofitInterface {
     fun getTeams(
     ): Call<GetTeamsResponse>
 
+    @GET("/teams/{team_id}")
+    fun requestTeamMember(
+        @Path ("team_id") team_id: Int
+    ): Call<TeamMembersResponse>
+
     @GET("/friendship")
     fun getFriends(
     ): Call<GetFriendshipResponse>

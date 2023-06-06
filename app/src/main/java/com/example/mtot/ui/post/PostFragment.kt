@@ -113,7 +113,6 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             1.0f,
             myLocationListener
         )
-
     }
 
     fun removeLocationUpdate(){
@@ -123,9 +122,8 @@ class PostFragment : Fragment(), OnMapReadyCallback {
 
     val myLocationListener = object : LocationListener {
         override fun onLocationChanged(p0: Location) {
-            Log.d("hello", "onlocationchanged")
             myCurrentLoc = LatLng(p0.latitude, p0.longitude)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc, 15.0f))
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myCurrentLoc, 15.0f))
             addPhotoWorker()
             drawMarkers()
         }
@@ -150,6 +148,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
 
         val ALBUM_DIRECTORY =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString()
+        Log.d("qwerty1", ALBUM_DIRECTORY)
         val currentTime = System.currentTimeMillis()
         val tenMinutesAgo = currentTime - 10 * 60 * 1000
         val selection = "${MediaStore.Images.ImageColumns.DATE_TAKEN} >= $tenMinutesAgo"
@@ -244,9 +243,13 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         val curMarkerOption = MarkerOptions()
         curMarkerOption.position(myCurrentLoc)
         curMarkerOption.icon(
-            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)
+            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
         )
         googleMap.addMarker(curMarkerOption)
+    }
+
+    fun clearPin(){
+        previousLoc.clear()
     }
 
     fun addMark() {

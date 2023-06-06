@@ -65,7 +65,10 @@ class PostHamburgerFragment : Fragment() {
         binding.rvPostHamburger.adapter = adapter
 
         binding.llPostHamburgerStop.setOnClickListener {
-            (requireActivity() as MainActivity).stopRecording()
+            val mainActivity = (requireActivity() as MainActivity)
+            mainActivity.stopRecording()
+            mainActivity.hidePostHamburgerToolbar()
+            mainActivity.postFragment.clearPin()
         }
     }
 

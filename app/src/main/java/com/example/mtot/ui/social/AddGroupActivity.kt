@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.databinding.ActivityAddGroupBinding
@@ -41,14 +42,16 @@ class AddGroupActivity : AppCompatActivity() {
                 ) {
                     Log.d("hello", response.body().toString())
                     if(response.isSuccessful){
+                        Toast.makeText(this@AddGroupActivity, "그룹 추가 완료", Toast.LENGTH_SHORT).show()
                         finish()
+                    } else {
+                        Toast.makeText(this@AddGroupActivity, "그룹 추가 실패", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<AddTeamResponse>, t: Throwable) {
                     Log.d("hello", t.message.toString())
                 }
-
             })
         }
 

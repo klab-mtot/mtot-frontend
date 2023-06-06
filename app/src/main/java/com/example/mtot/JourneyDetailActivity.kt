@@ -2,6 +2,7 @@ package com.example.mtot
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -165,6 +167,9 @@ class JourneyDetailActivity : AppCompatActivity(), OnMapReadyCallback,
             option.position(arrLoc[i])
             mMap.addMarker(option)
         }
+        val polylineOption = PolylineOptions().color(Color.BLUE).addAll(arrLoc)
+        mMap.addPolyline(polylineOption)
+
 
         mMap.setOnMarkerClickListener(this@JourneyDetailActivity)
     }

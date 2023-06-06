@@ -9,8 +9,10 @@ import androidx.activity.addCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mtot.R
 import com.example.mtot.databinding.ActivityGroupDetailBinding
+import com.example.mtot.retrofit2.GetTeamsResponse
 import com.example.mtot.retrofit2.RequestAddMemberToTeam
 import com.example.mtot.retrofit2.ResponseAddMemberToTeam
+import com.example.mtot.retrofit2.TeamMembersResponse
 import com.example.mtot.retrofit2.getRetrofitInterface
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +21,7 @@ import retrofit2.Response
 class GroupDetailActivity : AppCompatActivity() {
     lateinit var binding : ActivityGroupDetailBinding
     lateinit var rvAdapter : SelectedMemberAdapter
-    lateinit var recyclerDataList : ArrayList<String>
+    var recyclerDataList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,28 @@ class GroupDetailActivity : AppCompatActivity() {
     }
 
     fun init(){
-        recyclerDataList = ArrayList<String>()
+        val retrofitInterface = getRetrofitInterface()
+        val teamId = intent.getIntExtra("teamId", -1)
+        retrofitInterface.requestTeamMember(teamId).enqueue(object: Callback<TeamMembersResponse>{
+            override fun onResponse(
+                call: Call<TeamMembersResponse>,
+                response: Response<TeamMembersResponse>
+            ) {
+                Log.d("retrofit", response.body().toString())
+                if(response.isSuccessful){
+                    recyclerDataList.clear()
+                    response.body()!!.memberList.forEach {
+                        recyclerDataList.add(it.email)
+                    }
+                    rvAdapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(call: Call<TeamMembersResponse>, t: Throwable) {
+                Log.d("retrofit", t.message.toString())
+            }
+
+        })
 
         rvAdapter = SelectedMemberAdapter(recyclerDataList)
         binding.rvSelectedMembers.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -59,16 +82,35 @@ class GroupDetailActivity : AppCompatActivity() {
 
             })
 
+            retrofitInterface.requestTeamMember(teamId).enqueue(object: Callback<TeamMembersResponse>{
+                override fun onResponse(
+                    call: Call<TeamMembersResponse>,
+                    response: Response<TeamMembersResponse>
+                ) {
+                    Log.d("retrofit", response.body().toString())
+                    if(response.isSuccessful){
+                        recyclerDataList.clear()
+                        response.body()!!.memberList.forEach {
+                            recyclerDataList.add(it.email)
+                        }
+                        rvAdapter.notifyDataSetChanged()
+                    }
+                }
+
+                override fun onFailure(call: Call<TeamMembersResponse>, t: Throwable) {
+                    Log.d("retrofit", t.message.toString())
+                }
+
+            })
+
         }
 
         binding.ivAddGroupDetailBack.setOnClickListener {
             finish()
         }
 
-
         val callback = onBackPressedDispatcher.addCallback {
             finish()
         }
-
     }
 }
